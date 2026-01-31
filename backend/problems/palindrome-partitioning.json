@@ -1,0 +1,779 @@
+{
+  "id": "palindrome-partitioning",
+  "title": "Palindrome Partitioning",
+  "difficulty": "medium",
+  "tags": [
+    "string",
+    "dynamic-programming",
+    "backtracking"
+  ],
+  "description": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.\n \nExample 1:\nInput: s = \"aab\"\nOutput: [[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]\nExample 2:\nInput: s = \"a\"\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= s.length <= 16\ns contains only lowercase English letters.",
+  "starter_code": "def partition(s: str) -> List[List[str]]:\n    # Your code here\n    pass\n",
+  "function_name": "partition",
+  "test_cases": [
+    {
+      "input": {
+        "s": "madam"
+      },
+      "expected": [
+        [
+          "m",
+          "a",
+          "d",
+          "a",
+          "m"
+        ],
+        [
+          "m",
+          "ada",
+          "m"
+        ],
+        [
+          "madam"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "deified"
+      },
+      "expected": [
+        [
+          "d",
+          "e",
+          "i",
+          "f",
+          "i",
+          "e",
+          "d"
+        ],
+        [
+          "d",
+          "e",
+          "ifi",
+          "e",
+          "d"
+        ],
+        [
+          "d",
+          "eifie",
+          "d"
+        ],
+        [
+          "deified"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "repaper"
+      },
+      "expected": [
+        [
+          "r",
+          "e",
+          "p",
+          "a",
+          "p",
+          "e",
+          "r"
+        ],
+        [
+          "r",
+          "e",
+          "pap",
+          "e",
+          "r"
+        ],
+        [
+          "r",
+          "epape",
+          "r"
+        ],
+        [
+          "repaper"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "aaab"
+      },
+      "expected": [
+        [
+          "a",
+          "a",
+          "a",
+          "b"
+        ],
+        [
+          "a",
+          "aa",
+          "b"
+        ],
+        [
+          "aa",
+          "a",
+          "b"
+        ],
+        [
+          "aaa",
+          "b"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbaa"
+      },
+      "expected": [
+        [
+          "a",
+          "a",
+          "b",
+          "b",
+          "a",
+          "a"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "b",
+          "aa"
+        ],
+        [
+          "a",
+          "a",
+          "bb",
+          "a",
+          "a"
+        ],
+        [
+          "a",
+          "a",
+          "bb",
+          "aa"
+        ],
+        [
+          "a",
+          "abba",
+          "a"
+        ],
+        [
+          "aa",
+          "b",
+          "b",
+          "a",
+          "a"
+        ],
+        [
+          "aa",
+          "b",
+          "b",
+          "aa"
+        ],
+        [
+          "aa",
+          "bb",
+          "a",
+          "a"
+        ],
+        [
+          "aa",
+          "bb",
+          "aa"
+        ],
+        [
+          "aabbaa"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdedcba"
+      },
+      "expected": [
+        [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "d",
+          "c",
+          "b",
+          "a"
+        ],
+        [
+          "a",
+          "b",
+          "c",
+          "ded",
+          "c",
+          "b",
+          "a"
+        ],
+        [
+          "a",
+          "b",
+          "cdedc",
+          "b",
+          "a"
+        ],
+        [
+          "a",
+          "bcdedcb",
+          "a"
+        ],
+        [
+          "abcdedcba"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "refer"
+      },
+      "expected": [
+        [
+          "r",
+          "e",
+          "f",
+          "e",
+          "r"
+        ],
+        [
+          "r",
+          "efe",
+          "r"
+        ],
+        [
+          "refer"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "kayak"
+      },
+      "expected": [
+        [
+          "k",
+          "a",
+          "y",
+          "a",
+          "k"
+        ],
+        [
+          "k",
+          "aya",
+          "k"
+        ],
+        [
+          "kayak"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "a"
+      },
+      "expected": [
+        [
+          "a"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": ""
+      },
+      "expected": [
+        []
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabaa"
+      },
+      "expected": [
+        [
+          "a",
+          "a",
+          "b",
+          "a",
+          "a"
+        ],
+        [
+          "a",
+          "a",
+          "b",
+          "aa"
+        ],
+        [
+          "a",
+          "aba",
+          "a"
+        ],
+        [
+          "aa",
+          "b",
+          "a",
+          "a"
+        ],
+        [
+          "aa",
+          "b",
+          "aa"
+        ],
+        [
+          "aabaa"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "noonnoon"
+      },
+      "expected": [
+        [
+          "n",
+          "o",
+          "o",
+          "n",
+          "n",
+          "o",
+          "o",
+          "n"
+        ],
+        [
+          "n",
+          "o",
+          "o",
+          "n",
+          "n",
+          "oo",
+          "n"
+        ],
+        [
+          "n",
+          "o",
+          "o",
+          "n",
+          "noon"
+        ],
+        [
+          "n",
+          "o",
+          "o",
+          "nn",
+          "o",
+          "o",
+          "n"
+        ],
+        [
+          "n",
+          "o",
+          "o",
+          "nn",
+          "oo",
+          "n"
+        ],
+        [
+          "n",
+          "o",
+          "onno",
+          "o",
+          "n"
+        ],
+        [
+          "n",
+          "oo",
+          "n",
+          "n",
+          "o",
+          "o",
+          "n"
+        ],
+        [
+          "n",
+          "oo",
+          "n",
+          "n",
+          "oo",
+          "n"
+        ],
+        [
+          "n",
+          "oo",
+          "n",
+          "noon"
+        ],
+        [
+          "n",
+          "oo",
+          "nn",
+          "o",
+          "o",
+          "n"
+        ],
+        [
+          "n",
+          "oo",
+          "nn",
+          "oo",
+          "n"
+        ],
+        [
+          "n",
+          "oonnoo",
+          "n"
+        ],
+        [
+          "noon",
+          "n",
+          "o",
+          "o",
+          "n"
+        ],
+        [
+          "noon",
+          "n",
+          "oo",
+          "n"
+        ],
+        [
+          "noon",
+          "noon"
+        ],
+        [
+          "noonnoon"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "civic"
+      },
+      "expected": [
+        [
+          "c",
+          "i",
+          "v",
+          "i",
+          "c"
+        ],
+        [
+          "c",
+          "ivi",
+          "c"
+        ],
+        [
+          "civic"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "rotor"
+      },
+      "expected": [
+        [
+          "r",
+          "o",
+          "t",
+          "o",
+          "r"
+        ],
+        [
+          "r",
+          "oto",
+          "r"
+        ],
+        [
+          "rotor"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "racecar"
+      },
+      "expected": [
+        [
+          "r",
+          "a",
+          "c",
+          "e",
+          "c",
+          "a",
+          "r"
+        ],
+        [
+          "r",
+          "a",
+          "cec",
+          "a",
+          "r"
+        ],
+        [
+          "r",
+          "aceca",
+          "r"
+        ],
+        [
+          "racecar"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcb"
+      },
+      "expected": [
+        [
+          "a",
+          "b",
+          "c",
+          "b"
+        ],
+        [
+          "a",
+          "bcb"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabb"
+      },
+      "expected": [
+        [
+          "a",
+          "a",
+          "b",
+          "b"
+        ],
+        [
+          "a",
+          "a",
+          "bb"
+        ],
+        [
+          "aa",
+          "b",
+          "b"
+        ],
+        [
+          "aa",
+          "bb"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abba"
+      },
+      "expected": [
+        [
+          "a",
+          "b",
+          "b",
+          "a"
+        ],
+        [
+          "a",
+          "bb",
+          "a"
+        ],
+        [
+          "abba"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "noon"
+      },
+      "expected": [
+        [
+          "n",
+          "o",
+          "o",
+          "n"
+        ],
+        [
+          "n",
+          "oo",
+          "n"
+        ],
+        [
+          "noon"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "banana"
+      },
+      "expected": [
+        [
+          "b",
+          "a",
+          "n",
+          "a",
+          "n",
+          "a"
+        ],
+        [
+          "b",
+          "a",
+          "n",
+          "ana"
+        ],
+        [
+          "b",
+          "a",
+          "nan",
+          "a"
+        ],
+        [
+          "b",
+          "ana",
+          "n",
+          "a"
+        ],
+        [
+          "b",
+          "anana"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "deeee"
+      },
+      "expected": [
+        [
+          "d",
+          "e",
+          "e",
+          "e",
+          "e"
+        ],
+        [
+          "d",
+          "e",
+          "e",
+          "ee"
+        ],
+        [
+          "d",
+          "e",
+          "ee",
+          "e"
+        ],
+        [
+          "d",
+          "e",
+          "eee"
+        ],
+        [
+          "d",
+          "ee",
+          "e",
+          "e"
+        ],
+        [
+          "d",
+          "ee",
+          "ee"
+        ],
+        [
+          "d",
+          "eee",
+          "e"
+        ],
+        [
+          "d",
+          "eeee"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc"
+      },
+      "expected": [
+        [
+          "a",
+          "b",
+          "c"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ababa"
+      },
+      "expected": [
+        [
+          "a",
+          "b",
+          "a",
+          "b",
+          "a"
+        ],
+        [
+          "a",
+          "b",
+          "aba"
+        ],
+        [
+          "a",
+          "bab",
+          "a"
+        ],
+        [
+          "aba",
+          "b",
+          "a"
+        ],
+        [
+          "ababa"
+        ]
+      ],
+      "function_call": "partition(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

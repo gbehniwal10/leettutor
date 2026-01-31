@@ -1,0 +1,570 @@
+{
+  "id": "task-scheduler",
+  "title": "Task Scheduler",
+  "difficulty": "medium",
+  "tags": [
+    "greedy",
+    "array",
+    "hash-table",
+    "counting",
+    "sorting",
+    "heap-(priority-queue)"
+  ],
+  "description": "You are given an array of CPU tasks, each labeled with a letter from A to Z, and a number n. Each CPU interval can be idle or allow the completion of one task. Tasks can be completed in any order, but there's a constraint: there has to be a gap of at least n intervals between two tasks with the same label.\nReturn the minimum number of CPU intervals required to complete all tasks.\n \nExample 1:\n\nInput: tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"], n = 2\nOutput: 8\nExplanation: A possible sequence is: A -> B -> idle -> A -> B -> idle -> A -> B.\nAfter completing task A, you must wait two intervals before doing A again. The same applies to task B. In the 3rd interval, neither A nor B can be done, so you idle. By the 4th interval, you can do A again as 2 intervals have passed.\n\nExample 2:\n\nInput: tasks = [\"A\",\"C\",\"A\",\"B\",\"D\",\"B\"], n = 1\nOutput: 6\nExplanation: A possible sequence is: A -> B -> C -> D -> A -> B.\nWith a cooling interval of 1, you can repeat a task after just one other task.\n\nExample 3:\n\nInput: tasks = [\"A\",\"A\",\"A\", \"B\",\"B\",\"B\"], n = 3\nOutput: 10\nExplanation: A possible sequence is: A -> B -> idle -> idle -> A -> B -> idle -> idle -> A -> B.\nThere are only two types of tasks, A and B, which need to be separated by 3 intervals. This leads to idling twice between repetitions of these tasks.\n\n \nConstraints:\n\n1 <= tasks.length <= 104\ntasks[i] is an uppercase English letter.\n0 <= n <= 100",
+  "starter_code": "def leastInterval(tasks: List[str], n: int) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "leastInterval",
+  "test_cases": [
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C",
+          "D",
+          "D",
+          "D"
+        ],
+        "n": 3
+      },
+      "expected": 13,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "n": 0
+      },
+      "expected": 4,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "n": 2
+      },
+      "expected": 7,
+      "function_call": "leastInterval(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "tasks": [
+          "A"
+        ],
+        "n": 5
+      },
+      "expected": 1,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "n": 2
+      },
+      "expected": 16,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "B",
+          "B"
+        ],
+        "n": 0
+      },
+      "expected": 4,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "n": 0
+      },
+      "expected": 7,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A"
+        ],
+        "n": 0
+      },
+      "expected": 1,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B"
+        ],
+        "n": 2
+      },
+      "expected": 8,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B"
+        ],
+        "n": 3
+      },
+      "expected": 10,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ],
+        "n": 0
+      },
+      "expected": 6,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C"
+        ],
+        "n": 2
+      },
+      "expected": 13,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "B",
+          "A",
+          "B",
+          "A",
+          "B"
+        ],
+        "n": 2
+      },
+      "expected": 8,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "C",
+          "A",
+          "B",
+          "D",
+          "B"
+        ],
+        "n": 1
+      },
+      "expected": 6,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C",
+          "D",
+          "D",
+          "D"
+        ],
+        "n": 4
+      },
+      "expected": 14,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G"
+        ],
+        "n": 2
+      },
+      "expected": 16,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "D",
+          "D",
+          "D",
+          "D",
+          "D"
+        ],
+        "n": 2
+      },
+      "expected": 20,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "B",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C"
+        ],
+        "n": 6
+      },
+      "expected": 45,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z",
+          "X",
+          "Y",
+          "Z"
+        ],
+        "n": 3
+      },
+      "expected": 35,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z"
+        ],
+        "n": 10
+      },
+      "expected": 52,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C",
+          "C",
+          "D",
+          "D",
+          "D",
+          "D",
+          "E",
+          "E",
+          "E",
+          "E"
+        ],
+        "n": 3
+      },
+      "expected": 20,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "B",
+          "B",
+          "C",
+          "C",
+          "D",
+          "D",
+          "E",
+          "E",
+          "F",
+          "F",
+          "G",
+          "G",
+          "H",
+          "H",
+          "I",
+          "I",
+          "J",
+          "J",
+          "K",
+          "K",
+          "L",
+          "L",
+          "M",
+          "M",
+          "N",
+          "N",
+          "O",
+          "O",
+          "P",
+          "P",
+          "Q",
+          "Q",
+          "R",
+          "R",
+          "S",
+          "S",
+          "T",
+          "T",
+          "U",
+          "U",
+          "V",
+          "V",
+          "W",
+          "W",
+          "X",
+          "X",
+          "Y",
+          "Y",
+          "Z",
+          "Z"
+        ],
+        "n": 1
+      },
+      "expected": 52,
+      "function_call": "leastInterval(**test_input)"
+    },
+    {
+      "input": {
+        "tasks": [
+          "A",
+          "A",
+          "A",
+          "B",
+          "B",
+          "B",
+          "C",
+          "C",
+          "C",
+          "D",
+          "D",
+          "D",
+          "E",
+          "E",
+          "E",
+          "F",
+          "F",
+          "F",
+          "G",
+          "G",
+          "G",
+          "H",
+          "H",
+          "H",
+          "I",
+          "I",
+          "I",
+          "J",
+          "J",
+          "J",
+          "K",
+          "K",
+          "K",
+          "L",
+          "L",
+          "L"
+        ],
+        "n": 10
+      },
+      "expected": 36,
+      "function_call": "leastInterval(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

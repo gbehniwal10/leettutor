@@ -1,0 +1,205 @@
+{
+  "id": "distinct-subsequences",
+  "title": "Distinct Subsequences",
+  "difficulty": "hard",
+  "tags": [
+    "string",
+    "dynamic-programming"
+  ],
+  "description": "Given two strings s and t, return the number of distinct subsequences of s which equals t.\nThe test cases are generated so that the answer fits on a 32-bit signed integer.\n \nExample 1:\n\nInput: s = \"rabbbit\", t = \"rabbit\"\nOutput: 3\nExplanation:\nAs shown below, there are 3 ways you can generate \"rabbit\" from s.\nrabbbit\nrabbbit\nrabbbit\n\nExample 2:\n\nInput: s = \"babgbag\", t = \"bag\"\nOutput: 5\nExplanation:\nAs shown below, there are 5 ways you can generate \"bag\" from s.\nbabgbag\nbabgbag\nbabgbag\nbabgbag\nbabgbag\n \nConstraints:\n\n1 <= s.length, t.length <= 1000\ns and t consist of English letters.",
+  "starter_code": "def numDistinct(s: str, t: str) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "numDistinct",
+  "test_cases": [
+    {
+      "input": {
+        "s": "abc",
+        "t": "abcd"
+      },
+      "expected": 0,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "t": "abcd"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "rabbbit",
+        "t": "rabbit"
+      },
+      "expected": 3,
+      "function_call": "numDistinct(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "aaa",
+        "t": "a"
+      },
+      "expected": 3,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "",
+        "t": "abc"
+      },
+      "expected": 0,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "mississippi",
+        "t": "isip"
+      },
+      "expected": 16,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaa",
+        "t": "aa"
+      },
+      "expected": 10,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcde",
+        "t": "ae"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcde",
+        "t": ""
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "t": "ab"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "a",
+        "t": "a"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdabcabc",
+        "t": "abc"
+      },
+      "expected": 10,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "babgbag",
+        "t": "bag"
+      },
+      "expected": 5,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc",
+        "t": "abc"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "pppp",
+        "t": "p"
+      },
+      "expected": 4,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abab",
+        "t": "aba"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "",
+        "t": ""
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "leetcodeisgood",
+        "t": "code"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdefghijklmnopqrstuvwxyz",
+        "t": "acegikmoqsuwy"
+      },
+      "expected": 1,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "zzzzzzzzzzzzzzzzzzzz",
+        "t": "zzz"
+      },
+      "expected": 1140,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "dynamicprogramming",
+        "t": "dpm"
+      },
+      "expected": 2,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ababababab",
+        "t": "abab"
+      },
+      "expected": 35,
+      "function_call": "numDistinct(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdabcdabcd",
+        "t": "abcd"
+      },
+      "expected": 15,
+      "function_call": "numDistinct(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

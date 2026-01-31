@@ -1,0 +1,183 @@
+{
+  "id": "happy-number",
+  "title": "Happy Number",
+  "difficulty": "easy",
+  "tags": [
+    "hash-table",
+    "math",
+    "two-pointers"
+  ],
+  "description": "Write an algorithm to determine if a number n is happy.\nA happy number is a number defined by the following process:\n\nStarting with any positive integer, replace the number by the sum of the squares of its digits.\nRepeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.\nThose numbers for which this process ends in 1 are happy.\n\nReturn true if n is a happy number, and false if not.\n \nExample 1:\n\nInput: n = 19\nOutput: true\nExplanation:\n12 + 92 = 82\n82 + 22 = 68\n62 + 82 = 100\n12 + 02 + 02 = 1\n\nExample 2:\n\nInput: n = 2\nOutput: false\n\n \nConstraints:\n\n1 <= n <= 231 - 1",
+  "starter_code": "def isHappy(n: int) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "isHappy",
+  "test_cases": [
+    {
+      "input": {
+        "n": 100
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 4
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 20
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "n": 2
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1111111
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 19
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1000000000
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 7
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 489
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 789789789
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 130
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 49
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2147483647
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 32442
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 324
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 203
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 82
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 70
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2736895
+      },
+      "expected": false,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1000
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 44
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    },
+    {
+      "input": {
+        "n": 190
+      },
+      "expected": true,
+      "function_call": "isHappy(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

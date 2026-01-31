@@ -1,0 +1,205 @@
+{
+  "id": "sum-of-two-integers",
+  "title": "Sum Of Two Integers",
+  "difficulty": "medium",
+  "tags": [
+    "bit-manipulation",
+    "math"
+  ],
+  "description": "Given two integers a and b, return the sum of the two integers without using the operators + and -.\n \nExample 1:\nInput: a = 1, b = 2\nOutput: 3\nExample 2:\nInput: a = 2, b = 3\nOutput: 5\n\n \nConstraints:\n\n-1000 <= a, b <= 1000",
+  "starter_code": "def getSum(a: int, b: int) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "getSum",
+  "test_cases": [
+    {
+      "input": {
+        "a": 1000,
+        "b": -1000
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -2,
+        "b": -3
+      },
+      "expected": -5,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 0,
+        "b": 5
+      },
+      "expected": 5,
+      "function_call": "getSum(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "a": 500,
+        "b": 500
+      },
+      "expected": 1000,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -5,
+        "b": -5
+      },
+      "expected": -10,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 1,
+        "b": 2
+      },
+      "expected": 3,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 999,
+        "b": 1
+      },
+      "expected": 1000,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -5,
+        "b": 5
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -1000,
+        "b": 1000
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -500,
+        "b": 500
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -500,
+        "b": -500
+      },
+      "expected": -1000,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 0,
+        "b": 0
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -1,
+        "b": 1
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 2,
+        "b": 3
+      },
+      "expected": 5,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -999,
+        "b": -1
+      },
+      "expected": -1000,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -7,
+        "b": -13
+      },
+      "expected": -20,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -999,
+        "b": 1
+      },
+      "expected": -998,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -128,
+        "b": 256
+      },
+      "expected": 128,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": -999,
+        "b": 999
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 1234,
+        "b": -5678
+      },
+      "expected": -4444,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 7,
+        "b": 13
+      },
+      "expected": 20,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 7,
+        "b": -7
+      },
+      "expected": 0,
+      "function_call": "getSum(**test_input)"
+    },
+    {
+      "input": {
+        "a": 256,
+        "b": 255
+      },
+      "expected": 511,
+      "function_call": "getSum(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "longest-substring-without-repeating",
+  "title": "Longest Substring Without Repeating Characters",
+  "difficulty": "medium",
+  "tags": [
+    "string",
+    "sliding-window",
+    "hash-map"
+  ],
+  "description": "\nGiven a string `s`, find the length of the longest substring without repeating characters.\n\n**Example 1:**\n```\nInput: s = \"abcabcbb\"\nOutput: 3\nExplanation: The answer is \"abc\", with the length of 3.\n```\n\n**Example 2:**\n```\nInput: s = \"bbbbb\"\nOutput: 1\n```\n\n**Example 3:**\n```\nInput: s = \"pwwkew\"\nOutput: 3\nExplanation: The answer is \"wke\", with the length of 3.\n```\n\n**Constraints:**\n- 0 <= s.length <= 5 * 10^4\n- s consists of English letters, digits, symbols and spaces.\n",
+  "starter_code": "def lengthOfLongestSubstring(s: str) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "lengthOfLongestSubstring",
+  "test_cases": [
+    {
+      "input": {
+        "s": "abcabcbb"
+      },
+      "expected": 3,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "bbbbb"
+      },
+      "expected": 1,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "pwwkew"
+      },
+      "expected": 3,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": ""
+      },
+      "expected": 0,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": " "
+      },
+      "expected": 1,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    }
+  ],
+  "hints": [
+    "Use a sliding window approach with two pointers.",
+    "A set or hash map can track which characters are in the current window.",
+    "When you find a duplicate, shrink the window from the left."
+  ],
+  "optimal_complexity": {
+    "time": "O(n)",
+    "space": "O(min(n, m))"
+  }
+}

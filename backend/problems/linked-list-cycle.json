@@ -1,0 +1,93 @@
+{
+  "id": "linked-list-cycle",
+  "title": "Linked List Cycle",
+  "difficulty": "easy",
+  "tags": [
+    "hash-table",
+    "linked-list",
+    "two-pointers"
+  ],
+  "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it.\nThere is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the\u00c2\u00a0next\u00c2\u00a0pointer. Internally, pos\u00c2\u00a0is used to denote the index of the node that\u00c2\u00a0tail's\u00c2\u00a0next\u00c2\u00a0pointer is connected to.\u00c2\u00a0Note that\u00c2\u00a0pos\u00c2\u00a0is not passed as a parameter.\nReturn\u00c2\u00a0true if there is a cycle in the linked list. Otherwise, return false.\n\u00c2\u00a0\nExample 1:\n\n\nInput: head = [3,2,0,-4], pos = 1\nOutput: true\nExplanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).\n\nExample 2:\n\n\nInput: head = [1,2], pos = 0\nOutput: true\nExplanation: There is a cycle in the linked list, where the tail connects to the 0th node.\n\nExample 3:\n\n\nInput: head = [1], pos = -1\nOutput: false\nExplanation: There is no cycle in the linked list.\n\n\u00c2\u00a0\nConstraints:\n\nThe number of the nodes in the list is in the range [0, 104].\n-105 <= Node.val <= 105\npos is -1 or a valid index in the linked-list.\n\n\u00c2\u00a0\nFollow up: Can you solve it using O(1) (i.e. constant) memory?",
+  "starter_code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\n    def hasCycle(head: Optional[ListNode]) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "hasCycle",
+  "test_cases": [
+    {
+      "input": {
+        "head": [
+          3,
+          2,
+          0,
+          -4
+        ],
+        "pos": 1
+      },
+      "expected": true,
+      "function_call": "hasCycle(head=list_node_with_cycle(test_input['head'], test_input.get('pos', -1)))"
+    },
+    {
+      "input": {
+        "head": [
+          1,
+          2
+        ],
+        "pos": 0
+      },
+      "expected": true,
+      "function_call": "hasCycle(head=list_node_with_cycle(test_input['head'], test_input.get('pos', -1)))"
+    },
+    {
+      "input": {
+        "head": [
+          1
+        ],
+        "pos": -1
+      },
+      "expected": false,
+      "function_call": "hasCycle(head=list_node_with_cycle(test_input['head'], test_input.get('pos', -1)))"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "head": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "pos": 2
+      },
+      "expected": true,
+      "function_call": "hasCycle(head=list_node_with_cycle(test_input['head'], test_input.get('pos', -1)))"
+    },
+    {
+      "input": {
+        "head": [],
+        "pos": -1
+      },
+      "expected": false,
+      "function_call": "hasCycle(head=list_node_with_cycle(test_input['head'], test_input.get('pos', -1)))"
+    },
+    {
+      "input": {
+        "head": [
+          1,
+          2,
+          3
+        ],
+        "pos": -1
+      },
+      "expected": false,
+      "function_call": "hasCycle(head=list_node_with_cycle(test_input['head'], test_input.get('pos', -1)))"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  },
+  "helpers": [
+    "data_structures"
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "id": "palindromic-substrings",
+  "title": "Palindromic Substrings",
+  "difficulty": "medium",
+  "tags": [
+    "two-pointers",
+    "string",
+    "dynamic-programming"
+  ],
+  "description": "Given a string s, return the number of palindromic substrings in it.\nA string is a palindrome when it reads the same backward as forward.\nA substring is a contiguous sequence of characters within the string.\n \nExample 1:\n\nInput: s = \"abc\"\nOutput: 3\nExplanation: Three palindromic strings: \"a\", \"b\", \"c\".\n\nExample 2:\n\nInput: s = \"aaa\"\nOutput: 6\nExplanation: Six palindromic strings: \"a\", \"a\", \"a\", \"aa\", \"aa\", \"aaa\".\n\n \nConstraints:\n\n1 <= s.length <= 1000\ns consists of lowercase English letters.",
+  "starter_code": "def countSubstrings(s: str) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "countSubstrings",
+  "test_cases": [
+    {
+      "input": {
+        "s": "abba"
+      },
+      "expected": 6,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaa"
+      },
+      "expected": 15,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "babad"
+      },
+      "expected": 7,
+      "function_call": "countSubstrings(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "noon"
+      },
+      "expected": 6,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "banana"
+      },
+      "expected": 10,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbbaa"
+      },
+      "expected": 14,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc"
+      },
+      "expected": 3,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "level"
+      },
+      "expected": 7,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": ""
+      },
+      "expected": 0,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaa"
+      },
+      "expected": 6,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "civic"
+      },
+      "expected": 7,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "rotor"
+      },
+      "expected": 7,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "racecar"
+      },
+      "expected": 10,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "a"
+      },
+      "expected": 1,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdefg"
+      },
+      "expected": 7,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "zxcvbnmmlkjhgfdsapoiuytrewq"
+      },
+      "expected": 28,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcbaabccbaabcba"
+      },
+      "expected": 34,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "amoreinimorac"
+      },
+      "expected": 14,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "atoyota"
+      },
+      "expected": 10,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbcccbbbaa"
+      },
+      "expected": 23,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abccbaabcbaabc"
+      },
+      "expected": 28,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "rotorrotor"
+      },
+      "expected": 19,
+      "function_call": "countSubstrings(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abracadabra"
+      },
+      "expected": 13,
+      "function_call": "countSubstrings(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "id": "multiply-strings",
+  "title": "Multiply Strings",
+  "difficulty": "medium",
+  "tags": [
+    "math",
+    "string",
+    "simulation"
+  ],
+  "description": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\nNote: You must not use any built-in BigInteger library or convert the inputs to integer directly.\n \nExample 1:\nInput: num1 = \"2\", num2 = \"3\"\nOutput: \"6\"\nExample 2:\nInput: num1 = \"123\", num2 = \"456\"\nOutput: \"56088\"\n\n \nConstraints:\n\n1 <= num1.length, num2.length <= 200\nnum1 and num2 consist of digits only.\nBoth num1 and num2 do not contain any leading zero, except the number 0 itself.",
+  "starter_code": "def multiply(num1: str, num2: str) -> str:\n    # Your code here\n    pass\n",
+  "function_name": "multiply",
+  "test_cases": [
+    {
+      "input": {
+        "num1": "999999999999999999",
+        "num2": "888888888888888888"
+      },
+      "expected": 888888888888888887111111111111111112,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "0",
+        "num2": "12345"
+      },
+      "expected": 0,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "2",
+        "num2": "3"
+      },
+      "expected": 6,
+      "function_call": "multiply(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "num1": "123456789",
+        "num2": "987654321"
+      },
+      "expected": 121932631112635269,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "1000",
+        "num2": "1000"
+      },
+      "expected": 1000000,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "10",
+        "num2": "10"
+      },
+      "expected": 100,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "0",
+        "num2": "123"
+      },
+      "expected": 0,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "1",
+        "num2": "1"
+      },
+      "expected": 1,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "0",
+        "num2": "5678"
+      },
+      "expected": 0,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "100",
+        "num2": "200"
+      },
+      "expected": 20000,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "100",
+        "num2": "100"
+      },
+      "expected": 10000,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "0",
+        "num2": "567"
+      },
+      "expected": 0,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "999",
+        "num2": "999"
+      },
+      "expected": 998001,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "1111",
+        "num2": "1111"
+      },
+      "expected": 1234321,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "123",
+        "num2": "456"
+      },
+      "expected": 56088,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "987654321",
+        "num2": "123456789"
+      },
+      "expected": 121932631112635269,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "100000000000000000000",
+        "num2": "2"
+      },
+      "expected": 200000000000000000000,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "99999999999999999999",
+        "num2": "99999999999999999999"
+      },
+      "expected": 9999999999999999999800000000000000000001,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "5",
+        "num2": "67890"
+      },
+      "expected": 339450,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "500000000000000000",
+        "num2": "300000000000000000"
+      },
+      "expected": 150000000000000000000000000000000000,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "100000000000000000000",
+        "num2": "99999999999999999999"
+      },
+      "expected": 9999999999999999999900000000000000000000,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "123456789012345678901234567890",
+        "num2": "987654321098765432109876543210"
+      },
+      "expected": 121932631137021795226185032733622923332237463801111263526900,
+      "function_call": "multiply(**test_input)"
+    },
+    {
+      "input": {
+        "num1": "22222222222222222222",
+        "num2": "33333333333333333333"
+      },
+      "expected": 740740740740740740725925925925925925926,
+      "function_call": "multiply(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "id": "valid-anagram",
+  "title": "Valid Anagram",
+  "difficulty": "easy",
+  "tags": [
+    "hash-table",
+    "string",
+    "sorting"
+  ],
+  "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise.\n \nExample 1:\n\nInput: s = \"anagram\", t = \"nagaram\"\nOutput: true\n\nExample 2:\n\nInput: s = \"rat\", t = \"car\"\nOutput: false\n\n \nConstraints:\n\n1 <= s.length, t.length <= 5 * 104\ns and t consist of lowercase English letters.\n\n \nFollow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?",
+  "starter_code": "def isAnagram(s: str, t: str) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "isAnagram",
+  "test_cases": [
+    {
+      "input": {
+        "s": "abcdefghijklmnopqrstuvwxyz",
+        "t": "zyxwvutsrqponmlkjihgfedcba"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcde",
+        "t": "edcba"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc",
+        "t": "abcd"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "apple",
+        "t": "pale"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "hello",
+        "t": "bello"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aacc",
+        "t": "ccac"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc",
+        "t": "def"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc",
+        "t": "cba"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "t": "abce"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "anagram",
+        "t": "nagaram"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "rat",
+        "t": "car"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "a",
+        "t": "a"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ab",
+        "t": "ba"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "listen",
+        "t": "silent"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "t": "dcba"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "triangle",
+        "t": "integral"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbcc",
+        "t": "abcabc"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "",
+        "t": ""
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ababababababababab",
+        "t": "bababababababababa"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "hello world",
+        "t": "worldhello"
+      },
+      "expected": false,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "theeyes",
+        "t": "theysee"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "\"a\" * 50000",
+        "t": "\"a\" * 50000"
+      },
+      "expected": "Error: Solution.isAnagram() missing 2 required positional arguments: 's' and 't'",
+      "function_call": "isAnagram(**test_input)"
+    },
+    {
+      "input": {
+        "s": "repeatedcharactershere",
+        "t": "repeatedcharactershere"
+      },
+      "expected": true,
+      "function_call": "isAnagram(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

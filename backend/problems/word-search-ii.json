@@ -1,0 +1,808 @@
+{
+  "id": "word-search-ii",
+  "title": "Word Search Ii",
+  "difficulty": "hard",
+  "tags": [
+    "trie",
+    "array",
+    "string",
+    "backtracking",
+    "matrix"
+  ],
+  "description": "Given an m x n board of characters and a list of strings words, return all words on the board.\nEach word must be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.\n \nExample 1:\n\n\nInput: board = [[\"o\",\"a\",\"a\",\"n\"],[\"e\",\"t\",\"a\",\"e\"],[\"i\",\"h\",\"k\",\"r\"],[\"i\",\"f\",\"l\",\"v\"]], words = [\"oath\",\"pea\",\"eat\",\"rain\"]\nOutput: [\"eat\",\"oath\"]\n\nExample 2:\n\n\nInput: board = [[\"a\",\"b\"],[\"c\",\"d\"]], words = [\"abcb\"]\nOutput: []\n\n \nConstraints:\n\nm == board.length\nn == board[i].length\n1 <= m, n <= 12\nboard[i][j] is a lowercase English letter.\n1 <= words.length <= 3 * 104\n1 <= words[i].length <= 10\nwords[i] consists of lowercase English letters.\nAll the strings of words are unique.",
+  "starter_code": "def findWords(board: List[List[str]], words: List[str]) -> List[str]:\n    # Your code here\n    pass\n",
+  "function_name": "findWords",
+  "test_cases": [
+    {
+      "input": {
+        "board": [
+          [
+            "o",
+            "a",
+            "a",
+            "n"
+          ],
+          [
+            "e",
+            "t",
+            "a",
+            "e"
+          ],
+          [
+            "i",
+            "h",
+            "k",
+            "r"
+          ],
+          [
+            "i",
+            "f",
+            "l",
+            "v"
+          ]
+        ],
+        "words": [
+          "oath",
+          "pea",
+          "eat",
+          "rain"
+        ]
+      },
+      "expected": [
+        "oath",
+        "eat"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "a"
+          ]
+        ],
+        "words": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "o",
+            "a",
+            "a",
+            "n"
+          ],
+          [
+            "e",
+            "t",
+            "a",
+            "e"
+          ],
+          [
+            "i",
+            "h",
+            "k",
+            "r"
+          ],
+          [
+            "i",
+            "f",
+            "l",
+            "v"
+          ]
+        ],
+        "words": [
+          "oath",
+          "pea",
+          "eat",
+          "rain"
+        ]
+      },
+      "expected": [
+        "oath",
+        "eat"
+      ],
+      "function_call": "findWords(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "board": [
+          [
+            "a"
+          ],
+          [
+            "a"
+          ]
+        ],
+        "words": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c",
+            "d"
+          ]
+        ],
+        "words": [
+          "abcb"
+        ]
+      },
+      "expected": [],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "a",
+            "e",
+            "d"
+          ],
+          [
+            "a",
+            "f",
+            "g"
+          ]
+        ],
+        "words": "[\"abcdefg\",\"gfedcbaaa\",\"eaabcdgfa\",\"befadac\",\"gf"
+      },
+      "expected": "Error: Solution.findWords() missing 1 required positional argument: 'words'",
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "a"
+          ]
+        ],
+        "words": [
+          "aaa"
+        ]
+      },
+      "expected": [],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a"
+          ]
+        ],
+        "words": [
+          "a"
+        ]
+      },
+      "expected": [
+        "a"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "d",
+            "e",
+            "f"
+          ],
+          [
+            "g",
+            "h",
+            "i"
+          ]
+        ],
+        "words": [
+          "abc",
+          "cfi",
+          "beh",
+          "defi",
+          "ghi"
+        ]
+      },
+      "expected": [
+        "abc",
+        "beh",
+        "cfi",
+        "defi",
+        "ghi"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c",
+            "d"
+          ]
+        ],
+        "words": [
+          "abcb"
+        ]
+      },
+      "expected": [],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "c",
+            "f"
+          ]
+        ],
+        "words": [
+          "ab",
+          "cf",
+          "bf",
+          "ca"
+        ]
+      },
+      "expected": [
+        "ab",
+        "bf",
+        "ca",
+        "cf"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "a",
+            "e",
+            "d"
+          ],
+          [
+            "a",
+            "f",
+            "g"
+          ]
+        ],
+        "words": [
+          "abcdefg",
+          "gfedcba",
+          "abcd",
+          "dcba"
+        ]
+      },
+      "expected": [
+        "abcd",
+        "abcdefg",
+        "dcba",
+        "gfedcba"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ]
+        ],
+        "words": [
+          "aaaaa",
+          "aaaab",
+          "aaaba"
+        ]
+      },
+      "expected": [
+        "aaaaa"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e"
+          ],
+          [
+            "f",
+            "g",
+            "h",
+            "i",
+            "j"
+          ],
+          [
+            "k",
+            "l",
+            "m",
+            "n",
+            "o"
+          ],
+          [
+            "p",
+            "q",
+            "r",
+            "s",
+            "t"
+          ],
+          [
+            "u",
+            "v",
+            "w",
+            "x",
+            "y"
+          ]
+        ],
+        "words": [
+          "abcdefg",
+          "hijklmn",
+          "opqrstu",
+          "vwxyz",
+          "abgmvxz",
+          "abcdefghi",
+          "pqrstuvwy"
+        ]
+      },
+      "expected": [],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c",
+            "e"
+          ],
+          [
+            "s",
+            "f",
+            "c",
+            "s"
+          ],
+          [
+            "a",
+            "d",
+            "e",
+            "e"
+          ]
+        ],
+        "words": "['abcb', 'abcced', 'bcec']]"
+      },
+      "expected": "Error: Solution.findWords() missing 1 required positional argument: 'words'",
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ]
+        ],
+        "words": [
+          "a",
+          "aa",
+          "aaa",
+          "aaaa",
+          "aaaaa",
+          "aaaaaa",
+          "aaaaaaaaaaaaaaaaaaaaaaaaa"
+        ]
+      },
+      "expected": [
+        "a",
+        "aa",
+        "aaa",
+        "aaaa",
+        "aaaaa",
+        "aaaaaa",
+        "aaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          [
+            "a",
+            "a",
+            "a",
+            "a"
+          ]
+        ],
+        "words": [
+          "aaaaaaaaaa",
+          "aaaaaaaaaab",
+          "aaaaaaaaaac",
+          "aaaaaaaaaad"
+        ]
+      },
+      "expected": [
+        "aaaaaaaaaa"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "a",
+            "b",
+            "c"
+          ]
+        ],
+        "words": [
+          "abc",
+          "bca",
+          "cab",
+          "cba",
+          "bac",
+          "acb",
+          "aabc",
+          "abca",
+          "bcab",
+          "cbac"
+        ]
+      },
+      "expected": [
+        "abc",
+        "aabc",
+        "cba"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "o",
+            "a",
+            "b",
+            "n"
+          ],
+          [
+            "o",
+            "t",
+            "a",
+            "e"
+          ],
+          [
+            "a",
+            "h",
+            "k",
+            "r"
+          ],
+          [
+            "a",
+            "f",
+            "l",
+            "v"
+          ]
+        ],
+        "words": [
+          "oath",
+          "path",
+          "parent",
+          "enact"
+        ]
+      },
+      "expected": [
+        "oath"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "p",
+            "e",
+            "a",
+            "f"
+          ],
+          [
+            "t",
+            "h",
+            "o",
+            "w"
+          ],
+          [
+            "o",
+            "r",
+            "a",
+            "g"
+          ],
+          [
+            "n",
+            "l",
+            "e",
+            "d"
+          ]
+        ],
+        "words": [
+          "pear",
+          "flow",
+          "tow",
+          "orange",
+          "lead"
+        ]
+      },
+      "expected": [],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "z",
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "z",
+            "e",
+            "f",
+            "g"
+          ],
+          [
+            "z",
+            "h",
+            "i",
+            "j"
+          ],
+          [
+            "z",
+            "k",
+            "l",
+            "m"
+          ]
+        ],
+        "words": [
+          "zafe",
+          "zjih",
+          "zmkl",
+          "zabc",
+          "zefg",
+          "zihj",
+          "zkjg",
+          "zlif",
+          "zzzz"
+        ]
+      },
+      "expected": [
+        "zabc",
+        "zzzz",
+        "zefg"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c"
+          ],
+          [
+            "d",
+            "e",
+            "f"
+          ],
+          [
+            "g",
+            "h",
+            "i"
+          ]
+        ],
+        "words": [
+          "abc",
+          "def",
+          "ghi",
+          "bfg",
+          "hce",
+          "dih"
+        ]
+      },
+      "expected": [
+        "abc",
+        "def",
+        "ghi"
+      ],
+      "function_call": "findWords(**test_input)"
+    },
+    {
+      "input": {
+        "board": [
+          [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e"
+          ],
+          [
+            "f",
+            "g",
+            "h",
+            "i",
+            "j"
+          ],
+          [
+            "k",
+            "l",
+            "m",
+            "n",
+            "o"
+          ],
+          [
+            "p",
+            "q",
+            "r",
+            "s",
+            "t"
+          ],
+          [
+            "u",
+            "v",
+            "w",
+            "x",
+            "y"
+          ]
+        ],
+        "words": [
+          "abcde",
+          "fghij",
+          "klmno",
+          "pqrst",
+          "uvwxy",
+          "ajgtw",
+          "bsmr"
+        ]
+      },
+      "expected": [
+        "abcde",
+        "fghij",
+        "klmno",
+        "pqrst",
+        "uvwxy"
+      ],
+      "function_call": "findWords(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

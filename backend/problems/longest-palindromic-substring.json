@@ -1,0 +1,183 @@
+{
+  "id": "longest-palindromic-substring",
+  "title": "Longest Palindromic Substring",
+  "difficulty": "medium",
+  "tags": [
+    "two-pointers",
+    "string",
+    "dynamic-programming"
+  ],
+  "description": "Given a string s, return the longest palindromic substring in s.\n \nExample 1:\n\nInput: s = \"babad\"\nOutput: \"bab\"\nExplanation: \"aba\" is also a valid answer.\n\nExample 2:\n\nInput: s = \"cbbd\"\nOutput: \"bb\"\n\n \nConstraints:\n\n1 <= s.length <= 1000\ns consist of only digits and English letters.",
+  "starter_code": "def longestPalindrome(s: str) -> str:\n    # Your code here\n    pass\n",
+  "function_name": "longestPalindrome",
+  "test_cases": [
+    {
+      "input": {
+        "s": "abba"
+      },
+      "expected": "abba",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaa"
+      },
+      "expected": "aaaa",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abacdfgdcaba"
+      },
+      "expected": "aba",
+      "function_call": "longestPalindrome(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "ac"
+      },
+      "expected": "a",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "babad"
+      },
+      "expected": "aba",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "noon"
+      },
+      "expected": "noon",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "cbbd"
+      },
+      "expected": "bb",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcba"
+      },
+      "expected": "abcba",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "bcbabcbabcba"
+      },
+      "expected": "bcbabcbabcb",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "noonhighnoon"
+      },
+      "expected": "noon",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "forgeeksskeegfor"
+      },
+      "expected": "geeksskeeg",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaabaaaa"
+      },
+      "expected": "aaabaaa",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdedcba"
+      },
+      "expected": "abcdedcba",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaa"
+      },
+      "expected": "aaa",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaa"
+      },
+      "expected": "aaaaa",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "racecar"
+      },
+      "expected": "racecar",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "a"
+      },
+      "expected": "a",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdefg"
+      },
+      "expected": "a",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbccddeeeffgg"
+      },
+      "expected": "eee",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdedcba12321"
+      },
+      "expected": "abcdedcba",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "xxyyyxyxyxyxyxyxxyyxyxyxyxyxyx"
+      },
+      "expected": "xyxyxyxyxyx",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "thisisanexamplewithlongestpalindromeonyxdxyxdx"
+      },
+      "expected": "xdxyxdx",
+      "function_call": "longestPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "12345678987654321"
+      },
+      "expected": 12345678987654321,
+      "function_call": "longestPalindrome(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

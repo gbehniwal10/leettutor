@@ -1,0 +1,182 @@
+{
+  "id": "number-of-1-bits",
+  "title": "Number Of 1 Bits",
+  "difficulty": "easy",
+  "tags": [
+    "bit-manipulation",
+    "divide-and-conquer"
+  ],
+  "description": "Given a positive integer n, write a function that returns the number of set bits in its binary representation (also known as the Hamming weight).\n \nExample 1:\n\nInput: n = 11\nOutput: 3\nExplanation:\nThe input binary string 1011 has a total of three set bits.\n\nExample 2:\n\nInput: n = 128\nOutput: 1\nExplanation:\nThe input binary string 10000000 has a total of one set bit.\n\nExample 3:\n\nInput: n = 2147483645\nOutput: 30\nExplanation:\nThe input binary string 1111111111111111111111111111101 has a total of thirty set bits.\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n \nFollow up: If this function is called many times, how would you optimize it?",
+  "starter_code": "def hammingWeight(n: int) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "hammingWeight",
+  "test_cases": [
+    {
+      "input": {
+        "n": 0
+      },
+      "expected": 0,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 4095
+      },
+      "expected": 12,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 11
+      },
+      "expected": 3,
+      "function_call": "hammingWeight(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "n": 15
+      },
+      "expected": 4,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2147483647
+      },
+      "expected": 31,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 32
+      },
+      "expected": 1,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1023
+      },
+      "expected": 10,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2147483645
+      },
+      "expected": 30,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1
+      },
+      "expected": 1,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 65535
+      },
+      "expected": 16,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 128
+      },
+      "expected": 1,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 3
+      },
+      "expected": 2,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1099511627776
+      },
+      "expected": 1,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2147483646
+      },
+      "expected": 30,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 239
+      },
+      "expected": 7,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 53
+      },
+      "expected": 4,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 262143
+      },
+      "expected": 18,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 43
+      },
+      "expected": 4,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 268435456
+      },
+      "expected": 1,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2047
+      },
+      "expected": 11,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 5
+      },
+      "expected": 2,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 549755813888
+      },
+      "expected": 1,
+      "function_call": "hammingWeight(**test_input)"
+    },
+    {
+      "input": {
+        "n": 103
+      },
+      "expected": 5,
+      "function_call": "hammingWeight(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

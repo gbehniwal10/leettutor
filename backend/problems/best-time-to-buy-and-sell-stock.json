@@ -1,0 +1,484 @@
+{
+  "id": "best-time-to-buy-and-sell-stock",
+  "title": "Best Time To Buy And Sell Stock",
+  "difficulty": "easy",
+  "tags": [
+    "array",
+    "dynamic-programming"
+  ],
+  "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day.\nYou want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.\nReturn the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.\n \nExample 1:\n\nInput: prices = [7,1,5,3,6,4]\nOutput: 5\nExplanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\nNote that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.\n\nExample 2:\n\nInput: prices = [7,6,4,3,1]\nOutput: 0\nExplanation: In this case, no transactions are done and the max profit = 0.\n\n \nConstraints:\n\n1 <= prices.length <= 105\n0 <= prices[i] <= 104",
+  "starter_code": "def maxProfit(prices: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "maxProfit",
+  "test_cases": [
+    {
+      "input": {
+        "prices": [
+          10,
+          9,
+          8,
+          2
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          2,
+          1,
+          2,
+          1,
+          0,
+          1,
+          2
+        ]
+      },
+      "expected": 2,
+      "function_call": "maxProfit(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "prices": [
+          2,
+          1
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          7,
+          6,
+          4,
+          3,
+          1
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          3,
+          3,
+          5,
+          0,
+          0,
+          3,
+          1,
+          4
+        ]
+      },
+      "expected": 4,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4
+        ]
+      },
+      "expected": 5,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 4,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          2
+        ]
+      },
+      "expected": 1,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          8,
+          9,
+          7,
+          9,
+          8,
+          7,
+          9,
+          10,
+          7,
+          9,
+          8,
+          10,
+          11,
+          10,
+          12
+        ]
+      },
+      "expected": 5,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          2,
+          3,
+          2,
+          1,
+          4,
+          3,
+          2,
+          1,
+          5,
+          4,
+          3,
+          2,
+          1,
+          6
+        ]
+      },
+      "expected": 5,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4,
+          1,
+          2,
+          3,
+          8,
+          2,
+          10
+        ]
+      },
+      "expected": 9,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          8,
+          6,
+          7,
+          3,
+          3,
+          5,
+          1,
+          0,
+          6,
+          5
+        ]
+      },
+      "expected": 6,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          5,
+          3,
+          8,
+          12,
+          10,
+          9,
+          15,
+          18,
+          5,
+          7
+        ]
+      },
+      "expected": 17,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          3,
+          2,
+          6,
+          5,
+          0,
+          3,
+          1,
+          5,
+          3,
+          7,
+          10,
+          4,
+          8,
+          12,
+          6,
+          14,
+          2,
+          18,
+          9,
+          20,
+          1,
+          22,
+          10,
+          24,
+          5,
+          26,
+          11,
+          28,
+          12,
+          30,
+          13,
+          32,
+          14,
+          34,
+          15,
+          36,
+          16,
+          38,
+          17,
+          40
+        ]
+      },
+      "expected": 40,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          8,
+          3,
+          6,
+          2,
+          8,
+          8,
+          8,
+          4,
+          2,
+          0,
+          9,
+          5,
+          7,
+          6,
+          2
+        ]
+      },
+      "expected": 9,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          4,
+          1,
+          2,
+          3,
+          5,
+          6,
+          1,
+          2,
+          3,
+          1,
+          5,
+          6,
+          7,
+          8,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "expected": 7,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          897,
+          456,
+          680,
+          509,
+          535,
+          695,
+          890,
+          456,
+          509,
+          535,
+          695,
+          890,
+          456,
+          509,
+          535,
+          695
+        ]
+      },
+      "expected": 434,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected": 10,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          100,
+          180,
+          260,
+          40,
+          310,
+          535,
+          695,
+          10,
+          1
+        ]
+      },
+      "expected": 655,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected": 10,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          100,
+          90,
+          80,
+          50,
+          20,
+          10
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

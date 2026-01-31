@@ -1,0 +1,103 @@
+{
+  "id": "three-sum",
+  "title": "3Sum",
+  "difficulty": "medium",
+  "tags": [
+    "array",
+    "two-pointer",
+    "sorting"
+  ],
+  "description": "\nGiven an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.\n\nThe solution set must not contain duplicate triplets.\n\n**Example 1:**\n```\nInput: nums = [-1,0,1,2,-1,-4]\nOutput: [[-1,-1,2],[-1,0,1]]\n```\n\n**Example 2:**\n```\nInput: nums = [0,1,1]\nOutput: []\n```\n\n**Example 3:**\n```\nInput: nums = [0,0,0]\nOutput: [[0,0,0]]\n```\n\n**Constraints:**\n- 3 <= nums.length <= 3000\n- -10^5 <= nums[i] <= 10^5\n",
+  "starter_code": "def threeSum(nums: list[int]) -> list[list[int]]:\n    # Your code here\n    pass\n",
+  "function_name": "threeSum",
+  "test_cases": [
+    {
+      "input": {
+        "nums": [
+          -1,
+          0,
+          1,
+          2,
+          -1,
+          -4
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          -1,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          1,
+          1
+        ]
+      },
+      "expected": [],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "nums": [
+          -2,
+          0,
+          1,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [
+          -2,
+          0,
+          2
+        ],
+        [
+          -2,
+          1,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    }
+  ],
+  "hints": [
+    "Sorting the array first makes it much easier to avoid duplicates.",
+    "For each element, can you reduce this to a Two Sum problem?",
+    "Use two pointers (left and right) after fixing one element."
+  ],
+  "optimal_complexity": {
+    "time": "O(n^2)",
+    "space": "O(n)"
+  }
+}

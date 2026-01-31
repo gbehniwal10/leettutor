@@ -1,0 +1,206 @@
+{
+  "id": "longest-repeating-character-replacement",
+  "title": "Longest Repeating Character Replacement",
+  "difficulty": "medium",
+  "tags": [
+    "hash-table",
+    "string",
+    "sliding-window"
+  ],
+  "description": "You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.\nReturn the length of the longest substring containing the same letter you can get after performing the above operations.\n \nExample 1:\n\nInput: s = \"ABAB\", k = 2\nOutput: 4\nExplanation: Replace the two 'A's with two 'B's or vice versa.\n\nExample 2:\n\nInput: s = \"AABABBA\", k = 1\nOutput: 4\nExplanation: Replace the one 'A' in the middle with 'B' and form \"AABBBBA\".\nThe substring \"BBBB\" has the longest repeating letters, which is 4.\nThere may exists other ways to achieve this answer too.\n \nConstraints:\n\n1 <= s.length <= 105\ns consists of only uppercase English letters.\n0 <= k <= s.length",
+  "starter_code": "def characterReplacement(s: str, k: int) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "characterReplacement",
+  "test_cases": [
+    {
+      "input": {
+        "s": "ABABABAB",
+        "k": 3
+      },
+      "expected": 7,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AAAAAAAAAAAAABBBAABBCCDDEE",
+        "k": 5
+      },
+      "expected": 20,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AABBCCDD",
+        "k": 2
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "",
+        "k": 0
+      },
+      "expected": 0,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "A",
+        "k": 1
+      },
+      "expected": 1,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AABAABBBCCCC",
+        "k": 3
+      },
+      "expected": 7,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABBBB",
+        "k": 0
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABCCDEEEEE",
+        "k": 3
+      },
+      "expected": 8,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABAB",
+        "k": 2
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AABBB",
+        "k": 2
+      },
+      "expected": 5,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ZYXWVUTSRQPONMLKJIHGFEDCBA",
+        "k": 25
+      },
+      "expected": 26,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABACBCAB",
+        "k": 2
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABBB",
+        "k": 0
+      },
+      "expected": 3,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABBB",
+        "k": 1
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABCDE",
+        "k": 1
+      },
+      "expected": 2,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AABABBA",
+        "k": 1
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AAABBBCCC",
+        "k": 3
+      },
+      "expected": 6,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AAAA",
+        "k": 2
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABCDE",
+        "k": 3
+      },
+      "expected": 4,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ABCDE",
+        "k": 2
+      },
+      "expected": 3,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AABBBBCCDDDDD",
+        "k": 2
+      },
+      "expected": 7,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ACBACBACBACBACBACBACBACBACBACBAC",
+        "k": 5
+      },
+      "expected": 8,
+      "function_call": "characterReplacement(**test_input)"
+    },
+    {
+      "input": {
+        "s": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "k": 0
+      },
+      "expected": 40,
+      "function_call": "characterReplacement(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "id": "minimum-window-substring",
+  "title": "Minimum Window Substring",
+  "difficulty": "hard",
+  "tags": [
+    "hash-table",
+    "string",
+    "sliding-window"
+  ],
+  "description": "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string \"\".\nThe testcases will be generated such that the answer is unique.\n \nExample 1:\n\nInput: s = \"ADOBECODEBANC\", t = \"ABC\"\nOutput: \"BANC\"\nExplanation: The minimum window substring \"BANC\" includes 'A', 'B', and 'C' from string t.\n\nExample 2:\n\nInput: s = \"a\", t = \"a\"\nOutput: \"a\"\nExplanation: The entire string s is the minimum window.\n\nExample 3:\n\nInput: s = \"a\", t = \"aa\"\nOutput: \"\"\nExplanation: Both 'a's from t must be included in the window.\nSince the largest window of s only has one 'a', return empty string.\n\n \nConstraints:\n\nm == s.length\nn == t.length\n1 <= m, n <= 105\ns and t consist of uppercase and lowercase English letters.\n\n \nFollow up: Could you find an algorithm that runs in O(m + n) time?",
+  "starter_code": "def minWindow(s: str, t: str) -> str:\n    # Your code here\n    pass\n",
+  "function_name": "minWindow",
+  "test_cases": [
+    {
+      "input": {
+        "s": "acbbaca",
+        "t": "aba"
+      },
+      "expected": "baca",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbcc",
+        "t": "abc"
+      },
+      "expected": "abbc",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaaaa",
+        "t": "aa"
+      },
+      "expected": "aa",
+      "function_call": "minWindow(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "a",
+        "t": "aa"
+      },
+      "expected": "",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "t": "bd"
+      },
+      "expected": "bcd",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ab",
+        "t": "b"
+      },
+      "expected": "b",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aa",
+        "t": "aa"
+      },
+      "expected": "aa",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ADOBECODEBANC",
+        "t": "ABC"
+      },
+      "expected": "BANC",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "fgrheahtfeqcrha",
+        "t": "harf"
+      },
+      "expected": "fgrhea",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaaaaaaaaabbbbbcdd",
+        "t": "abcdd"
+      },
+      "expected": "abbbbbcdd",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcde",
+        "t": "f"
+      },
+      "expected": "",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ab",
+        "t": "a"
+      },
+      "expected": "a",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abababab",
+        "t": "abab"
+      },
+      "expected": "abab",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "a",
+        "t": "a"
+      },
+      "expected": "a",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aafffrbb",
+        "t": "ffab"
+      },
+      "expected": "afffrb",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "bba",
+        "t": "ab"
+      },
+      "expected": "ba",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "cbbbaaaaabbbcccccbbaa",
+        "t": "aaabbbccc"
+      },
+      "expected": "aaabbbccc",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcabcabc",
+        "t": "abc"
+      },
+      "expected": "abc",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "cabwefgewcwaefgcf",
+        "t": "cae"
+      },
+      "expected": "cwae",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcabcabc",
+        "t": "aaa"
+      },
+      "expected": "abcabca",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abc",
+        "t": "abc"
+      },
+      "expected": "abc",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "t": "aaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+      "function_call": "minWindow(**test_input)"
+    },
+    {
+      "input": {
+        "s": "zjwsxeyrhtlnejzjwsxeyrhtlnej",
+        "t": "nejxyz"
+      },
+      "expected": "nejzjwsxey",
+      "function_call": "minWindow(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

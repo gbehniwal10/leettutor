@@ -1,0 +1,441 @@
+{
+  "id": "alien-dictionary",
+  "title": "Alien Dictionary",
+  "difficulty": "hard",
+  "tags": [
+    "depth-first-search",
+    "breadth-first-search",
+    "graph",
+    "topological-sort",
+    "array",
+    "string"
+  ],
+  "description": "There is a new alien language that uses the English alphabet. However, the order of the letters is unknown to you.\nYou are given a list of strings words from the alien language's dictionary. Now it is claimed that the strings in words are sorted lexicographically by the rules of this new language.\nIf this claim is incorrect, and the given arrangement of string in words cannot correspond to any order of letters, return \"\".\nOtherwise, return a string of the unique letters in the new alien language sorted in lexicographically increasing order by the new language's rules. If there are multiple solutions, return any of them.\n \nExample 1:\n\nInput: words = [\"wrt\",\"wrf\",\"er\",\"ett\",\"rftt\"]\nOutput: \"wertf\"\n\nExample 2:\n\nInput: words = [\"z\",\"x\"]\nOutput: \"zx\"\n\nExample 3:\n\nInput: words = [\"z\",\"x\",\"z\"]\nOutput: \"\"\nExplanation: The order is invalid, so return \"\".\n\n \nConstraints:\n\n1 <= words.length <= 100\n1 <= words[i].length <= 100\nwords[i] consists of only lowercase English letters.",
+  "starter_code": "def alienOrder(words: List[str]) -> str:\n    # Your code here\n    pass\n",
+  "function_name": "alienOrder",
+  "test_cases": [
+    {
+      "input": {
+        "words": [
+          "wrt",
+          "wrf",
+          "er",
+          "ett",
+          "rftt"
+        ]
+      },
+      "expected": "wertf",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "abc",
+          "ab"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "a",
+          "b",
+          "ca",
+          "cc"
+        ]
+      },
+      "expected": "abc",
+      "function_call": "alienOrder(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "words": [
+          "a",
+          "b",
+          "ca"
+        ]
+      },
+      "expected": "abc",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "z",
+          "x",
+          "z"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "z",
+          "x"
+        ]
+      },
+      "expected": "zx",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "ab",
+          "abc",
+          "abcd",
+          "abcde",
+          "abcdef"
+        ]
+      },
+      "expected": "abcdef",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "abcd",
+          "abdc",
+          "acbd",
+          "dacb",
+          "adcb",
+          "acdb",
+          "adbc",
+          "cabd",
+          "dcab",
+          "dbac",
+          "dcba",
+          "bdac",
+          "bcad",
+          "bcda",
+          "bacd",
+          "badc",
+          "bdca",
+          "cdab",
+          "cdba",
+          "cbad",
+          "cbda",
+          "cdba",
+          "dcba",
+          "dacb",
+          "dbca",
+          "dcab",
+          "dabc",
+          "dbac",
+          "bdac",
+          "bcad",
+          "bcda",
+          "bacd",
+          "badc",
+          "bdca"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "a",
+          "b",
+          "c",
+          "a",
+          "b",
+          "c",
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "apple",
+          "apply",
+          "app"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "apple",
+          "app",
+          "banana",
+          "banaba",
+          "bat",
+          "ba",
+          "cat"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "f",
+          "fx",
+          "fxz",
+          "fxk",
+          "fxkq",
+          "fxks",
+          "fxksa",
+          "fxksb",
+          "fxksc",
+          "fxkscv",
+          "fxkscvd",
+          "fxkscvde",
+          "fxkscvdef",
+          "fxkscvdefg",
+          "fxkscvdefgh",
+          "fxkscvdefghi",
+          "fxkscvdefghij",
+          "fxkscvdefghijk"
+        ]
+      },
+      "expected": "adefghijqvxzbskc",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "warpits",
+          "warpit",
+          "warp",
+          "war",
+          "wa",
+          "w"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+          "h",
+          "i",
+          "j",
+          "k",
+          "l",
+          "m",
+          "n",
+          "o",
+          "p",
+          "q",
+          "r",
+          "s",
+          "t",
+          "u",
+          "v",
+          "w",
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "expected": "abcdefghijklmnopqrstuvwxyz",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "aac",
+          "a",
+          "ccc"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "xyz",
+          "xya",
+          "xyb",
+          "xyy",
+          "xyz",
+          "xya",
+          "xyb",
+          "xyy"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "z",
+          "x",
+          "y",
+          "z"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "xa",
+          "xb",
+          "xc",
+          "xd",
+          "xe",
+          "xf",
+          "xg",
+          "xh",
+          "xi",
+          "xj",
+          "xk",
+          "xl",
+          "xm",
+          "xn",
+          "xo",
+          "xp",
+          "xq",
+          "xr",
+          "xs",
+          "xt",
+          "xu",
+          "xv",
+          "xw",
+          "xx",
+          "xy",
+          "xz"
+        ]
+      },
+      "expected": "abcdefghijklmnopqrstuvwxyz",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "z",
+          "z",
+          "z",
+          "z",
+          "z",
+          "z",
+          "z",
+          "z",
+          "z",
+          "z"
+        ]
+      },
+      "expected": "z",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "a",
+          "ab",
+          "abc",
+          "abcd"
+        ]
+      },
+      "expected": "abcd",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b",
+          "a",
+          "b"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "aaa",
+          "aa",
+          "a",
+          "ab"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    },
+    {
+      "input": {
+        "words": [
+          "a",
+          "abc",
+          "ab",
+          "abcd"
+        ]
+      },
+      "expected": "",
+      "function_call": "alienOrder(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

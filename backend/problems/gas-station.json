@@ -1,0 +1,549 @@
+{
+  "id": "gas-station",
+  "title": "Gas Station",
+  "difficulty": "medium",
+  "tags": [
+    "greedy",
+    "array"
+  ],
+  "description": "There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].\nYou have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. You begin the journey with an empty tank at one of the gas stations.\nGiven two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction, otherwise return -1. If there exists a solution, it is guaranteed to be unique.\n \nExample 1:\n\nInput: gas = [1,2,3,4,5], cost = [3,4,5,1,2]\nOutput: 3\nExplanation:\nStart at station 3 (index 3) and fill up with 4 unit of gas. Your tank = 0 + 4 = 4\nTravel to station 4. Your tank = 4 - 1 + 5 = 8\nTravel to station 0. Your tank = 8 - 2 + 1 = 7\nTravel to station 1. Your tank = 7 - 3 + 2 = 6\nTravel to station 2. Your tank = 6 - 4 + 3 = 5\nTravel to station 3. The cost is 5. Your gas is just enough to travel back to station 3.\nTherefore, return 3 as the starting index.\n\nExample 2:\n\nInput: gas = [2,3,4], cost = [3,4,3]\nOutput: -1\nExplanation:\nYou can't start at station 0 or 1, as there is not enough gas to travel to the next station.\nLet's start at station 2 and fill up with 4 unit of gas. Your tank = 0 + 4 = 4\nTravel to station 0. Your tank = 4 - 3 + 2 = 3\nTravel to station 1. Your tank = 3 - 3 + 3 = 3\nYou cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.\nTherefore, you can't travel around the circuit once no matter where you start.\n\n \nConstraints:\n\nn == gas.length == cost.length\n1 <= n <= 105\n0 <= gas[i], cost[i] <= 104",
+  "starter_code": "def canCompleteCircuit(gas: List[int], cost: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "canCompleteCircuit",
+  "test_cases": [
+    {
+      "input": {
+        "gas": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "cost": [
+          3,
+          4,
+          5,
+          1,
+          2
+        ]
+      },
+      "expected": 3,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "cost": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 3,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cost": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": 4,
+      "function_call": "canCompleteCircuit(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "gas": [
+          5,
+          1,
+          2,
+          3,
+          4
+        ],
+        "cost": [
+          4,
+          5,
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": 2,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "cost": [
+          5,
+          4,
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 3,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          2,
+          3,
+          4
+        ],
+        "cost": [
+          3,
+          4,
+          3
+        ]
+      },
+      "expected": -1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          5,
+          8,
+          2,
+          8
+        ],
+        "cost": [
+          6,
+          5,
+          6,
+          6
+        ]
+      },
+      "expected": 3,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "cost": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 4,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          10,
+          20,
+          30,
+          40,
+          50
+        ],
+        "cost": [
+          15,
+          25,
+          35,
+          45,
+          55
+        ]
+      },
+      "expected": -1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          3,
+          1,
+          1
+        ],
+        "cost": [
+          1,
+          2,
+          2
+        ]
+      },
+      "expected": 0,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          10,
+          1,
+          2,
+          3,
+          4
+        ],
+        "cost": [
+          3,
+          4,
+          5,
+          1,
+          2
+        ]
+      },
+      "expected": 4,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          3,
+          3,
+          4
+        ],
+        "cost": [
+          3,
+          4,
+          4
+        ]
+      },
+      "expected": -1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "cost": [
+          101,
+          99,
+          101,
+          99,
+          101,
+          99,
+          101,
+          99,
+          101,
+          99
+        ]
+      },
+      "expected": 9,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          100,
+          50,
+          20,
+          5,
+          10
+        ],
+        "cost": [
+          10,
+          20,
+          50,
+          100,
+          5
+        ]
+      },
+      "expected": 4,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "cost": [
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          20
+        ]
+      },
+      "expected": 9,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "cost": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9,
+          9
+        ]
+      },
+      "expected": 9,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cost": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1
+        ]
+      },
+      "expected": -1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "cost": [
+          10,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "expected": 1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          100,
+          50,
+          25,
+          75,
+          200,
+          300
+        ],
+        "cost": [
+          200,
+          150,
+          200,
+          20,
+          100,
+          50
+        ]
+      },
+      "expected": 3,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          50,
+          60,
+          70,
+          80,
+          90,
+          100,
+          110,
+          120,
+          130,
+          140
+        ],
+        "cost": [
+          100,
+          110,
+          120,
+          130,
+          140,
+          150,
+          160,
+          170,
+          180,
+          190
+        ]
+      },
+      "expected": -1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          10,
+          20,
+          30,
+          40,
+          50
+        ],
+        "cost": [
+          50,
+          10,
+          20,
+          30,
+          40
+        ]
+      },
+      "expected": 1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "cost": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ]
+      },
+      "expected": -1,
+      "function_call": "canCompleteCircuit(**test_input)"
+    },
+    {
+      "input": {
+        "gas": [
+          6,
+          5,
+          4,
+          3,
+          2,
+          1
+        ],
+        "cost": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "expected": 0,
+      "function_call": "canCompleteCircuit(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

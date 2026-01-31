@@ -1,0 +1,52 @@
+{
+  "id": "valid-parentheses",
+  "title": "Valid Parentheses",
+  "difficulty": "easy",
+  "tags": [
+    "string",
+    "stack"
+  ],
+  "description": "\nGiven a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.\n\nAn input string is valid if:\n1. Open brackets must be closed by the same type of brackets.\n2. Open brackets must be closed in the correct order.\n3. Every close bracket has a corresponding open bracket of the same type.\n\n**Example 1:**\n```\nInput: s = \"()\"\nOutput: true\n```\n\n**Example 2:**\n```\nInput: s = \"()[]{}\"\nOutput: true\n```\n\n**Example 3:**\n```\nInput: s = \"(]\"\nOutput: false\n```\n\n**Constraints:**\n- 1 <= s.length <= 10^4\n- s consists of parentheses only '()[]{}'.\n",
+  "starter_code": "def isValid(s: str) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "isValid",
+  "test_cases": [
+    {
+      "input": {
+        "s": "()"
+      },
+      "expected": true,
+      "function_call": "isValid(**test_input)"
+    },
+    {
+      "input": {
+        "s": "()[]{}"
+      },
+      "expected": true,
+      "function_call": "isValid(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(]"
+      },
+      "expected": false,
+      "function_call": "isValid(**test_input)"
+    },
+    {
+      "input": {
+        "s": "([)]"
+      },
+      "expected": false,
+      "function_call": "isValid(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [],
+  "hints": [
+    "What data structure follows Last-In-First-Out (LIFO)?",
+    "When you see an opening bracket, what should you do?",
+    "When you see a closing bracket, what should you check?"
+  ],
+  "optimal_complexity": {
+    "time": "O(n)",
+    "space": "O(n)"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "id": "permutation-in-string",
+  "title": "Permutation In String",
+  "difficulty": "medium",
+  "tags": [
+    "hash-table",
+    "two-pointers",
+    "string",
+    "sliding-window"
+  ],
+  "description": "Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.\nIn other words, return true if one of s1's permutations is the substring of s2.\n \nExample 1:\n\nInput: s1 = \"ab\", s2 = \"eidbaooo\"\nOutput: true\nExplanation: s2 contains one permutation of s1 (\"ba\").\n\nExample 2:\n\nInput: s1 = \"ab\", s2 = \"eidboaoo\"\nOutput: false\n\n \nConstraints:\n\n1 <= s1.length, s2.length <= 104\ns1 and s2 consist of lowercase English letters.",
+  "starter_code": "def checkInclusion(s1: str, s2: str) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "checkInclusion",
+  "test_cases": [
+    {
+      "input": {
+        "s1": "abc",
+        "s2": "bbbccca"
+      },
+      "expected": false,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "adc",
+        "s2": "dcda"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abc",
+        "s2": "bbbccba"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s1": "abcde",
+        "s2": "adecb"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "test",
+        "s2": "ttewest"
+      },
+      "expected": false,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abc",
+        "s2": "cbadef"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abc",
+        "s2": "defabc"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "xyz",
+        "s2": "zyxwvut"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "hello",
+        "s2": "ooollehed"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "ab",
+        "s2": "eidboaoo"
+      },
+      "expected": false,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "aabbcc",
+        "s2": "abcabc"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "hello",
+        "s2": "ooolleoooleh"
+      },
+      "expected": false,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "xyz",
+        "s2": "ayzxbcd"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "hello",
+        "s2": "ooollehdl"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "a",
+        "s2": "ab"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "z",
+        "s2": "abcz"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "a",
+        "s2": "b"
+      },
+      "expected": false,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abcd",
+        "s2": "dcba"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "ab",
+        "s2": "eidbaooo"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abcd",
+        "s2": "dcbaefg"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abc",
+        "s2": "cccccbabb"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "aaaa",
+        "s2": "aaabaaaa"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    },
+    {
+      "input": {
+        "s1": "abcd",
+        "s2": "abcdxzyw"
+      },
+      "expected": true,
+      "function_call": "checkInclusion(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

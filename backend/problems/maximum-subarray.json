@@ -1,0 +1,83 @@
+{
+  "id": "maximum-subarray",
+  "title": "Maximum Subarray",
+  "difficulty": "medium",
+  "tags": [
+    "array",
+    "dynamic-programming"
+  ],
+  "description": "\nFind the contiguous subarray (containing at least one number) which has the largest sum and return its sum.\n\n**Example 1:**\n```\nInput: nums = [-2,1,-3,4,-1,2,1,-5,4]\nOutput: 6\nExplanation: The subarray [4,-1,2,1] has the largest sum 6.\n```\n\n**Example 2:**\n```\nInput: nums = [1]\nOutput: 1\n```\n\n**Example 3:**\n```\nInput: nums = [5,4,-1,7,8]\nOutput: 23\n```\n\n**Constraints:**\n- 1 <= nums.length <= 10^5\n- -10^4 <= nums[i] <= 10^4\n",
+  "starter_code": "def maxSubArray(nums: list[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "maxSubArray",
+  "test_cases": [
+    {
+      "input": {
+        "nums": [
+          -2,
+          1,
+          -3,
+          4,
+          -1,
+          2,
+          1,
+          -5,
+          4
+        ]
+      },
+      "expected": 6,
+      "function_call": "maxSubArray(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "maxSubArray(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          5,
+          4,
+          -1,
+          7,
+          8
+        ]
+      },
+      "expected": 23,
+      "function_call": "maxSubArray(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "nums": [
+          -1
+        ]
+      },
+      "expected": -1,
+      "function_call": "maxSubArray(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -2,
+          -1
+        ]
+      },
+      "expected": -1,
+      "function_call": "maxSubArray(**test_input)"
+    }
+  ],
+  "hints": [
+    "At each position, you either extend the previous subarray or start a new one.",
+    "Track the current subarray sum and the overall maximum.",
+    "This is known as Kadane's algorithm."
+  ],
+  "optimal_complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  }
+}

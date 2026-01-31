@@ -1,0 +1,479 @@
+{
+  "id": "word-break",
+  "title": "Word Break",
+  "difficulty": "medium",
+  "tags": [
+    "trie",
+    "memoization",
+    "array",
+    "hash-table",
+    "string",
+    "dynamic-programming"
+  ],
+  "description": "Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.\nNote that the same word in the dictionary may be reused multiple times in the segmentation.\n \nExample 1:\n\nInput: s = \"leetcode\", wordDict = [\"leet\",\"code\"]\nOutput: true\nExplanation: Return true because \"leetcode\" can be segmented as \"leet code\".\n\nExample 2:\n\nInput: s = \"applepenapple\", wordDict = [\"apple\",\"pen\"]\nOutput: true\nExplanation: Return true because \"applepenapple\" can be segmented as \"apple pen apple\".\nNote that you are allowed to reuse a dictionary word.\n\nExample 3:\n\nInput: s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]\nOutput: false\n\n \nConstraints:\n\n1 <= s.length <= 300\n1 <= wordDict.length <= 1000\n1 <= wordDict[i].length <= 20\ns and wordDict[i] consist of only lowercase English letters.\nAll the strings of wordDict are unique.",
+  "starter_code": "def wordBreak(s: str, wordDict: List[str]) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "wordBreak",
+  "test_cases": [
+    {
+      "input": {
+        "s": "cars",
+        "wordDict": [
+          "car",
+          "ca",
+          "rs"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "goals",
+        "wordDict": [
+          "go",
+          "goal",
+          "goals"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "pineapplepenapple",
+        "wordDict": [
+          "apple",
+          "pen",
+          "applepen",
+          "pine",
+          "pineapple"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "leetcode",
+        "wordDict": [
+          "leet",
+          "code"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "applepenapple",
+        "wordDict": [
+          "apple",
+          "pen"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "catsandog",
+        "wordDict": [
+          "cats",
+          "dog",
+          "sand",
+          "and",
+          "cat"
+        ]
+      },
+      "expected": false,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "wordDict": [
+          "a",
+          "abc",
+          "b",
+          "cd"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "supercalifragilisticexpialidocious",
+        "wordDict": [
+          "super",
+          "cali",
+          "fragi",
+          "listic",
+          "expi",
+          "ali",
+          "docious"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "skyscraper",
+        "wordDict": [
+          "sky",
+          "sc",
+          "raper",
+          "scra",
+          "per"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "wordbreakproblem",
+        "wordDict": [
+          "word",
+          "break",
+          "problem",
+          "wordbreak",
+          "breakproblem",
+          "wordbreakproblem",
+          "wordbreakpro",
+          "blem",
+          "wordprob",
+          "lem",
+          "wordb",
+          "reak",
+          "breakpro",
+          "brea",
+          "kprob",
+          "wordbre",
+          "akprob",
+          "wordbreakp",
+          "rob",
+          "reakp",
+          "reakpro",
+          "wordbre",
+          "reakproblem"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "cascadingsubstrings",
+        "wordDict": [
+          "cascade",
+          "sub",
+          "strings",
+          "cascade",
+          "ing",
+          "substring"
+        ]
+      },
+      "expected": false,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "breaktheglassceiling",
+        "wordDict": [
+          "break",
+          "the",
+          "glass",
+          "ceiling",
+          "breaks",
+          "theglass",
+          "ceiling"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aquickbrownfoxjumpsoverthelazydog",
+        "wordDict": [
+          "a",
+          "quick",
+          "brown",
+          "fox",
+          "jumps",
+          "over",
+          "the",
+          "lazy",
+          "dog"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdabcdabcd",
+        "wordDict": [
+          "a",
+          "ab",
+          "abc",
+          "abcd"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcd",
+        "wordDict": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "abc",
+          "bc",
+          "abcd",
+          "cd"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "wordbreakproblem",
+        "wordDict": [
+          "word",
+          "break",
+          "problem",
+          "pro",
+          "gram",
+          "wordbreak",
+          "breakprob"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaaaaaaaaaaab",
+        "wordDict": [
+          "a",
+          "aa",
+          "aaa",
+          "aaaa",
+          "aaaaa",
+          "aaaaaa",
+          "aaaaaaa",
+          "aaaaaaaa",
+          "aaaaaaaaa",
+          "aaaaaaaaaa"
+        ]
+      },
+      "expected": false,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "interviewquestionsarehard",
+        "wordDict": [
+          "interview",
+          "questions",
+          "are",
+          "hard",
+          "inter",
+          "view",
+          "quest",
+          "ions",
+          "ques",
+          "tionsare",
+          "arehard"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "mississippi",
+        "wordDict": [
+          "mis",
+          "is",
+          "sip",
+          "i",
+          "pi",
+          "p",
+          "mississipp",
+          "missis",
+          "miss",
+          "issi",
+          "ippi",
+          "ssippi",
+          "ssipp",
+          "ssip",
+          "ssips",
+          "ssip",
+          "issipi",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips",
+          "issip",
+          "issipp",
+          "issip",
+          "issips"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "complexwordbreakproblem",
+        "wordDict": [
+          "complex",
+          "word",
+          "break",
+          "problem",
+          "wordbreak",
+          "breakprob",
+          "lem",
+          "prob",
+          "lemp",
+          "complexword"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "mississippi",
+        "wordDict": [
+          "mis",
+          "issi",
+          "ppi",
+          "issip",
+          "ippi",
+          "missis",
+          "sip",
+          "pi",
+          "ssippi",
+          "is",
+          "ip",
+          "sipi",
+          "issipp",
+          "ippi",
+          "ippi",
+          "mississi",
+          "ppis",
+          "ippii",
+          "missi",
+          "mississipp",
+          "i",
+          "p",
+          "issippip",
+          "issiippi",
+          "mississippi"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abracadabra",
+        "wordDict": [
+          "abra",
+          "cad",
+          "abra",
+          "cadabra",
+          "ra",
+          "dab",
+          "ra",
+          "cadabra"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    },
+    {
+      "input": {
+        "s": "supercalifragilisticexpialidocious",
+        "wordDict": [
+          "super",
+          "cali",
+          "fragilistic",
+          "expiali",
+          "docious",
+          "superca",
+          "li",
+          "fragi",
+          "listicex",
+          "piali",
+          "do"
+        ]
+      },
+      "expected": true,
+      "function_call": "wordBreak(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

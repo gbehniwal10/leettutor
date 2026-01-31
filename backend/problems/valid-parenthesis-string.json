@@ -1,0 +1,184 @@
+{
+  "id": "valid-parenthesis-string",
+  "title": "Valid Parenthesis String",
+  "difficulty": "medium",
+  "tags": [
+    "stack",
+    "greedy",
+    "string",
+    "dynamic-programming"
+  ],
+  "description": "Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid.\nThe following rules define a valid string:\n\nAny left parenthesis '(' must have a corresponding right parenthesis ')'.\nAny right parenthesis ')' must have a corresponding left parenthesis '('.\nLeft parenthesis '(' must go before the corresponding right parenthesis ')'.\n'*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string \"\".\n\n \nExample 1:\nInput: s = \"()\"\nOutput: true\nExample 2:\nInput: s = \"(*)\"\nOutput: true\nExample 3:\nInput: s = \"(*))\"\nOutput: true\n\n \nConstraints:\n\n1 <= s.length <= 100\ns[i] is '(', ')' or '*'.",
+  "starter_code": "def checkValidString(s: str) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "checkValidString",
+  "test_cases": [
+    {
+      "input": {
+        "s": "(())*"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "((((((**))))))"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(()*"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "****"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(()****)"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "*()"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(()***)"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "((*)*())"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "())(*"
+      },
+      "expected": false,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "((*))"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(*)*"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(()))"
+      },
+      "expected": false,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(()(()))"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(*))"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(**)"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(*)()"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "()"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "((()))"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(*)"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "((*)"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "()()"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(()*())"
+      },
+      "expected": true,
+      "function_call": "checkValidString(**test_input)"
+    },
+    {
+      "input": {
+        "s": "(())))"
+      },
+      "expected": false,
+      "function_call": "checkValidString(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

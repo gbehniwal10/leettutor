@@ -1,0 +1,492 @@
+{
+  "id": "invert-binary-tree",
+  "title": "Invert Binary Tree",
+  "difficulty": "easy",
+  "tags": [
+    "tree",
+    "depth-first-search",
+    "breadth-first-search",
+    "binary-tree"
+  ],
+  "description": "Given the root of a binary tree, invert the tree, and return its root.\n \nExample 1:\n\n\nInput: root = [4,2,7,1,3,6,9]\nOutput: [4,7,2,9,6,3,1]\n\nExample 2:\n\n\nInput: root = [2,1,3]\nOutput: [2,3,1]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 100].\n-100 <= Node.val <= 100",
+  "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n    def invertTree(root: Optional[TreeNode]) -> Optional[TreeNode]:\n    # Your code here\n    pass\n",
+  "function_name": "invertTree",
+  "test_cases": [
+    {
+      "input": {
+        "root": [
+          4,
+          2,
+          7,
+          1,
+          3,
+          6,
+          9
+        ]
+      },
+      "expected": [
+        4,
+        7,
+        2,
+        9,
+        6,
+        3,
+        1
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          2,
+          1,
+          3
+        ]
+      },
+      "expected": [
+        2,
+        3,
+        1
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": []
+      },
+      "expected": null,
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "root": "[3,1,4,null,2]"
+      },
+      "expected": [
+        3,
+        4,
+        1,
+        null,
+        null,
+        2
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[1,null,2,null,3,null,4,null,5]"
+      },
+      "expected": [
+        1,
+        2,
+        null,
+        3,
+        null,
+        4,
+        null,
+        5
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[1,2,3,4,5,null,7,8,null,10,11,12]"
+      },
+      "expected": [
+        1,
+        3,
+        2,
+        7,
+        null,
+        5,
+        4,
+        null,
+        12,
+        11,
+        10,
+        null,
+        8
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          50,
+          20,
+          70,
+          10,
+          30,
+          60,
+          80,
+          5,
+          15,
+          25,
+          35,
+          55,
+          65,
+          75,
+          85
+        ]
+      },
+      "expected": [
+        50,
+        70,
+        20,
+        80,
+        60,
+        30,
+        10,
+        85,
+        75,
+        65,
+        55,
+        35,
+        25,
+        15,
+        5
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[3,1,4,3,null,1,5]"
+      },
+      "expected": [
+        3,
+        4,
+        1,
+        5,
+        1,
+        null,
+        3
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[1,null,2,null,3,null,4,null,5,null,6]"
+      },
+      "expected": [
+        1,
+        2,
+        null,
+        3,
+        null,
+        4,
+        null,
+        5,
+        null,
+        6
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          8,
+          5,
+          9,
+          3,
+          7,
+          12,
+          15,
+          1,
+          4,
+          6,
+          10,
+          13,
+          17
+        ]
+      },
+      "expected": [
+        8,
+        9,
+        5,
+        15,
+        12,
+        7,
+        3,
+        null,
+        null,
+        17,
+        13,
+        10,
+        6,
+        4,
+        1
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[5,15,1,null,30,20,null]"
+      },
+      "expected": [
+        5,
+        1,
+        15,
+        null,
+        20,
+        30
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          8,
+          15,
+          3,
+          7,
+          19,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        8,
+        3,
+        15,
+        2,
+        1,
+        19,
+        7
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[6,3,8,1,4,7,9,null,null,2,5]"
+      },
+      "expected": [
+        6,
+        8,
+        3,
+        9,
+        7,
+        4,
+        1,
+        null,
+        null,
+        null,
+        null,
+        5,
+        2
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          20,
+          10,
+          30,
+          5,
+          15,
+          25,
+          35,
+          3,
+          7,
+          13,
+          17,
+          23,
+          27,
+          33,
+          37
+        ]
+      },
+      "expected": [
+        20,
+        30,
+        10,
+        35,
+        25,
+        15,
+        5,
+        37,
+        33,
+        27,
+        23,
+        17,
+        13,
+        7,
+        3
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          1,
+          2
+        ]
+      },
+      "expected": [
+        1,
+        null,
+        2
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[10,null,20,null,30,null,40]"
+      },
+      "expected": [
+        10,
+        20,
+        null,
+        30,
+        null,
+        40
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[3,9,20,null,null,15,7]"
+      },
+      "expected": [
+        3,
+        20,
+        9,
+        7,
+        15
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[7,3,15,1,5,9,20,null,null,null,6,null,18]"
+      },
+      "expected": [
+        7,
+        15,
+        3,
+        20,
+        9,
+        5,
+        1,
+        null,
+        null,
+        18,
+        null,
+        6
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[10,5,15,null,null,6,20]"
+      },
+      "expected": [
+        10,
+        15,
+        5,
+        20,
+        6
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": [
+          1,
+          3,
+          2,
+          5,
+          4
+        ]
+      },
+      "expected": [
+        1,
+        2,
+        3,
+        null,
+        null,
+        4,
+        5
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[8,5,9,2,7,null,null,null,3,null,4]"
+      },
+      "expected": [
+        8,
+        9,
+        5,
+        null,
+        null,
+        7,
+        2,
+        4,
+        null,
+        3
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[1,2,3,null,4,null,5]"
+      },
+      "expected": [
+        1,
+        3,
+        2,
+        5,
+        null,
+        4
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    },
+    {
+      "input": {
+        "root": "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,null,null,16,17,18,19,20]"
+      },
+      "expected": [
+        1,
+        3,
+        2,
+        7,
+        6,
+        5,
+        4,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        20,
+        19,
+        18,
+        17,
+        16
+      ],
+      "function_call": "tree_node_to_list(invertTree(root=tree_node(test_input['root'])))"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  },
+  "helpers": [
+    "data_structures"
+  ]
+}

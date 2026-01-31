@@ -1,0 +1,182 @@
+{
+  "id": "reverse-bits",
+  "title": "Reverse Bits",
+  "difficulty": "easy",
+  "tags": [
+    "bit-manipulation",
+    "divide-and-conquer"
+  ],
+  "description": "Reverse bits of a given 32 bits unsigned integer.\nNote:\n\nNote that in some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.\nIn Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 2 above, the input represents the signed integer -3 and the output represents the signed integer -1073741825.\n\n \nExample 1:\n\nInput: n = 00000010100101000001111010011100\nOutput:    964176192 (00111001011110000010100101000000)\nExplanation: The input binary string 00000010100101000001111010011100 represents the unsigned integer 43261596, so return 964176192 which its binary representation is 00111001011110000010100101000000.\n\nExample 2:\n\nInput: n = 11111111111111111111111111111101\nOutput:   3221225471 (10111111111111111111111111111111)\nExplanation: The input binary string 11111111111111111111111111111101 represents the unsigned integer 4294967293, so return 3221225471 which its binary representation is 10111111111111111111111111111111.\n\n \nConstraints:\n\nThe input must be a binary string of length 32\n\n \nFollow up: If this function is called many times, how would you optimize it?",
+  "starter_code": "def reverseBits(n: int) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "reverseBits",
+  "test_cases": [
+    {
+      "input": {
+        "n": 0
+      },
+      "expected": 0,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00000000000000000000000000000001"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 11111111111111111111111111111111
+      },
+      "expected": 3817748707,
+      "function_call": "reverseBits(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "n": 0
+      },
+      "expected": 0,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 10000000000000000000000000000000
+      },
+      "expected": 1,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 2147483648
+      },
+      "expected": 1,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00000010100101000001111010011100"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 43261596
+      },
+      "expected": 964176192,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 4294967293
+      },
+      "expected": 3221225471,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 1
+      },
+      "expected": 2147483648,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 11111111111111111111111111111101
+      },
+      "expected": 3180214499,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00010001000100010001000100010001"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00010010000100100001001000010010"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00110011001100110011001100110011"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 10100101001010010100101001010010
+      },
+      "expected": 1524246408,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "01010101010101010101010101010101"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 11110000111100001111000011110000
+      },
+      "expected": 242192076,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "01101001100001111000010110111001"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00000000000000001111111111111111"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "01001001001001001001001001001001"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": 11110000000011111111000000001111
+      },
+      "expected": 3928946530,
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00000000111111110000000011111111"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    },
+    {
+      "input": {
+        "n": "00011110001111000111100011110001"
+      },
+      "expected": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+      "function_call": "reverseBits(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "best-time-to-buy-sell-stock",
+  "title": "Best Time to Buy and Sell Stock",
+  "difficulty": "easy",
+  "tags": [
+    "array",
+    "dynamic-programming",
+    "sliding-window"
+  ],
+  "description": "\nYou are given an array `prices` where `prices[i]` is the price of a given stock on the ith day.\n\nYou want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.\n\nReturn the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.\n\n**Example 1:**\n```\nInput: prices = [7,1,5,3,6,4]\nOutput: 5\nExplanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\n```\n\n**Example 2:**\n```\nInput: prices = [7,6,4,3,1]\nOutput: 0\nExplanation: No transactions are done, max profit = 0.\n```\n\n**Constraints:**\n- 1 <= prices.length <= 10^5\n- 0 <= prices[i] <= 10^4\n",
+  "starter_code": "def maxProfit(prices: list[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "maxProfit",
+  "test_cases": [
+    {
+      "input": {
+        "prices": [
+          7,
+          1,
+          5,
+          3,
+          6,
+          4
+        ]
+      },
+      "expected": 5,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          7,
+          6,
+          4,
+          3,
+          1
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProfit(**test_input)"
+    },
+    {
+      "input": {
+        "prices": [
+          2,
+          4,
+          1
+        ]
+      },
+      "expected": 2,
+      "function_call": "maxProfit(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [],
+  "hints": [
+    "You must buy before you sell. How does this constrain your approach?",
+    "What if you kept track of the minimum price seen so far?",
+    "At each day, what's the best profit you could make if you sold today?"
+  ],
+  "optimal_complexity": {
+    "time": "O(n)",
+    "space": "O(1)"
+  }
+}

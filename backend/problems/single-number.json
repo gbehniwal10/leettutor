@@ -1,0 +1,408 @@
+{
+  "id": "single-number",
+  "title": "Single Number",
+  "difficulty": "easy",
+  "tags": [
+    "bit-manipulation",
+    "array"
+  ],
+  "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n \nExample 1:\n\nInput: nums = [2,2,1]\nOutput: 1\n\nExample 2:\n\nInput: nums = [4,1,2,1,2]\nOutput: 4\n\nExample 3:\n\nInput: nums = [1]\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-3 * 104 <= nums[i] <= 3 * 104\nEach element in the array appears twice except for one element which appears only once.",
+  "starter_code": "def singleNumber(nums: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "singleNumber",
+  "test_cases": [
+    {
+      "input": {
+        "nums": [
+          -1,
+          2,
+          -1,
+          -2,
+          2
+        ]
+      },
+      "expected": -2,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          1,
+          10,
+          2,
+          2
+        ]
+      },
+      "expected": 1,
+      "function_call": "singleNumber(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "nums": [
+          3,
+          3,
+          7,
+          7,
+          10
+        ]
+      },
+      "expected": 10,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          10,
+          20,
+          20,
+          30
+        ]
+      },
+      "expected": 30,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          3,
+          3,
+          5,
+          7,
+          5,
+          7,
+          9
+        ]
+      },
+      "expected": 9,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -1,
+          -2
+        ]
+      },
+      "expected": -2,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          100000,
+          100000,
+          50000
+        ]
+      },
+      "expected": 50000,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          5,
+          7,
+          5,
+          7,
+          9
+        ]
+      },
+      "expected": 9,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          3,
+          3,
+          2,
+          2,
+          5
+        ]
+      },
+      "expected": 5,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          2147483647,
+          -2147483648,
+          -2147483648,
+          2147483647,
+          0
+        ]
+      },
+      "expected": 0,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          1,
+          0,
+          1,
+          2
+        ]
+      },
+      "expected": 2,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          100000,
+          100000,
+          -100000
+        ]
+      },
+      "expected": -100000,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          100000,
+          -100000,
+          100000
+        ]
+      },
+      "expected": -100000,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          1,
+          0,
+          1,
+          99
+        ]
+      },
+      "expected": 99,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          2,
+          2,
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          4,
+          1,
+          2,
+          1,
+          2
+        ]
+      },
+      "expected": 4,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          100,
+          100,
+          200,
+          200,
+          300,
+          300,
+          400,
+          400,
+          500,
+          500,
+          600
+        ]
+      },
+      "expected": 600,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          3,
+          3,
+          3,
+          3,
+          4,
+          4,
+          4,
+          4,
+          5,
+          5,
+          5,
+          5,
+          6,
+          6,
+          6,
+          6,
+          7,
+          7,
+          7,
+          7,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          10,
+          10,
+          10,
+          10,
+          11
+        ]
+      },
+      "expected": 11,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          1
+        ]
+      },
+      "expected": 21,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -1,
+          -2,
+          -2,
+          -3,
+          -3,
+          -4,
+          -4,
+          -5,
+          -5,
+          -6,
+          -6,
+          -7,
+          -7,
+          -8
+        ]
+      },
+      "expected": -8,
+      "function_call": "singleNumber(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          100,
+          100,
+          200,
+          200,
+          300,
+          300,
+          400,
+          400,
+          500,
+          500,
+          600,
+          600,
+          700,
+          700,
+          800,
+          800,
+          900,
+          900,
+          1000,
+          1000,
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "singleNumber(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

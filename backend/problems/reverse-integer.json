@@ -1,0 +1,181 @@
+{
+  "id": "reverse-integer",
+  "title": "Reverse Integer",
+  "difficulty": "medium",
+  "tags": [
+    "math"
+  ],
+  "description": "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.\nAssume the environment does not allow you to store 64-bit integers (signed or unsigned).\n \nExample 1:\n\nInput: x = 123\nOutput: 321\n\nExample 2:\n\nInput: x = -123\nOutput: -321\n\nExample 3:\n\nInput: x = 120\nOutput: 21\n\n \nConstraints:\n\n-231 <= x <= 231 - 1",
+  "starter_code": "def reverse(x: int) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "reverse",
+  "test_cases": [
+    {
+      "input": {
+        "x": -2147483412
+      },
+      "expected": -2143847412,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 2147483647
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 120
+      },
+      "expected": 21,
+      "function_call": "reverse(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "x": -123
+      },
+      "expected": -321,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 1534236469
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 0
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -2147483648
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -1534236469
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 123
+      },
+      "expected": 321,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -10
+      },
+      "expected": -1,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -100000
+      },
+      "expected": -1,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 10
+      },
+      "expected": 1,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -999999999
+      },
+      "expected": -999999999,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 1
+      },
+      "expected": 1,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 2147483646
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -123000
+      },
+      "expected": -321,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -900000
+      },
+      "expected": -9,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -100100100
+      },
+      "expected": -1001001,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -2147483647
+      },
+      "expected": 0,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -1010101010
+      },
+      "expected": -101010101,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 1000000001
+      },
+      "expected": 1000000001,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": -1
+      },
+      "expected": -1,
+      "function_call": "reverse(**test_input)"
+    },
+    {
+      "input": {
+        "x": 123000
+      },
+      "expected": 321,
+      "function_call": "reverse(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

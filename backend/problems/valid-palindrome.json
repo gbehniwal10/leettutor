@@ -1,0 +1,168 @@
+{
+  "id": "valid-palindrome",
+  "title": "Valid Palindrome",
+  "difficulty": "easy",
+  "tags": [
+    "two-pointers",
+    "string"
+  ],
+  "description": "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\nGiven a string s, return true if it is a palindrome, or false otherwise.\n \nExample 1:\n\nInput: s = \"A man, a plan, a canal: Panama\"\nOutput: true\nExplanation: \"amanaplanacanalpanama\" is a palindrome.\n\nExample 2:\n\nInput: s = \"race a car\"\nOutput: false\nExplanation: \"raceacar\" is not a palindrome.\n\nExample 3:\n\nInput: s = \" \"\nOutput: true\nExplanation: s is an empty string \"\" after removing non-alphanumeric characters.\nSince an empty string reads the same forward and backward, it is a palindrome.\n\n \nConstraints:\n\n1 <= s.length <= 2 * 105\ns consists only of printable ASCII characters.",
+  "starter_code": "def isPalindrome(s: str) -> bool:\n    # Your code here\n    pass\n",
+  "function_name": "isPalindrome",
+  "test_cases": [
+    {
+      "input": {
+        "s": "race a car"
+      },
+      "expected": false,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": " "
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Able was I ere I saw Elba"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "__Level__, __level__"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "No lemon, no melon"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "0P"
+      },
+      "expected": false,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "_a!a_"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Never odd or even"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "12345678987654321"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Was it a car or a cat I saw?"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "No 'x' in Nixon"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Able was I, I saw Elba"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "12321"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Not a palindrome"
+      },
+      "expected": false,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Able was I, ere I saw Elba"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "123abcba321"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Step on no pets"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "A man, a plan, a canal: Panama"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "Madam, in Eden, I'm Adam"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "123abccba321"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    },
+    {
+      "input": {
+        "s": "__^_^__"
+      },
+      "expected": true,
+      "function_call": "isPalindrome(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

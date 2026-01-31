@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Tutor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/editor/editor.main.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>LeetCode Tutor</h1>
+            <div class="controls">
+                <select id="mode-select">
+                    <option value="learning">Learning Mode</option>
+                    <option value="interview">Interview Mode</option>
+                </select>
+                <button id="new-problem-btn" class="btn btn-secondary">New Problem</button>
+                <button id="history-btn" class="btn btn-secondary">History</button>
+                <div id="timer" class="timer hidden">&#9201; <span id="timer-display">45:00</span></div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="problem-panel" id="problem-panel">
+                <div class="problem-header" id="problem-header">
+                    <h2 id="problem-title">Select a Problem</h2>
+                    <span id="problem-difficulty" class="difficulty"></span>
+                    <button id="toggle-problem" class="toggle-btn" title="Collapse problem panel">&#9664;</button>
+                </div>
+                <div id="problem-description" class="problem-description"></div>
+            </div>
+
+            <div class="resize-handle resize-handle-h" id="problem-panel-resize"></div>
+
+            <div class="center-panel">
+                <button id="expand-problem" class="expand-problem-btn" title="Show problem panel">&#9654;</button>
+                <div class="editor-section">
+                    <div id="editor" class="editor"></div>
+                </div>
+
+                <div class="actions">
+                    <button id="run-btn" class="btn btn-secondary" title="Run (Ctrl+Enter)">&#9654; Run</button>
+                    <button id="submit-btn" class="btn btn-primary" title="Submit (Ctrl+Shift+Enter)">Submit</button>
+                    <button id="hint-btn" class="btn btn-hint" title="Hint (Ctrl+H)">Hint</button>
+                </div>
+
+                <div class="resize-handle resize-handle-v" id="results-resize"></div>
+                <div id="test-results" class="test-results"></div>
+            </div>
+
+            <div class="resize-handle resize-handle-h" id="chat-panel-resize"></div>
+
+            <div class="right-panel">
+                <div id="ws-status" class="ws-status hidden">Reconnecting...</div>
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="chat-input-container">
+                    <textarea id="chat-input" placeholder="Ask for help, explain your thinking, or discuss your approach..." rows="3"></textarea>
+                    <button id="send-btn" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="problem-modal" class="modal hidden">
+        <div class="modal-content modal-wide">
+            <h2>Select a Problem</h2>
+            <div class="problem-filters">
+                <input type="text" id="problem-search" placeholder="Search problems..." class="filter-search">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-difficulty="all">All</button>
+                    <button class="filter-tab" data-difficulty="easy">Easy</button>
+                    <button class="filter-tab" data-difficulty="medium">Medium</button>
+                    <button class="filter-tab" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
+            <div id="problem-list" class="problem-list"></div>
+            <button id="close-modal" class="btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-content modal-wide">
+            <div class="history-header">
+                <h2 id="history-title">Session History</h2>
+                <button id="history-back" class="btn btn-secondary hidden">Back</button>
+                <button id="close-history" class="btn btn-secondary" style="margin-left:auto">Close</button>
+            </div>
+            <div id="session-list" class="session-list"></div>
+            <div id="session-detail" class="session-detail hidden"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>

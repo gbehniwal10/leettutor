@@ -1,0 +1,742 @@
+{
+  "id": "group-anagrams",
+  "title": "Group Anagrams",
+  "difficulty": "medium",
+  "tags": [
+    "array",
+    "hash-table",
+    "string",
+    "sorting"
+  ],
+  "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n \nExample 1:\n\nInput: strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]\nOutput: [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]\nExplanation:\n\nThere is no string in strs that can be rearranged to form \"bat\".\nThe strings \"nat\" and \"tan\" are anagrams as they can be rearranged to form each other.\nThe strings \"ate\", \"eat\", and \"tea\" are anagrams as they can be rearranged to form each other.\n\n\nExample 2:\n\nInput: strs = [\"\"]\nOutput: [[\"\"]]\n\nExample 3:\n\nInput: strs = [\"a\"]\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= strs.length <= 104\n0 <= strs[i].length <= 100\nstrs[i] consists of lowercase English letters.",
+  "starter_code": "def groupAnagrams(strs: List[str]) -> List[List[str]]:\n    # Your code here\n    pass\n",
+  "function_name": "groupAnagrams",
+  "test_cases": [
+    {
+      "input": {
+        "strs": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e"
+        ]
+      },
+      "expected": [
+        [
+          "a"
+        ],
+        [
+          "b"
+        ],
+        [
+          "c"
+        ],
+        [
+          "d"
+        ],
+        [
+          "e"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "abc",
+          "bca",
+          "cab",
+          "xyz",
+          "zyx",
+          "yxz"
+        ]
+      },
+      "expected": [
+        [
+          "abc",
+          "bca",
+          "cab"
+        ],
+        [
+          "xyz",
+          "zyx",
+          "yxz"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "abc",
+          "def",
+          "ghi",
+          "jkl"
+        ]
+      },
+      "expected": [
+        [
+          "abc"
+        ],
+        [
+          "def"
+        ],
+        [
+          "ghi"
+        ],
+        [
+          "jkl"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "strs": [
+          "abc",
+          "acb",
+          "bac",
+          "bca",
+          "cab",
+          "cba"
+        ]
+      },
+      "expected": [
+        [
+          "abc",
+          "acb",
+          "bac",
+          "bca",
+          "cab",
+          "cba"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "eat",
+          "tea",
+          "tan",
+          "ate",
+          "nat",
+          "bat"
+        ]
+      },
+      "expected": [
+        [
+          "eat",
+          "tea",
+          "ate"
+        ],
+        [
+          "tan",
+          "nat"
+        ],
+        [
+          "bat"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "listen",
+          "silent",
+          "enlist"
+        ]
+      },
+      "expected": [
+        [
+          "listen",
+          "silent",
+          "enlist"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "a"
+        ]
+      },
+      "expected": [
+        [
+          "a"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "aabb",
+          "bbaa",
+          "abab",
+          "baab",
+          "baba",
+          "abba",
+          "aaaa",
+          "bbbb"
+        ]
+      },
+      "expected": [
+        [
+          "aabb",
+          "bbaa",
+          "abab",
+          "baab",
+          "baba",
+          "abba"
+        ],
+        [
+          "aaaa"
+        ],
+        [
+          "bbbb"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "listen",
+          "silent",
+          "enlist",
+          "google",
+          "gooegl"
+        ]
+      },
+      "expected": [
+        [
+          "listen",
+          "silent",
+          "enlist"
+        ],
+        [
+          "google",
+          "gooegl"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "listen",
+          "silent",
+          "enlist",
+          "google",
+          "gooegl",
+          "rat",
+          "tar",
+          "art"
+        ]
+      },
+      "expected": [
+        [
+          "listen",
+          "silent",
+          "enlist"
+        ],
+        [
+          "google",
+          "gooegl"
+        ],
+        [
+          "rat",
+          "tar",
+          "art"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "abc",
+          "bac",
+          "cab",
+          "bca",
+          "acb",
+          "cba"
+        ]
+      },
+      "expected": [
+        [
+          "abc",
+          "bac",
+          "cab",
+          "bca",
+          "acb",
+          "cba"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "dormitory",
+          "dirtyroom",
+          "conversation",
+          "voicesranton",
+          "listen",
+          "silent"
+        ]
+      },
+      "expected": [
+        [
+          "dormitory",
+          "dirtyroom"
+        ],
+        [
+          "conversation",
+          "voicesranton"
+        ],
+        [
+          "listen",
+          "silent"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "e",
+          "f",
+          "g",
+          "h",
+          "i",
+          "j"
+        ]
+      },
+      "expected": [
+        [
+          "a"
+        ],
+        [
+          "b"
+        ],
+        [
+          "c"
+        ],
+        [
+          "d"
+        ],
+        [
+          "e"
+        ],
+        [
+          "f"
+        ],
+        [
+          "g"
+        ],
+        [
+          "h"
+        ],
+        [
+          "i"
+        ],
+        [
+          "j"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "hello",
+          "world",
+          "hold",
+          "olelh",
+          "dlrow",
+          "owrld"
+        ]
+      },
+      "expected": [
+        [
+          "hello",
+          "olelh"
+        ],
+        [
+          "world",
+          "dlrow",
+          "owrld"
+        ],
+        [
+          "hold"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "dormitory",
+          "dirtyroom",
+          "conversation",
+          "voicesranton",
+          "schoolmaster",
+          "theclassroom"
+        ]
+      },
+      "expected": [
+        [
+          "dormitory",
+          "dirtyroom"
+        ],
+        [
+          "conversation",
+          "voicesranton"
+        ],
+        [
+          "schoolmaster",
+          "theclassroom"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "hello",
+          "bello",
+          "olelh",
+          "world",
+          "dlrow",
+          "dlorw",
+          "droll"
+        ]
+      },
+      "expected": [
+        [
+          "hello",
+          "olelh"
+        ],
+        [
+          "bello"
+        ],
+        [
+          "world",
+          "dlrow",
+          "dlorw"
+        ],
+        [
+          "droll"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          ""
+        ]
+      },
+      "expected": [
+        [
+          ""
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "abcdefghijklmnopqrstuvwxyz",
+          "zyxwvutsrqponmlkjihgfedcba",
+          "cba",
+          "bca",
+          "bac",
+          "acb",
+          "cab",
+          "abc"
+        ]
+      },
+      "expected": [
+        [
+          "abcdefghijklmnopqrstuvwxyz",
+          "zyxwvutsrqponmlkjihgfedcba"
+        ],
+        [
+          "cba",
+          "bca",
+          "bac",
+          "acb",
+          "cab",
+          "abc"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "abc",
+          "abcd",
+          "abdc",
+          "bacd",
+          "badc",
+          "cabd",
+          "cadb",
+          "dcba",
+          "dcab",
+          "abcd",
+          "abdc",
+          "bacd",
+          "badc",
+          "cabd",
+          "cadb",
+          "dcba",
+          "dcab",
+          "abcd",
+          "abdc",
+          "bacd",
+          "badc",
+          "cabd",
+          "cadb",
+          "dcba",
+          "dcab"
+        ]
+      },
+      "expected": [
+        [
+          "abc"
+        ],
+        [
+          "abcd",
+          "abdc",
+          "bacd",
+          "badc",
+          "cabd",
+          "cadb",
+          "dcba",
+          "dcab",
+          "abcd",
+          "abdc",
+          "bacd",
+          "badc",
+          "cabd",
+          "cadb",
+          "dcba",
+          "dcab",
+          "abcd",
+          "abdc",
+          "bacd",
+          "badc",
+          "cabd",
+          "cadb",
+          "dcba",
+          "dcab"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "abcdefghijklmnopqrstuvwxyz",
+          "zyxwvutsrqponmlkjihgfedcba",
+          "mnopqrstuvwxyzabcdefghijkl",
+          "qrstuvwxyzaabcdefghijklmnop",
+          "hgfedcbazyxwvutsrqponmlkjijklmnopqrstuvwxyzabcde"
+        ]
+      },
+      "expected": [
+        [
+          "abcdefghijklmnopqrstuvwxyz",
+          "zyxwvutsrqponmlkjihgfedcba",
+          "mnopqrstuvwxyzabcdefghijkl"
+        ],
+        [
+          "qrstuvwxyzaabcdefghijklmnop"
+        ],
+        [
+          "hgfedcbazyxwvutsrqponmlkjijklmnopqrstuvwxyzabcde"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "dusty",
+          "study",
+          "night",
+          "thing",
+          "child",
+          "brink",
+          "drink",
+          "crimp",
+          "crimp",
+          "stick",
+          "smirk",
+          "smirk",
+          "smith",
+          "tinsy",
+          "stint"
+        ]
+      },
+      "expected": [
+        [
+          "dusty",
+          "study"
+        ],
+        [
+          "night",
+          "thing"
+        ],
+        [
+          "child"
+        ],
+        [
+          "brink"
+        ],
+        [
+          "drink"
+        ],
+        [
+          "crimp",
+          "crimp"
+        ],
+        [
+          "stick"
+        ],
+        [
+          "smirk",
+          "smirk"
+        ],
+        [
+          "smith"
+        ],
+        [
+          "tinsy"
+        ],
+        [
+          "stint"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "aabb",
+          "abab",
+          "baba",
+          "baab",
+          "abba",
+          "bbaa",
+          "aabb",
+          "abab",
+          "baba",
+          "baab",
+          "abba",
+          "bbaa"
+        ]
+      },
+      "expected": [
+        [
+          "aabb",
+          "abab",
+          "baba",
+          "baab",
+          "abba",
+          "bbaa",
+          "aabb",
+          "abab",
+          "baba",
+          "baab",
+          "abba",
+          "bbaa"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    },
+    {
+      "input": {
+        "strs": [
+          "apple",
+          "pepal",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe",
+          "appel",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe"
+        ]
+      },
+      "expected": [
+        [
+          "apple",
+          "pepal",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe",
+          "appel",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe",
+          "ppale",
+          "pplea",
+          "ppela",
+          "elppa",
+          "ppael",
+          "palpe"
+        ]
+      ],
+      "function_call": "groupAnagrams(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

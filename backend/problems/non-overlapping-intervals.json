@@ -1,0 +1,679 @@
+{
+  "id": "non-overlapping-intervals",
+  "title": "Non Overlapping Intervals",
+  "difficulty": "medium",
+  "tags": [
+    "greedy",
+    "array",
+    "dynamic-programming",
+    "sorting"
+  ],
+  "description": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.\nNote that intervals which only touch at a point are non-overlapping. For example, [1, 2] and [2, 3] are non-overlapping.\n \nExample 1:\n\nInput: intervals = [[1,2],[2,3],[3,4],[1,3]]\nOutput: 1\nExplanation: [1,3] can be removed and the rest of the intervals are non-overlapping.\n\nExample 2:\n\nInput: intervals = [[1,2],[1,2],[1,2]]\nOutput: 2\nExplanation: You need to remove two [1,2] to make the rest of the intervals non-overlapping.\n\nExample 3:\n\nInput: intervals = [[1,2],[2,3]]\nOutput: 0\nExplanation: You don't need to remove any of the intervals since they're already non-overlapping.\n\n \nConstraints:\n\n1 <= intervals.length <= 105\nintervals[i].length == 2\n-5 * 104 <= starti < endi <= 5 * 104",
+  "starter_code": "def eraseOverlapIntervals(intervals: List[List[int]]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "eraseOverlapIntervals",
+  "test_cases": [
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      },
+      "expected": 1,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -2,
+            -1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            -1,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            7,
+            8
+          ]
+        ]
+      },
+      "expected": 1,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            5
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -5,
+            -4
+          ],
+          [
+            -4,
+            -3
+          ],
+          [
+            -3,
+            -2
+          ],
+          [
+            -2,
+            -1
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -2,
+            -1
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            8,
+            9
+          ]
+        ]
+      },
+      "expected": 1,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            100
+          ],
+          [
+            11,
+            22
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            12
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            10
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            7,
+            9
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -5,
+            5
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": 1,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            6
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            3
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            9,
+            11
+          ],
+          [
+            11,
+            13
+          ],
+          [
+            13,
+            15
+          ],
+          [
+            15,
+            17
+          ],
+          [
+            17,
+            19
+          ],
+          [
+            19,
+            21
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -1,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            6
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            9
+          ]
+        ]
+      },
+      "expected": 4,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ]
+        ]
+      },
+      "expected": 1,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            6,
+            7
+          ]
+        ]
+      },
+      "expected": 0,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "expected": 6,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -10,
+            0
+          ],
+          [
+            -5,
+            -2
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            10
+          ]
+        ]
+      },
+      "expected": 1,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            1,
+            100
+          ],
+          [
+            2,
+            99
+          ],
+          [
+            3,
+            98
+          ],
+          [
+            4,
+            97
+          ],
+          [
+            5,
+            96
+          ],
+          [
+            6,
+            95
+          ],
+          [
+            7,
+            94
+          ],
+          [
+            8,
+            93
+          ],
+          [
+            9,
+            92
+          ],
+          [
+            10,
+            91
+          ]
+        ]
+      },
+      "expected": 9,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            -5,
+            0
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            10,
+            15
+          ],
+          [
+            -4,
+            1
+          ],
+          [
+            2,
+            8
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    },
+    {
+      "input": {
+        "intervals": [
+          [
+            5,
+            10
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            8,
+            10
+          ],
+          [
+            9,
+            12
+          ],
+          [
+            10,
+            14
+          ]
+        ]
+      },
+      "expected": 2,
+      "function_call": "eraseOverlapIntervals(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

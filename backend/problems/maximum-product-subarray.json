@@ -1,0 +1,333 @@
+{
+  "id": "maximum-product-subarray",
+  "title": "Maximum Product Subarray",
+  "difficulty": "medium",
+  "tags": [
+    "array",
+    "dynamic-programming"
+  ],
+  "description": "Given an integer array nums, find a subarray that has the largest product, and return the product.\nThe test cases are generated so that the answer will fit in a 32-bit integer.\n \nExample 1:\n\nInput: nums = [2,3,-2,4]\nOutput: 6\nExplanation: [2,3] has the largest product 6.\n\nExample 2:\n\nInput: nums = [-2,0,-1]\nOutput: 0\nExplanation: The result cannot be 2, because [-2,-1] is not a subarray.\n\n \nConstraints:\n\n1 <= nums.length <= 2 * 104\n-10 <= nums[i] <= 10\nThe product of any subarray of nums is guaranteed to fit in a 32-bit integer.",
+  "starter_code": "def maxProduct(nums: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "maxProduct",
+  "test_cases": [
+    {
+      "input": {
+        "nums": [
+          2,
+          -5,
+          -2,
+          -4,
+          3
+        ]
+      },
+      "expected": 24,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -2,
+          3,
+          -4
+        ]
+      },
+      "expected": 24,
+      "function_call": "maxProduct(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "nums": [
+          10,
+          -20,
+          0,
+          5,
+          1
+        ]
+      },
+      "expected": 10,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          3,
+          -1,
+          4
+        ]
+      },
+      "expected": 4,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -2,
+          -3,
+          0
+        ]
+      },
+      "expected": 6,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          2
+        ]
+      },
+      "expected": 2,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          2,
+          -3,
+          4,
+          -5,
+          6,
+          -7,
+          8,
+          -9,
+          10
+        ]
+      },
+      "expected": 3628800,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          2,
+          3,
+          -2,
+          4
+        ]
+      },
+      "expected": 6,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          -1,
+          4
+        ]
+      },
+      "expected": 4,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          2,
+          0
+        ]
+      },
+      "expected": 2,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -2,
+          -3,
+          -4
+        ]
+      },
+      "expected": 24,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1
+        ]
+      },
+      "expected": -1,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -2,
+          0,
+          -1
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -2,
+          3,
+          -4,
+          5,
+          7,
+          -8,
+          2,
+          3
+        ]
+      },
+      "expected": 20160,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 120,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected": 3628800,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          2,
+          3,
+          -2,
+          4,
+          -1,
+          5
+        ]
+      },
+      "expected": 240,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -10,
+          0,
+          10,
+          20,
+          30,
+          -40,
+          50,
+          60,
+          -70,
+          80
+        ]
+      },
+      "expected": 4032000000000,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          0
+        ]
+      },
+      "expected": 0,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          2,
+          3,
+          -2,
+          4,
+          -1,
+          5,
+          6
+        ]
+      },
+      "expected": 1440,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
+      },
+      "expected": 1,
+      "function_call": "maxProduct(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          -10,
+          20,
+          -20,
+          30,
+          -30,
+          40,
+          -40,
+          50
+        ]
+      },
+      "expected": 2880000000000,
+      "function_call": "maxProduct(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

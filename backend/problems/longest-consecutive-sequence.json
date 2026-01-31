@@ -1,0 +1,372 @@
+{
+  "id": "longest-consecutive-sequence",
+  "title": "Longest Consecutive Sequence",
+  "difficulty": "medium",
+  "tags": [
+    "union-find",
+    "array",
+    "hash-table"
+  ],
+  "description": "Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.\nYou must write an algorithm that runs in O(n) time.\n \nExample 1:\n\nInput: nums = [100,4,200,1,3,2]\nOutput: 4\nExplanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.\n\nExample 2:\n\nInput: nums = [0,3,7,2,5,8,4,6,0,1]\nOutput: 9\n\nExample 3:\n\nInput: nums = [1,0,1,2]\nOutput: 3\n\n \nConstraints:\n\n0 <= nums.length <= 105\n-109 <= nums[i] <= 109",
+  "starter_code": "def longestConsecutive(nums: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "longestConsecutive",
+  "test_cases": [
+    {
+      "input": {
+        "nums": [
+          -1,
+          -2,
+          -3,
+          -4
+        ]
+      },
+      "expected": 4,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          5,
+          12,
+          3,
+          9,
+          7,
+          8,
+          11
+        ]
+      },
+      "expected": 6,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          9,
+          3,
+          10,
+          4,
+          20,
+          2
+        ]
+      },
+      "expected": 4,
+      "function_call": "longestConsecutive(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "nums": [
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 10,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          5,
+          12,
+          3,
+          14,
+          7,
+          16,
+          20,
+          18,
+          11,
+          9,
+          8,
+          13,
+          6,
+          4,
+          19,
+          15,
+          17,
+          2,
+          1
+        ]
+      },
+      "expected": 20,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "expected": 10,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1
+        ]
+      },
+      "expected": 1,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          5,
+          12,
+          3,
+          7,
+          8,
+          9,
+          2,
+          1,
+          0
+        ]
+      },
+      "expected": 4,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1000000000,
+          -1000000000,
+          500000000,
+          -500000000
+        ]
+      },
+      "expected": 1,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -2,
+          -3,
+          -4,
+          -5
+        ]
+      },
+      "expected": 5,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": 1,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19
+        ]
+      },
+      "expected": 1,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "expected": 5,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          10,
+          5,
+          12,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          2,
+          4,
+          6,
+          8
+        ]
+      },
+      "expected": 12,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -10,
+          -9,
+          -8,
+          -7,
+          -6,
+          -5,
+          -4,
+          -3,
+          -2,
+          -1
+        ]
+      },
+      "expected": 10,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          100,
+          4,
+          200,
+          1,
+          3,
+          2
+        ]
+      },
+      "expected": 4,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": []
+      },
+      "expected": 0,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          3,
+          7,
+          2,
+          5,
+          8,
+          4,
+          6,
+          0,
+          1
+        ]
+      },
+      "expected": 9,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          5,
+          4,
+          3,
+          2,
+          1
+        ]
+      },
+      "expected": 5,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          0,
+          1
+        ]
+      },
+      "expected": 3,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          0,
+          1,
+          2
+        ]
+      },
+      "expected": 3,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -2,
+          -3,
+          -4,
+          -5,
+          -6,
+          -7,
+          -8,
+          -9,
+          -10
+        ]
+      },
+      "expected": 10,
+      "function_call": "longestConsecutive(**test_input)"
+    },
+    {
+      "input": {
+        "nums": [
+          1000000000,
+          -1000000000,
+          0
+        ]
+      },
+      "expected": 1,
+      "function_call": "longestConsecutive(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}

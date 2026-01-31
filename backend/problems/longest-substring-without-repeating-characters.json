@@ -1,0 +1,183 @@
+{
+  "id": "longest-substring-without-repeating-characters",
+  "title": "Longest Substring Without Repeating Characters",
+  "difficulty": "medium",
+  "tags": [
+    "hash-table",
+    "string",
+    "sliding-window"
+  ],
+  "description": "Given a string s, find the length of the longest substring without repeating characters.\n \nExample 1:\n\nInput: s = \"abcabcbb\"\nOutput: 3\nExplanation: The answer is \"abc\", with the length of 3.\n\nExample 2:\n\nInput: s = \"bbbbb\"\nOutput: 1\nExplanation: The answer is \"b\", with the length of 1.\n\nExample 3:\n\nInput: s = \"pwwkew\"\nOutput: 3\nExplanation: The answer is \"wke\", with the length of 3.\nNotice that the answer must be a substring, \"pwke\" is a subsequence and not a substring.\n\n \nConstraints:\n\n0 <= s.length <= 5 * 104\ns consists of English letters, digits, symbols and spaces.",
+  "starter_code": "def lengthOfLongestSubstring(s: str) -> int:\n    # Your code here\n    pass\n",
+  "function_name": "lengthOfLongestSubstring",
+  "test_cases": [
+    {
+      "input": {
+        "s": "abcabcbb"
+      },
+      "expected": 3,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "bbbbb"
+      },
+      "expected": 1,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "pwwkew"
+      },
+      "expected": 3,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    }
+  ],
+  "hidden_test_cases": [
+    {
+      "input": {
+        "s": "abcdabcabcabcd"
+      },
+      "expected": 4,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdefgabcdefgabcdefgabcdefg"
+      },
+      "expected": 7,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbccddeeff"
+      },
+      "expected": 2,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "sldfjldskfjdslkfjsdkljflkjsdfljfsdlkflskdjflsdjflskdjflsdkjflsdfjlsd"
+      },
+      "expected": 6,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "racecar"
+      },
+      "expected": 4,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdefghijklmnopqrstuvwxyz"
+      },
+      "expected": 26,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabacbebebe"
+      },
+      "expected": 4,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "ekdvdfis"
+      },
+      "expected": 5,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz1234567890abcdefghijklmnopqrstuvwxyz"
+      },
+      "expected": 36,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abbaabbaabba"
+      },
+      "expected": 2,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz"
+      },
+      "expected": 2,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdefghihgfedcba"
+      },
+      "expected": 9,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdeffedcba"
+      },
+      "expected": 6,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "aaaaaaaabbbbbbbccccccdddddeeeeeeffffffffggggggg"
+      },
+      "expected": 2,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "tmmzuxt"
+      },
+      "expected": 5,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "nfpdmpi"
+      },
+      "expected": 5,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "anviaj"
+      },
+      "expected": 5,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdeabcde"
+      },
+      "expected": 5,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "abcdabcabcd"
+      },
+      "expected": 4,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    },
+    {
+      "input": {
+        "s": "dvdf"
+      },
+      "expected": 3,
+      "function_call": "lengthOfLongestSubstring(**test_input)"
+    }
+  ],
+  "hints": [],
+  "optimal_complexity": {
+    "time": "",
+    "space": ""
+  }
+}
