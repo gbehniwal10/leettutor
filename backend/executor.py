@@ -261,7 +261,7 @@ class CodeExecutor:
         marker = secrets.token_hex(16)
 
         # Compute line offset so we can map errors back to user code lines
-        pre_code = f'\n{rlimit_code}\nimport json\nimport time\nimport sys\nimport io\nimport os\n\n{helper_code}\n\n'
+        pre_code = f'\n{rlimit_code}\nimport json\nimport time\nimport sys\nimport io\nimport os\nfrom typing import List, Optional, Dict, Tuple, Set\n\n{helper_code}\n\n'
         user_code_offset = pre_code.count('\n')
         user_code_num_lines = code.count('\n') + 1
 
@@ -272,6 +272,7 @@ import time
 import sys
 import io
 import os
+from typing import List, Optional, Dict, Tuple, Set
 
 {helper_code}
 

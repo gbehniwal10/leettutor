@@ -256,3 +256,33 @@ class SessionLogger:
             return None
 
         return await asyncio.to_thread(_read)
+
+    async def patch_session(self, session_id: str, **updates) -> bool:
+        """Atomically update fields on a session file.
+
+        Used by REST endpoints that don't hold the session as current_session.
+        Returns True if the session was found and updated.
+        """
+        if not _is_valid_session_id(session_id):
+            return False
+        filepath = (self.sessions_dir / f"{session_id}.json").resolve()
+        if not filepath.is_relative_to(self.sessions_dir):
+            return False
+
+        def _patch():
+            if not filepath.exists():
+                return False
+            with open(filepath) as f:
+                data = json.load(f)
+            data.update(updates)
+            tmp_fd, tmp_path = tempfile.mkstemp(dir=str(self.sessions_dir), suffix=".tmp")
+            try:
+                with os.fdopen(tmp_fd, "w") as f:
+                    json.dump(data, f, indent=2)
+                os.replace(tmp_path, filepath)
+            except BaseException:
+                os.unlink(tmp_path)
+                raise
+            return True
+
+        return await asyncio.to_thread(_patch)

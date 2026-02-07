@@ -671,6 +671,7 @@ function initEventListeners() {
     document.getElementById('run-btn').addEventListener('click', runCode);
     document.getElementById('submit-btn').addEventListener('click', submitCode);
     document.getElementById('reset-btn').addEventListener('click', () => resetCodeWithConfirm());
+    document.getElementById('restart-btn').addEventListener('click', () => restartSessionWithConfirm());
     document.getElementById('hint-btn').addEventListener('click', requestHint);
     document.getElementById('send-btn').addEventListener('click', sendMessage);
     document.getElementById('history-btn').addEventListener('click', showHistoryModal);
@@ -1016,6 +1017,9 @@ function toggleProblemDescription() {
 
 function startSession() {
     clearResumeState();
+    // Clear whiteboard for new session
+    if (_whiteboardSaveTimeout) { clearTimeout(_whiteboardSaveTimeout); _whiteboardSaveTimeout = null; }
+    if (window.excalidrawBridge) window.excalidrawBridge.clear();
     if (!wsSend({ type: 'start_session', problem_id: state.currentProblem.id, mode: state.mode })) {
         addChatMessage('system', 'WebSocket not connected. Trying to reconnect...');
         return;
@@ -1179,6 +1183,13 @@ async function handleSessionResumed(data) {
         } else {
             startTimer();
         }
+    }
+
+    // Restore whiteboard state
+    if (data.whiteboard_state && window.excalidrawBridge && window.excalidrawBridge.restoreState) {
+        window.excalidrawBridge.restoreState(data.whiteboard_state);
+    } else if (window.excalidrawBridge && window.excalidrawBridge.clear) {
+        window.excalidrawBridge.clear();
     }
 }
 
@@ -1905,15 +1916,22 @@ function updateZenStatusBar() {
 }
 
 function initZenMode() {
-    // Wire onChange to apply zen mode
+    const zenToggleBtn = document.getElementById('zen-toggle-btn');
+
+    // Wire onChange to apply zen mode and sync button state
     settingsManager.onChange('zenMode', (enabled) => {
         applyZenMode(enabled);
+        if (zenToggleBtn) zenToggleBtn.classList.toggle('active', enabled);
     });
 
     // Apply on load if already enabled
     if (settingsManager.get('zenMode')) {
         applyZenMode(true);
+        if (zenToggleBtn) zenToggleBtn.classList.add('active');
     }
+
+    // Wire the actions-bar zen toggle button
+    if (zenToggleBtn) zenToggleBtn.addEventListener('click', toggleZenMode);
 
     // Wire zen status bar buttons
     const zenRunBtn = document.getElementById('zen-run-btn');
@@ -2161,6 +2179,53 @@ async function endSessionWithConfirm() {
     }
 }
 
+async function restartSession() {
+    if (!state.currentProblem) return;
+    const oldSessionId = state.sessionId;
+
+    // End the current session
+    endSession();
+
+    // Delete the old session file so it doesn't clutter history
+    if (oldSessionId) {
+        try {
+            await fetch('/api/sessions/' + oldSessionId, { method: 'DELETE' });
+        } catch (e) { /* best-effort */ }
+    }
+
+    // Clear test results
+    const resultsEl = document.getElementById('test-results');
+    if (resultsEl) resultsEl.innerHTML = '';
+
+    // Reset code to starter
+    resetCode();
+
+    // Start a fresh session on the same problem
+    startSession();
+}
+
+async function restartSessionWithConfirm() {
+    if (!state.sessionId) return;
+
+    if (!settingsManager.get('confirmDestructive')) {
+        await restartSession();
+        return;
+    }
+
+    const problemTitle = state.currentProblem ? state.currentProblem.title : 'this problem';
+
+    const confirmed = await showConfirmDialog({
+        title: 'Restart from scratch?',
+        message: 'Restart "' + problemTitle + '"? This will erase your code, chat, and session history for this attempt.',
+        confirmLabel: 'Restart',
+        cancelLabel: 'Keep Going',
+    });
+
+    if (confirmed) {
+        await restartSession();
+    }
+}
+
 function initFrictionDialogs() {
     // beforeunload when session is active
     window.addEventListener('beforeunload', (e) => {
@@ -2193,9 +2258,13 @@ class InactivityDetector {
         this.onInactive = onInactive;
         this.onFlailing = onFlailing;
         this.lastActivity = Date.now();
+        this.lastRealActivity = Date.now(); // only real user actions, never nudge resets
         this.lastNudgeTime = 0;
+        this._nudgesSinceActivity = 0; // count nudges between real user actions
+        this._maxNudgesBeforeActivity = 3; // stop after 3 nudges with no user response
         this._intervalId = null;
         this._nudgeCooldownMs = 2 * 60 * 1000; // 2-minute cooldown between nudges
+        this._abandonThresholdMs = 30 * 60 * 1000; // stop nudging after 30 min of no real activity
         this.suppressed = false; // suppress after problem solved
 
         // Flailing detection state
@@ -2218,6 +2287,8 @@ class InactivityDetector {
 
     recordActivity() {
         this.lastActivity = Date.now();
+        this.lastRealActivity = Date.now();
+        this._nudgesSinceActivity = 0;
     }
 
     recordError(errorMessage) {
@@ -2249,6 +2320,13 @@ class InactivityDetector {
         if (threshold <= 0) return; // disabled
 
         var now = Date.now();
+
+        // Stop nudging entirely if user has been gone for 30+ minutes
+        if ((now - this.lastRealActivity) >= this._abandonThresholdMs) return;
+
+        // Stop after N nudges with no real user activity in between
+        if (this._nudgesSinceActivity >= this._maxNudgesBeforeActivity) return;
+
         // Enforce cooldown
         if ((now - this.lastNudgeTime) < this._nudgeCooldownMs) return;
 
@@ -2258,6 +2336,7 @@ class InactivityDetector {
         if (idleMs >= thresholdMs) {
             this.lastNudgeTime = now;
             this.lastActivity = now; // reset so it doesn't fire continuously
+            this._nudgesSinceActivity++;
             if (this.onInactive) {
                 this.onInactive(Math.round(idleMs / 1000));
             }
@@ -2268,6 +2347,10 @@ class InactivityDetector {
         if (!this._isActive()) return;
 
         var now = Date.now();
+
+        // Stop nudging entirely if user has been gone for 30+ minutes
+        if ((now - this.lastRealActivity) >= this._abandonThresholdMs) return;
+
         // Enforce cooldown
         if ((now - this.lastNudgeTime) < this._nudgeCooldownMs) return;
 
@@ -3819,5 +3902,190 @@ function switchToPanel(panelName, mainEl, switcherButtons) {
     });
     if (panelName === 'editor' && state.editorReady && state.editor) {
         requestAnimationFrame(() => { state.editor.layout(); });
+    }
+}
+
+// ============================================================
+// Excalidraw Whiteboard
+// ============================================================
+
+let _whiteboardSavedHeight = null;
+let _whiteboardSavedPanelWidth = null;
+const _WHITEBOARD_MIN_PANEL_WIDTH = 770;
+
+function initWhiteboard() {
+    const section = document.getElementById('whiteboard-section');
+    const toggleBtn = document.getElementById('whiteboard-toggle-btn');
+    const sendBtn = document.getElementById('send-to-tutor-btn');
+    const clearBtn = document.getElementById('whiteboard-clear-btn');
+    const resizeHandle = document.getElementById('whiteboard-resize');
+    if (!section || !toggleBtn) return;
+
+    toggleBtn.addEventListener('click', () => {
+        if (section.classList.contains('collapsed')) {
+            expandWhiteboard();
+        } else {
+            collapseWhiteboard();
+        }
+    });
+
+    if (sendBtn) {
+        sendBtn.addEventListener('click', sendWhiteboardToTutor);
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (window.excalidrawBridge) {
+                window.excalidrawBridge.clear();
+            }
+        });
+    }
+
+    // Vertical resize for whiteboard
+    if (resizeHandle) {
+        initResize(resizeHandle, 'vertical', {
+            getSize: () => section.getBoundingClientRect().height,
+            setSize: (val) => { section.style.height = val + 'px'; },
+            getDelta: (startPos, e) => e.clientY - startPos,
+            min: 100,
+            max: () => {
+                const rightPanel = document.querySelector('.right-panel');
+                return rightPanel ? rightPanel.getBoundingClientRect().height - 80 : 400;
+            },
+        });
+    }
+
+    // Wire up auto-save on whiteboard changes
+    const _waitForBridge = setInterval(() => {
+        if (window.excalidrawBridge && window.excalidrawBridge.setOnChangeCallback) {
+            window.excalidrawBridge.setOnChangeCallback(_onWhiteboardChange);
+            clearInterval(_waitForBridge);
+        }
+    }, 500);
+}
+
+function expandWhiteboard() {
+    const section = document.getElementById('whiteboard-section');
+    if (!section) return;
+    section.classList.remove('collapsed');
+    const rightPanel = document.querySelector('.right-panel');
+    const height = _whiteboardSavedHeight || (rightPanel ? rightPanel.getBoundingClientRect().height * 0.5 : 300);
+    section.style.height = height + 'px';
+    // Widen the right panel so Excalidraw gets its desktop toolbar
+    if (rightPanel) {
+        const currentWidth = rightPanel.getBoundingClientRect().width;
+        if (currentWidth < _WHITEBOARD_MIN_PANEL_WIDTH) {
+            _whiteboardSavedPanelWidth = currentWidth;
+            rightPanel.style.width = _WHITEBOARD_MIN_PANEL_WIDTH + 'px';
+        }
+    }
+    const toggleBtn = document.getElementById('whiteboard-toggle-btn');
+    if (toggleBtn) toggleBtn.innerHTML = '&#9660;';
+}
+
+function collapseWhiteboard() {
+    const section = document.getElementById('whiteboard-section');
+    if (!section) return;
+    _whiteboardSavedHeight = section.getBoundingClientRect().height;
+    section.classList.add('collapsed');
+    section.style.height = '';
+    // Restore original right panel width
+    if (_whiteboardSavedPanelWidth !== null) {
+        const rightPanel = document.querySelector('.right-panel');
+        if (rightPanel) rightPanel.style.width = _whiteboardSavedPanelWidth + 'px';
+        _whiteboardSavedPanelWidth = null;
+    }
+    const toggleBtn = document.getElementById('whiteboard-toggle-btn');
+    if (toggleBtn) toggleBtn.innerHTML = '&#9650;';
+}
+
+async function sendWhiteboardToTutor() {
+    if (!window.excalidrawBridge) {
+        addChatMessage('system', 'Whiteboard is not loaded yet.');
+        return;
+    }
+    const count = window.excalidrawBridge.getElementCount();
+    if (count === 0) {
+        addChatMessage('system', 'Whiteboard is empty. Draw something first.');
+        return;
+    }
+    if (!state.sessionId) {
+        addChatMessage('system', 'Start a session first before sending a drawing.');
+        return;
+    }
+
+    const sendBtn = document.getElementById('send-to-tutor-btn');
+    if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = 'Sending...'; }
+
+    try {
+        const blob = await window.excalidrawBridge.exportToPng();
+        if (!blob) {
+            addChatMessage('system', 'Failed to export whiteboard.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', blob, 'whiteboard.png');
+        formData.append('session_id', state.sessionId);
+
+        const headers = {};
+        if (state.authToken) {
+            headers['Authorization'] = 'Bearer ' + state.authToken;
+        }
+
+        const resp = await fetch('/api/whiteboard-image', {
+            method: 'POST',
+            headers,
+            body: formData,
+        });
+
+        if (!resp.ok) {
+            const err = await resp.json().catch(() => ({}));
+            addChatMessage('system', 'Failed to upload drawing: ' + (err.detail || resp.statusText));
+            return;
+        }
+
+        // Tell the tutor to look at the drawing
+        addChatMessage('user', '[Sent a whiteboard drawing]');
+        wsSend({
+            type: 'message',
+            content: 'I just saved a whiteboard drawing to ./whiteboard.png — please read and analyze it. Describe what you see and help me with my approach.',
+            code: getEditorValue(),
+        });
+    } catch (e) {
+        console.error('sendWhiteboardToTutor error:', e);
+        addChatMessage('system', 'Error sending drawing: ' + e.message);
+    } finally {
+        if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = 'Send to Tutor'; }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initWhiteboard);
+
+// ---- Whiteboard state persistence ----
+let _whiteboardSaveTimeout = null;
+const _WHITEBOARD_SAVE_DEBOUNCE_MS = 3000;
+
+function _onWhiteboardChange() {
+    if (!state.sessionId) return;
+    if (_whiteboardSaveTimeout) clearTimeout(_whiteboardSaveTimeout);
+    _whiteboardSaveTimeout = setTimeout(_saveWhiteboardState, _WHITEBOARD_SAVE_DEBOUNCE_MS);
+}
+
+async function _saveWhiteboardState() {
+    if (!state.sessionId || !window.excalidrawBridge) return;
+    const stateData = window.excalidrawBridge.getState();
+    try {
+        const headers = { 'Content-Type': 'application/json', ...authHeaders() };
+        const resp = await fetch(`/api/sessions/${state.sessionId}/whiteboard-state`, {
+            method: 'PUT',
+            headers,
+            body: JSON.stringify({ whiteboard_state: stateData }),
+        });
+        if (!resp.ok) {
+            console.warn('Failed to save whiteboard state:', resp.status);
+        }
+    } catch (e) {
+        console.warn('Failed to save whiteboard state:', e);
     }
 }

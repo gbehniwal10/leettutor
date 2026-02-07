@@ -4,7 +4,7 @@ if sys.platform == "win32":
     asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
 import asyncio
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Depends, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -152,12 +152,55 @@ _problem_history = ProblemHistory(BASE_DIR / "problem_history.json")
 _api_session_logger = SessionLogger(sessions_dir=SESSIONS_DIR)
 
 # Static files
+DIST_DIR = FRONTEND_DIR / "dist"
+_has_dist = DIST_DIR.is_dir() and (DIST_DIR / ".vite" / "manifest.json").exists()
+
 app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
+
+if _has_dist:
+    app.mount("/assets", StaticFiles(directory=str(DIST_DIR / "assets")), name="assets")
+
+
+def _get_excalidraw_tags() -> tuple[str, str]:
+    """Read the Vite manifest to get the built excalidraw entry point and CSS."""
+    if not _has_dist:
+        return "", ""
+    try:
+        manifest_path = DIST_DIR / ".vite" / "manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        entry = manifest.get("src/excalidraw-island.jsx", {})
+        js_file = entry.get("file")
+        css_files = entry.get("css", [])
+        script_tag = ""
+        css_tags = ""
+        if js_file:
+            script_tag = f'<script type="module" src="/assets/{js_file.split("assets/")[-1]}"></script>'
+        for css_file in css_files:
+            css_tags += f'<link rel="stylesheet" href="/assets/{css_file.split("assets/")[-1]}">'
+        return script_tag, css_tags
+    except Exception:
+        logger.warning("Failed to read Vite manifest for excalidraw tags")
+    return "", ""
+
+
+_excalidraw_script_tag, _excalidraw_css_tags = _get_excalidraw_tags()
 
 
 @app.get("/")
 async def index():
-    return FileResponse(str(FRONTEND_DIR / "index.html"))
+    from starlette.responses import HTMLResponse
+    html_path = FRONTEND_DIR / "index.html"
+    html = html_path.read_text()
+    if _has_dist and _excalidraw_script_tag:
+        # Replace the dev-mode script tag with the production one
+        html = html.replace(
+            '<script type="module" src="/src/excalidraw-island.jsx"></script>',
+            _excalidraw_script_tag,
+        )
+        # Inject CSS before closing </head>
+        if _excalidraw_css_tags:
+            html = html.replace('</head>', _excalidraw_css_tags + '</head>')
+    return HTMLResponse(html)
 
 
 # --- API Routes ---
@@ -313,6 +356,52 @@ async def api_submit(req: RunRequest):
     return results
 
 
+_MAX_WHITEBOARD_SIZE = 5 * 1024 * 1024  # 5 MB
+_PNG_MAGIC = b'\x89PNG\r\n\x1a\n'
+
+
+@app.post("/api/whiteboard-image", dependencies=[Depends(require_auth)])
+async def api_whiteboard_image(
+    image: UploadFile = File(...),
+    session_id: str = Form(...),
+):
+    if not _is_valid_session_id(session_id):
+        raise HTTPException(status_code=400, detail="Invalid session_id")
+    workspace = WORKSPACE_DIR / session_id
+    if not workspace.is_dir():
+        raise HTTPException(status_code=404, detail="Session workspace not found")
+    data = await image.read()
+    if len(data) > _MAX_WHITEBOARD_SIZE:
+        raise HTTPException(status_code=413, detail="Image too large (max 5MB)")
+    if not data[:8].startswith(_PNG_MAGIC):
+        raise HTTPException(status_code=400, detail="Invalid image format (PNG required)")
+    dest = workspace / "whiteboard.png"
+    dest.write_bytes(data)
+    return {"ok": True, "path": str(dest)}
+
+
+_MAX_WHITEBOARD_STATE_SIZE = 2 * 1024 * 1024  # 2 MB
+
+
+class WhiteboardStateRequest(BaseModel):
+    whiteboard_state: dict | None = None
+
+
+@app.put("/api/sessions/{session_id}/whiteboard-state", dependencies=[Depends(require_auth)])
+async def api_save_whiteboard_state(session_id: str, req: WhiteboardStateRequest):
+    if not _is_valid_session_id(session_id):
+        raise HTTPException(status_code=400, detail="Invalid session_id")
+    serialized = json.dumps(req.whiteboard_state) if req.whiteboard_state else ""
+    if len(serialized) > _MAX_WHITEBOARD_STATE_SIZE:
+        raise HTTPException(status_code=413, detail="Whiteboard state too large (max 2MB)")
+    updated = await _api_session_logger.patch_session(
+        session_id, whiteboard_state=req.whiteboard_state
+    )
+    if not updated:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return {"ok": True}
+
+
 @app.post("/api/pattern-explain", dependencies=[Depends(require_auth)])
 async def api_pattern_explain(req: PatternExplainRequest):
     problem = get_problem(req.problem_id)
@@ -420,6 +509,8 @@ async def websocket_chat(websocket: WebSocket):
     _last_editor_code: str | None = None
     _ws_alive = True
     _chat_lock = asyncio.Lock()  # Serializes streaming responses to prevent interleaving
+    _last_real_activity: float = time.time()  # tracks real user actions for nudge gating
+    _NUDGE_ABANDON_SECS = 30 * 60  # stop nudging after 30 min of no real user activity
 
     async def safe_send(data: dict) -> bool:
         """Send JSON, return False if client disconnected."""
@@ -448,6 +539,10 @@ async def websocket_chat(websocket: WebSocket):
             if not msg_type:
                 await websocket.send_json({"type": "error", "content": "Missing message type."})
                 continue
+
+            # Track real user activity (everything except nudge_request)
+            if msg_type != "nudge_request":
+                _last_real_activity = time.time()
 
             try:
                 if msg_type == "start_session":
@@ -605,6 +700,11 @@ async def websocket_chat(websocket: WebSocket):
                             await session_logger.log_hint_requested()
 
                 elif msg_type == "nudge_request":
+                    # Server-side guard: don't nudge if user has been gone 30+ min
+                    if (time.time() - _last_real_activity) >= _NUDGE_ABANDON_SECS:
+                        logger.debug("Ignoring nudge_request: user inactive for 30+ min")
+                        continue
+
                     trigger = msg.get("trigger", "inactivity")
                     context = msg.get("context", {})
 
@@ -666,6 +766,7 @@ async def websocket_chat(websocket: WebSocket):
                             "interview_phase": parked.interview_phase,
                             "time_remaining": parked.time_remaining,
                             "chat_history": parked_chat_history,
+                            "whiteboard_state": parked_session_data.get("whiteboard_state") if parked_session_data else None,
                         })
                         logger.info("Seamless resume for session %s", resume_sid)
                     else:
@@ -783,6 +884,7 @@ async def websocket_chat(websocket: WebSocket):
                             "interview_phase": tutor.interview_phase if tutor else None,
                             "time_remaining": session_data.get("time_remaining"),
                             "chat_history": chat_history,
+                            "whiteboard_state": session_data.get("whiteboard_state"),
                         })
                         logger.info("Cold resume (%s) for session %s", resume_type, resume_sid)
 

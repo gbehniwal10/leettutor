@@ -151,7 +151,7 @@ body {
 [data-theme="sepia"] .expand-problem-btn:hover { background: #268bd2; }
 [data-theme="low-distraction"] .expand-problem-btn:hover { background: #7a9abf; }
 
-.right-panel { width: 350px; min-width: 200px; max-width: 50%; display: flex; flex-direction: column; overflow: hidden; }
+.right-panel { width: 350px; min-width: 200px; max-width: 60%; display: flex; flex-direction: column; overflow: hidden; }
 
 .problem-header {
     display: flex; flex-direction: column; gap: 4px;
@@ -196,6 +196,11 @@ body {
 [data-theme="sepia"] .btn-secondary:hover { background: #d9d0b4; }
 [data-theme="low-distraction"] .btn-secondary:hover { background: #454545; }
 .btn-hint { background: var(--difficulty-medium-bg); color: var(--accent-yellow); margin-left: auto; }
+.btn-restart { color: var(--accent-red); }
+.btn-zen-toggle { background: var(--bg-tertiary); color: var(--text-secondary); font-size: 0.8rem; padding: 8px 10px; }
+.btn-zen-toggle:hover { color: var(--text-primary); background: #2b4a3e; }
+.btn-zen-toggle.active { background: #2f9e44; color: #fff; }
+.btn-zen-toggle.active:hover { background: #27862e; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .ws-status {
@@ -1404,6 +1409,82 @@ body.zen-mode .center-panel {
 }
 
 /* ============================================================
+   Excalidraw Whiteboard
+   ============================================================ */
+
+.whiteboard-section {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: height 0.2s ease;
+}
+
+.whiteboard-section.collapsed {
+    height: auto !important;
+    min-height: 0 !important;
+    flex-shrink: 0;
+}
+
+.whiteboard-section.collapsed .excalidraw-container {
+    display: none;
+}
+
+.whiteboard-section.collapsed .whiteboard-toolbar .btn {
+    display: none;
+}
+
+.whiteboard-section.collapsed + .resize-handle-v {
+    display: none;
+}
+
+.whiteboard-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.whiteboard-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-right: auto;
+}
+
+.whiteboard-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.whiteboard-toggle-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+}
+
+.excalidraw-container {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}
+
+.chat-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 80px;
+    overflow: hidden;
+}
+
+/* ============================================================
    Ticket 53: Login Modal
    ============================================================ */
 
@@ -1555,6 +1636,18 @@ body.zen-mode .center-panel {
     .main[data-active-panel="chat"] .problem-panel { display: none !important; }
     .main[data-active-panel="chat"] .center-panel { display: none !important; }
     .main[data-active-panel="chat"] .right-panel { display: flex; flex: 1; }
+    .main[data-active-panel="chat"] .whiteboard-section { display: none !important; }
+    .main[data-active-panel="chat"] #whiteboard-resize { display: none !important; }
+
+    .main[data-active-panel="draw"] .problem-panel { display: none !important; }
+    .main[data-active-panel="draw"] .center-panel { display: none !important; }
+    .main[data-active-panel="draw"] .right-panel { display: flex; flex: 1; }
+    .main[data-active-panel="draw"] .whiteboard-section { display: flex !important; flex: 1; height: auto !important; }
+    .main[data-active-panel="draw"] .whiteboard-section.collapsed { height: auto !important; min-height: 0 !important; }
+    .main[data-active-panel="draw"] .whiteboard-section.collapsed .whiteboard-toolbar,
+    .main[data-active-panel="draw"] .whiteboard-section.collapsed .excalidraw-container { display: flex !important; }
+    .main[data-active-panel="draw"] .chat-section { display: none !important; }
+    .main[data-active-panel="draw"] #whiteboard-resize { display: none !important; }
 
     /* Modals: fit screen */
     .modal-content {

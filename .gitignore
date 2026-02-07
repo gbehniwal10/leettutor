@@ -10,3 +10,6 @@ desktop.ini
 nul
 *Zone.Identifier
 problem_history.json
+node_modules/
+frontend/dist/
+frontend/node_modules/

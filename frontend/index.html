@@ -46,6 +46,7 @@
             <button class="panel-switcher-btn active" data-panel="problem">Problem</button>
             <button class="panel-switcher-btn" data-panel="editor">Editor</button>
             <button class="panel-switcher-btn" data-panel="chat">Chat</button>
+            <button class="panel-switcher-btn" data-panel="draw">Draw</button>
         </nav>
 
         <main class="main">
@@ -84,7 +85,9 @@
                     <button id="run-btn" class="btn btn-secondary" title="Run (Ctrl+Enter)">&#9654; Run</button>
                     <button id="submit-btn" class="btn btn-primary" title="Submit (Ctrl+Shift+Enter)">Submit</button>
                     <button id="reset-btn" class="btn btn-secondary" title="Reset code to starter">Reset</button>
+                    <button id="restart-btn" class="btn btn-secondary btn-restart" title="Restart session from scratch">Restart</button>
                     <button id="hint-btn" class="btn btn-hint" title="Hint (Ctrl+H)">Hint</button>
+                    <button id="zen-toggle-btn" class="btn btn-zen-toggle" title="Zen Mode (Ctrl+Shift+Z)">Zen</button>
                 </div>
 
                 <div class="resize-handle resize-handle-v" id="results-resize"></div>
@@ -105,11 +108,23 @@
             <div class="resize-handle resize-handle-h" id="chat-panel-resize"></div>
 
             <div class="right-panel">
-                <div id="ws-status" class="ws-status hidden">Reconnecting...</div>
-                <div id="chat-messages" class="chat-messages"></div>
-                <div class="chat-input-container">
-                    <textarea id="chat-input" placeholder="Ask for help, explain your thinking, or discuss your approach..." rows="3"></textarea>
-                    <button id="send-btn" class="btn btn-primary">Send</button>
+                <div id="whiteboard-section" class="whiteboard-section collapsed">
+                    <div class="whiteboard-toolbar">
+                        <span class="whiteboard-title">Whiteboard</span>
+                        <button id="send-to-tutor-btn" class="btn btn-secondary btn-sm" title="Send drawing to tutor">Send to Tutor</button>
+                        <button id="whiteboard-clear-btn" class="btn btn-secondary btn-sm" title="Clear whiteboard">Clear</button>
+                        <button id="whiteboard-toggle-btn" class="whiteboard-toggle-btn" title="Toggle whiteboard">&#9650;</button>
+                    </div>
+                    <div id="excalidraw-root" class="excalidraw-container"></div>
+                </div>
+                <div class="resize-handle resize-handle-v" id="whiteboard-resize"></div>
+                <div class="chat-section">
+                    <div id="ws-status" class="ws-status hidden">Reconnecting...</div>
+                    <div id="chat-messages" class="chat-messages"></div>
+                    <div class="chat-input-container">
+                        <textarea id="chat-input" placeholder="Ask for help, explain your thinking, or discuss your approach..." rows="3"></textarea>
+                        <button id="send-btn" class="btn btn-primary">Send</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -227,13 +242,6 @@
                         <span class="settings-chevron">&#9660;</span>
                     </button>
                     <div class="settings-section-content">
-                        <div class="settings-row">
-                            <label for="setting-zenMode">Zen Mode</label>
-                            <label class="settings-toggle">
-                                <input type="checkbox" id="setting-zenMode" data-setting="zenMode">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
                         <div class="settings-row">
                             <label for="setting-inactivityNudgeMinutes">Inactivity Nudge</label>
                             <div class="settings-range-group">
@@ -390,5 +398,6 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
     <script src="/static/app.js"></script>
+    <script type="module" src="/src/excalidraw-island.jsx"></script>
 </body>
 </html>
