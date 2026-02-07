@@ -8,7 +8,7 @@
     "linked-list",
     "two-pointers"
   ],
-  "description": "You are given the head of a singly linked-list. The list can be represented as:\n\nL0 → L1 → … → Ln - 1 → Ln\n\nReorder the list to be on the following form:\n\nL0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …\n\nYou may not modify the values in the list's nodes. Only nodes themselves may be changed.\n \nExample 1:\n\n\nInput: head = [1,2,3,4]\nOutput: [1,4,2,3]\n\nExample 2:\n\n\nInput: head = [1,2,3,4,5]\nOutput: [1,5,2,4,3]\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [1, 5 * 104].\n1 <= Node.val <= 1000",
+  "description": "You are given the head of a singly linked-list. The list can be represented as:\n\nL0 → L1 → … → Ln - 1 → Ln\n\nReorder the list to be on the following form:\n\nL0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …\n\nYou may not modify the values in the list's nodes. Only nodes themselves may be changed.\n\n**Example 1:**\n\n```\nInput: head = [1,2,3,4]\nOutput: [1,4,2,3]\n\n```\n**Example 2:**\n\n```\nInput: head = [1,2,3,4,5]\nOutput: [1,5,2,4,3]\n\n```\n**Constraints:**\n\n- `The number of nodes in the list is in the range [1, 5 * 104].`\n- `1 <= Node.val <= 1000`\n",
   "starter_code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n    def reorderList(head: Optional[ListNode]) -> None:\n    \"\"\"\n    Do not return anything, modify head in-place instead.\n    \"\"\"\n",
   "function_name": "reorderList",
   "test_cases": [

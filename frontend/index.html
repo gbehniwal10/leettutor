@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeetCode Tutor</title>
+    <script>
+        (function() {
+            try {
+                var raw = localStorage.getItem('leettutor_settings');
+                var s = raw ? JSON.parse(raw) : {};
+                document.documentElement.setAttribute('data-theme', s.theme || 'dark');
+                document.documentElement.setAttribute('data-reduced-motion', s.reducedMotion || 'system');
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.setAttribute('data-reduced-motion', 'system');
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/editor/editor.main.min.css">
 </head>
@@ -15,19 +28,46 @@
                 <select id="mode-select">
                     <option value="learning">Learning Mode</option>
                     <option value="interview">Interview Mode</option>
+                    <option value="pattern-quiz">Pattern Quiz</option>
                 </select>
+                <label id="enhanced-toggle" class="enhanced-toggle hidden">
+                    <input type="checkbox" id="enhanced-mode-checkbox">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Enhanced (Claude)</span>
+                </label>
+                <button id="settings-btn" class="btn btn-secondary" title="Settings" aria-label="Open settings">&#9881;</button>
                 <button id="new-problem-btn" class="btn btn-secondary">New Problem</button>
                 <button id="history-btn" class="btn btn-secondary">History</button>
                 <div id="timer" class="timer hidden">&#9201; <span id="timer-display">45:00</span></div>
             </div>
         </header>
 
+        <nav class="panel-switcher" id="panel-switcher">
+            <button class="panel-switcher-btn active" data-panel="problem">Problem</button>
+            <button class="panel-switcher-btn" data-panel="editor">Editor</button>
+            <button class="panel-switcher-btn" data-panel="chat">Chat</button>
+        </nav>
+
         <main class="main">
             <div class="problem-panel" id="problem-panel">
                 <div class="problem-header" id="problem-header">
-                    <h2 id="problem-title">Select a Problem</h2>
-                    <span id="problem-difficulty" class="difficulty"></span>
-                    <button id="toggle-problem" class="toggle-btn" title="Collapse problem panel">&#9664;</button>
+                    <div class="problem-header-title">
+                        <h2 id="problem-title">Select a Problem</h2>
+                        <button id="toggle-problem" class="toggle-btn" title="Collapse problem panel" aria-label="Collapse problem panel">&#9664;</button>
+                    </div>
+                    <div class="problem-header-meta">
+                        <span id="problem-difficulty" class="difficulty"></span>
+                        <span id="problem-solved-badge" class="solved-badge hidden">&#10003; Solved</span>
+                        <button id="tts-btn" class="tts-btn hidden" title="Read aloud" aria-label="Read problem aloud">&#128266;</button>
+                        <div id="tts-speed-control" class="tts-speed-control hidden">
+                            <select id="tts-speed-select" title="Reading speed">
+                                <option value="0.75">0.75x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="1.25">1.25x</option>
+                                <option value="1.5">1.5x</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div id="problem-description" class="problem-description"></div>
             </div>
@@ -35,7 +75,7 @@
             <div class="resize-handle resize-handle-h" id="problem-panel-resize"></div>
 
             <div class="center-panel">
-                <button id="expand-problem" class="expand-problem-btn" title="Show problem panel">&#9654;</button>
+                <button id="expand-problem" class="expand-problem-btn" title="Show problem panel" aria-label="Show problem panel">&#9654;</button>
                 <div class="editor-section">
                     <div id="editor" class="editor"></div>
                 </div>
@@ -43,11 +83,23 @@
                 <div class="actions">
                     <button id="run-btn" class="btn btn-secondary" title="Run (Ctrl+Enter)">&#9654; Run</button>
                     <button id="submit-btn" class="btn btn-primary" title="Submit (Ctrl+Shift+Enter)">Submit</button>
+                    <button id="reset-btn" class="btn btn-secondary" title="Reset code to starter">Reset</button>
                     <button id="hint-btn" class="btn btn-hint" title="Hint (Ctrl+H)">Hint</button>
                 </div>
 
                 <div class="resize-handle resize-handle-v" id="results-resize"></div>
                 <div id="test-results" class="test-results"></div>
+
+                <div id="pattern-quiz-panel" class="pattern-quiz-panel hidden">
+                    <h3>What pattern solves this problem?</h3>
+                    <div id="pattern-buttons" class="pattern-buttons"></div>
+                    <div id="pattern-feedback" class="pattern-feedback hidden"></div>
+                    <div id="pattern-explanation" class="pattern-explanation hidden"></div>
+                    <div class="pattern-actions">
+                        <button id="next-problem-btn" class="btn btn-primary hidden">Next Problem</button>
+                        <div id="pattern-stats" class="pattern-stats"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="resize-handle resize-handle-h" id="chat-panel-resize"></div>
@@ -63,16 +115,22 @@
         </main>
     </div>
 
-    <div id="problem-modal" class="modal hidden">
+    <div id="problem-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Select a Problem">
         <div class="modal-content modal-wide">
             <h2>Select a Problem</h2>
             <div class="problem-filters">
                 <input type="text" id="problem-search" placeholder="Search problems..." class="filter-search">
-                <div class="filter-tabs">
-                    <button class="filter-tab active" data-difficulty="all">All</button>
-                    <button class="filter-tab" data-difficulty="easy">Easy</button>
-                    <button class="filter-tab" data-difficulty="medium">Medium</button>
-                    <button class="filter-tab" data-difficulty="hard">Hard</button>
+                <div class="filter-tabs difficulty-filters">
+                    <button class="filter-tab difficulty-tab active" data-difficulty="all">All</button>
+                    <button class="filter-tab difficulty-tab" data-difficulty="easy">Easy</button>
+                    <button class="filter-tab difficulty-tab" data-difficulty="medium">Medium</button>
+                    <button class="filter-tab difficulty-tab" data-difficulty="hard">Hard</button>
+                </div>
+                <div class="filter-tabs status-filters">
+                    <button class="filter-tab status-tab active" data-status="all">All</button>
+                    <button class="filter-tab status-tab" data-status="solved">Solved</button>
+                    <button class="filter-tab status-tab" data-status="attempted">Attempted</button>
+                    <button class="filter-tab status-tab" data-status="unsolved">Unsolved</button>
                 </div>
             </div>
             <div id="problem-list" class="problem-list"></div>
@@ -80,7 +138,7 @@
         </div>
     </div>
 
-    <div id="history-modal" class="modal hidden">
+    <div id="history-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Session History">
         <div class="modal-content modal-wide">
             <div class="history-header">
                 <h2 id="history-title">Session History</h2>
@@ -92,8 +150,245 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <div id="login-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Login Required">
+        <div class="modal-content login-modal-content">
+            <h2>Login Required</h2>
+            <p class="login-subtitle">Enter the password to access LeetCode Tutor.</p>
+            <input type="password" id="login-password" placeholder="Password" class="filter-search login-password-input">
+            <p id="login-error" class="login-error"></p>
+            <button id="login-btn" class="btn btn-primary login-submit-btn">Login</button>
+        </div>
+    </div>
+
+
+    <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Settings">
+        <div class="modal-content settings-modal-content">
+            <div class="settings-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="settings-close-btn" title="Close settings" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="settings-body">
+                <div class="settings-section" data-section="appearance">
+                    <button class="settings-section-header" aria-expanded="true">
+                        <span>Appearance</span>
+                        <span class="settings-chevron">&#9660;</span>
+                    </button>
+                    <div class="settings-section-content">
+                        <div class="settings-row">
+                            <label for="setting-theme">Theme</label>
+                            <select id="setting-theme" data-setting="theme">
+                                <option value="dark">Dark</option>
+                                <option value="sepia">Sepia</option>
+                                <option value="low-distraction">Low Distraction</option>
+                            </select>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-editorFontSize">Editor Font Size</label>
+                            <div class="settings-range-group">
+                                <input type="range" id="setting-editorFontSize" data-setting="editorFontSize" min="12" max="24" step="1">
+                                <span class="settings-range-value" id="setting-editorFontSize-value">14</span>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-editorFontFamily">Editor Font</label>
+                            <select id="setting-editorFontFamily" data-setting="editorFontFamily">
+                                <option value="default">Default</option>
+                                <option value="jetbrains-mono">JetBrains Mono</option>
+                                <option value="fira-code">Fira Code</option>
+                                <option value="comic-mono">Comic Mono</option>
+                            </select>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-editorLineHeight">Line Height</label>
+                            <div class="settings-range-group">
+                                <input type="range" id="setting-editorLineHeight" data-setting="editorLineHeight" min="1.2" max="2.0" step="0.1">
+                                <span class="settings-range-value" id="setting-editorLineHeight-value">1.5</span>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-editorLigatures">Editor Ligatures</label>
+                            <label class="settings-toggle">
+                                <input type="checkbox" id="setting-editorLigatures" data-setting="editorLigatures">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-uiFontSize">UI Font Size</label>
+                            <div class="settings-range-group">
+                                <input type="range" id="setting-uiFontSize" data-setting="uiFontSize" min="13" max="20" step="1">
+                                <span class="settings-range-value" id="setting-uiFontSize-value">14px</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section" data-section="focus">
+                    <button class="settings-section-header" aria-expanded="true">
+                        <span>Focus</span>
+                        <span class="settings-chevron">&#9660;</span>
+                    </button>
+                    <div class="settings-section-content">
+                        <div class="settings-row">
+                            <label for="setting-zenMode">Zen Mode</label>
+                            <label class="settings-toggle">
+                                <input type="checkbox" id="setting-zenMode" data-setting="zenMode">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-inactivityNudgeMinutes">Inactivity Nudge</label>
+                            <div class="settings-range-group">
+                                <input type="range" id="setting-inactivityNudgeMinutes" data-setting="inactivityNudgeMinutes" min="0" max="10" step="1">
+                                <span class="settings-range-value" id="setting-inactivityNudgeMinutes-value">2 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section" data-section="audio">
+                    <button class="settings-section-header" aria-expanded="true">
+                        <span>Audio</span>
+                        <span class="settings-chevron">&#9660;</span>
+                    </button>
+                    <div class="settings-section-content">
+                        <div class="settings-row">
+                            <label for="setting-ambientSound">Ambient Sound</label>
+                            <select id="setting-ambientSound" data-setting="ambientSound">
+                                <option value="off">Off</option>
+                                <option value="brown-noise">Brown Noise</option>
+                                <option value="pink-noise">Pink Noise</option>
+                            </select>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-ambientVolume">Volume</label>
+                            <div class="settings-range-group">
+                                <input type="range" id="setting-ambientVolume" data-setting="ambientVolume" min="0" max="1" step="0.05">
+                                <span class="settings-range-value" id="setting-ambientVolume-value">30%</span>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-earcons">Earcons</label>
+                            <label class="settings-toggle">
+                                <input type="checkbox" id="setting-earcons" data-setting="earcons">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-earconVolume">Earcon Volume</label>
+                            <div class="settings-range-group">
+                                <input type="range" id="setting-earconVolume" data-setting="earconVolume" min="0" max="1" step="0.05">
+                                <span class="settings-range-value" id="setting-earconVolume-value">30%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section" data-section="accessibility">
+                    <button class="settings-section-header" aria-expanded="true">
+                        <span>Accessibility</span>
+                        <span class="settings-chevron">&#9660;</span>
+                    </button>
+                    <div class="settings-section-content">
+                        <div class="settings-row">
+                            <label for="setting-reducedMotion">Reduced Motion</label>
+                            <select id="setting-reducedMotion" data-setting="reducedMotion">
+                                <option value="system">System Default</option>
+                                <option value="on">On</option>
+                                <option value="off">Off</option>
+                            </select>
+                        </div>
+                        <div class="settings-row">
+                            <label for="setting-confirmDestructive">Confirm Destructive Actions</label>
+                            <label class="settings-toggle">
+                                <input type="checkbox" id="setting-confirmDestructive" data-setting="confirmDestructive">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button id="settings-reset-all" class="btn btn-secondary">Reset All to Defaults</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resume-dialog" class="resume-dialog hidden" role="dialog" aria-modal="true" aria-label="Resume Session">
+        <div class="resume-dialog-content">
+            <p id="resume-dialog-text"></p>
+            <p id="resume-dialog-mode" class="resume-dialog-mode"></p>
+            <div class="resume-dialog-buttons">
+                <button id="resume-dialog-resume" class="btn btn-primary">Resume Session</button>
+                <button id="resume-dialog-fresh" class="btn btn-secondary">Start Fresh</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="zen-status-bar" class="zen-status-bar hidden">
+        <span id="zen-problem-title" class="zen-problem-title">No problem selected</span>
+        <div class="zen-status-actions">
+            <button id="zen-run-btn" class="btn btn-secondary btn-sm" title="Run (Ctrl+Enter)">Run</button>
+            <button id="zen-submit-btn" class="btn btn-primary btn-sm" title="Submit (Ctrl+Shift+Enter)">Submit</button>
+            <button id="zen-hint-btn" class="btn btn-hint btn-sm" title="Hint">Hint</button>
+            <span id="zen-timer" class="zen-timer hidden"><span id="zen-timer-display"></span></span>
+            <button id="zen-exit-btn" class="btn btn-secondary btn-sm" title="Exit Zen Mode (Ctrl+Shift+Z)">Exit Zen</button>
+        </div>
+    </div>
+
+    <div id="confirm-dialog-overlay" class="confirm-dialog-overlay hidden">
+        <div class="confirm-dialog" role="dialog" aria-modal="true">
+            <h3 id="confirm-dialog-title" class="confirm-dialog-title">Are you sure?</h3>
+            <p id="confirm-dialog-message" class="confirm-dialog-message"></p>
+            <p id="confirm-dialog-detail" class="confirm-dialog-detail"></p>
+            <div class="confirm-dialog-buttons">
+                <button id="confirm-dialog-cancel" class="btn btn-primary">Cancel</button>
+                <button id="confirm-dialog-confirm" class="btn btn-secondary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket 32: Streak Display -->
+    <div id="streak-display" class="streak-display hidden">
+        <button id="streak-badge" class="streak-badge" title="View streak details" aria-label="View streak details">
+            <span class="streak-fire">&#128293;</span>
+            <span id="streak-count" class="streak-count">0</span>
+            <span class="streak-label">day streak</span>
+            <span id="streak-freeze-badge" class="streak-freeze-badge hidden">&#10052; <span id="streak-freeze-count">0</span></span>
+        </button>
+    </div>
+
+    <!-- Ticket 32: Streak Detail Popover -->
+    <div id="streak-popover" class="streak-popover hidden">
+        <div class="streak-popover-content">
+            <div class="streak-popover-header">
+                <h3>Practice Streak</h3>
+                <button id="streak-popover-close" class="streak-popover-close" title="Close streak details" aria-label="Close streak details">&times;</button>
+            </div>
+            <div class="streak-stats-row">
+                <div class="streak-stat">
+                    <span class="streak-stat-value" id="streak-current-val">0</span>
+                    <span class="streak-stat-label">Current</span>
+                </div>
+                <div class="streak-stat">
+                    <span class="streak-stat-value" id="streak-longest-val">0</span>
+                    <span class="streak-stat-label">Longest</span>
+                </div>
+                <div class="streak-stat">
+                    <span class="streak-stat-value" id="streak-freezes-val">0</span>
+                    <span class="streak-stat-label">Freezes &#10052;</span>
+                </div>
+            </div>
+            <div id="streak-calendar" class="streak-calendar"></div>
+            <div id="streak-repair-info" class="streak-repair-info hidden"></div>
+        </div>
+    </div>
+
+    <!-- Ticket 32: Streak Repair Banner -->
+    <div id="streak-repair-banner" class="streak-repair-banner hidden"></div>
+
+    <!-- Ticket 32: Streak Milestone Toast -->
+    <div id="streak-milestone-toast" class="streak-milestone-toast hidden"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
     <script src="/static/app.js"></script>
 </body>
 </html>

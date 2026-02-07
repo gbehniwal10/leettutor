@@ -5,7 +5,7 @@
   "tags": [
     "dynamic-programming"
   ],
-  "description": "\nYou are climbing a staircase. It takes `n` steps to reach the top.\n\nEach time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?\n\n**Example 1:**\n```\nInput: n = 2\nOutput: 2\nExplanation: There are two ways: 1+1 and 2.\n```\n\n**Example 2:**\n```\nInput: n = 3\nOutput: 3\nExplanation: There are three ways: 1+1+1, 1+2, and 2+1.\n```\n\n**Constraints:**\n- 1 <= n <= 45\n",
+  "description": "You are climbing a staircase. It takes `n` steps to reach the top.\n\nEach time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?\n\n**Example 1:**\n\n```\nInput: n = 2\nOutput: 2\nExplanation: There are two ways: 1+1 and 2.\n\n```\n**Example 2:**\n\n```\nInput: n = 3\nOutput: 3\nExplanation: There are three ways: 1+1+1, 1+2, and 2+1.\n\n```\n**Constraints:**\n- 1 <= n <= 45\n",
   "starter_code": "def climbStairs(n: int) -> int:\n    # Your code here\n    pass\n",
   "function_name": "climbStairs",
   "test_cases": [
@@ -50,7 +50,7 @@
   "hints": [
     "How many ways can you reach step n if you know the answer for steps n-1 and n-2?",
     "This is very similar to the Fibonacci sequence.",
-    "You only need to track the last two values \u2014 no array needed."
+    "You only need to track the last two values — no array needed."
   ],
   "optimal_complexity": {
     "time": "O(n)",

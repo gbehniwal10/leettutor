@@ -5,7 +5,7 @@
   "tags": [
     "array"
   ],
-  "description": "\nGiven an integer array `nums`, return an array `answer` such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`.\n\nYou must write an algorithm that runs in O(n) time and **without using the division operation**.\n\n**Example 1:**\n```\nInput: nums = [1,2,3,4]\nOutput: [24,12,8,6]\n```\n\n**Example 2:**\n```\nInput: nums = [-1,1,0,-3,3]\nOutput: [0,0,9,0,0]\n```\n\n**Constraints:**\n- 2 <= nums.length <= 10^5\n- -30 <= nums[i] <= 30\n- The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.\n",
+  "description": "Given an integer array `nums`, return an array `answer` such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`.\n\nYou must write an algorithm that runs in O(n) time and **without using the division operation**.\n\n**Example 1:**\n\n```\nInput: nums = [1,2,3,4]\nOutput: [24,12,8,6]\n\n```\n**Example 2:**\n\n```\nInput: nums = [-1,1,0,-3,3]\nOutput: [0,0,9,0,0]\n\n```\n**Constraints:**\n- 2 <= nums.length <= 10^5\n- -30 <= nums[i] <= 30\n- The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.\n",
   "starter_code": "def productExceptSelf(nums: list[int]) -> list[int]:\n    # Your code here\n    pass\n",
   "function_name": "productExceptSelf",
   "test_cases": [

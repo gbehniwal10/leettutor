@@ -6,7 +6,7 @@
     "array",
     "sorting"
   ],
-  "description": "Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.\n \nExample 1:\nInput: intervals = [[0,30],[5,10],[15,20]]\nOutput: false\nExample 2:\nInput: intervals = [[7,10],[2,4]]\nOutput: true\n\n \nConstraints:\n\n0 <= intervals.length <= 104\nintervals[i].length == 2\n0 <= starti < endi <= 106",
+  "description": "Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.\n\n**Example 1:**\n\n```\nInput: intervals = [[0,30],[5,10],[15,20]]\nOutput: false\n\n```\n**Example 2:**\n\n```\nInput: intervals = [[7,10],[2,4]]\nOutput: true\n\n```\n**Constraints:**\n\n- `0 <= intervals.length <= 104`\n- `intervals[i].length == 2`\n- `0 <= starti < endi <= 106`\n",
   "starter_code": "def canAttendMeetings(intervals: List[List[int]]) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "canAttendMeetings",
   "test_cases": [

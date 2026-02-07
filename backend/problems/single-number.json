@@ -6,7 +6,7 @@
     "bit-manipulation",
     "array"
   ],
-  "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n \nExample 1:\n\nInput: nums = [2,2,1]\nOutput: 1\n\nExample 2:\n\nInput: nums = [4,1,2,1,2]\nOutput: 4\n\nExample 3:\n\nInput: nums = [1]\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-3 * 104 <= nums[i] <= 3 * 104\nEach element in the array appears twice except for one element which appears only once.",
+  "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n\n**Example 1:**\n\n```\nInput: nums = [2,2,1]\nOutput: 1\n\n```\n**Example 2:**\n\n```\nInput: nums = [4,1,2,1,2]\nOutput: 4\n\n```\n**Example 3:**\n\n```\nInput: nums = [1]\nOutput: 1\n\n```\n**Constraints:**\n\n- `1 <= nums.length <= 3 * 104`\n- `-3 * 104 <= nums[i] <= 3 * 104`\n- `Each element in the array appears twice except for one element which appears only once.`\n",
   "starter_code": "def singleNumber(nums: List[int]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "singleNumber",
   "test_cases": [

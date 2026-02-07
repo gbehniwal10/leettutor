@@ -7,7 +7,7 @@
     "string",
     "simulation"
   ],
-  "description": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\nNote: You must not use any built-in BigInteger library or convert the inputs to integer directly.\n \nExample 1:\nInput: num1 = \"2\", num2 = \"3\"\nOutput: \"6\"\nExample 2:\nInput: num1 = \"123\", num2 = \"456\"\nOutput: \"56088\"\n\n \nConstraints:\n\n1 <= num1.length, num2.length <= 200\nnum1 and num2 consist of digits only.\nBoth num1 and num2 do not contain any leading zero, except the number 0 itself.",
+  "description": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\n\n**Note:** You must not use any built-in BigInteger library or convert the inputs to integer directly.\n\n**Example 1:**\n\n```\nInput: num1 = \"2\", num2 = \"3\"\nOutput: \"6\"\n\n```\n**Example 2:**\n\n```\nInput: num1 = \"123\", num2 = \"456\"\nOutput: \"56088\"\n\n```\n**Constraints:**\n\n- `1 <= num1.length, num2.length <= 200`\n- `num1 and num2 consist of digits only.`\n- `Both num1 and num2 do not contain any leading zero, except the number 0 itself.`\n",
   "starter_code": "def multiply(num1: str, num2: str) -> str:\n    # Your code here\n    pass\n",
   "function_name": "multiply",
   "test_cases": [

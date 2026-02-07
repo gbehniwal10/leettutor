@@ -7,7 +7,7 @@
     "matrix",
     "simulation"
   ],
-  "description": "Given an m x n matrix, return all elements of the matrix in spiral order.\n \nExample 1:\n\n\nInput: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,3,6,9,8,7,4,5]\n\nExample 2:\n\n\nInput: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]\nOutput: [1,2,3,4,8,12,11,10,9,5,6,7]\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 10\n-100 <= matrix[i][j] <= 100",
+  "description": "Given an m x n matrix, return all elements of the matrix in spiral order.\n\n**Example 1:**\n\n```\nInput: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,3,6,9,8,7,4,5]\n\n```\n**Example 2:**\n\n```\nInput: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]\nOutput: [1,2,3,4,8,12,11,10,9,5,6,7]\n\n```\n**Constraints:**\n\n- `m == matrix.length`\n- `n == matrix[i].length`\n- `1 <= m, n <= 10`\n- `-100 <= matrix[i][j] <= 100`\n",
   "starter_code": "def spiralOrder(matrix: List[List[int]]) -> List[int]:\n    # Your code here\n    pass\n",
   "function_name": "spiralOrder",
   "test_cases": [

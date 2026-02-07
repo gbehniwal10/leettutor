@@ -7,7 +7,7 @@
     "dynamic-programming",
     "backtracking"
   ],
-  "description": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.\n \nExample 1:\nInput: s = \"aab\"\nOutput: [[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]\nExample 2:\nInput: s = \"a\"\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= s.length <= 16\ns contains only lowercase English letters.",
+  "description": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.\n\n**Example 1:**\n\n```\nInput: s = \"aab\"\nOutput: [[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]\n\n```\n**Example 2:**\n\n```\nInput: s = \"a\"\nOutput: [[\"a\"]]\n\n```\n**Constraints:**\n\n- `1 <= s.length <= 16`\n- `s contains only lowercase English letters.`\n",
   "starter_code": "def partition(s: str) -> List[List[str]]:\n    # Your code here\n    pass\n",
   "function_name": "partition",
   "test_cases": [
