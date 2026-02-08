@@ -39,7 +39,7 @@
           "e"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -60,11 +60,11 @@
         ],
         [
           "xyz",
-          "zyx",
-          "yxz"
+          "yxz",
+          "zyx"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -89,7 +89,7 @@
           "jkl"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     }
   ],
   "hidden_test_cases": [
@@ -114,7 +114,7 @@
           "cba"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -129,19 +129,19 @@
       },
       "expected": [
         [
+          "ate",
           "eat",
-          "tea",
-          "ate"
-        ],
-        [
-          "tan",
-          "nat"
+          "tea"
         ],
         [
           "bat"
+        ],
+        [
+          "nat",
+          "tan"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -153,12 +153,12 @@
       },
       "expected": [
         [
+          "enlist",
           "listen",
-          "silent",
-          "enlist"
+          "silent"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -171,7 +171,7 @@
           "a"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -188,21 +188,21 @@
       },
       "expected": [
         [
-          "aabb",
-          "bbaa",
-          "abab",
-          "baab",
-          "baba",
-          "abba"
+          "aaaa"
         ],
         [
-          "aaaa"
+          "aabb",
+          "abab",
+          "abba",
+          "baab",
+          "baba",
+          "bbaa"
         ],
         [
           "bbbb"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -216,16 +216,16 @@
       },
       "expected": [
         [
+          "enlist",
           "listen",
-          "silent",
-          "enlist"
+          "silent"
         ],
         [
-          "google",
-          "gooegl"
+          "gooegl",
+          "google"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -242,21 +242,21 @@
       },
       "expected": [
         [
-          "listen",
-          "silent",
-          "enlist"
-        ],
-        [
-          "google",
-          "gooegl"
-        ],
-        [
+          "art",
           "rat",
-          "tar",
-          "art"
+          "tar"
+        ],
+        [
+          "enlist",
+          "listen",
+          "silent"
+        ],
+        [
+          "gooegl",
+          "google"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -272,14 +272,14 @@
       "expected": [
         [
           "abc",
-          "bac",
-          "cab",
-          "bca",
           "acb",
+          "bac",
+          "bca",
+          "cab",
           "cba"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -294,19 +294,19 @@
       },
       "expected": [
         [
-          "dormitory",
-          "dirtyroom"
-        ],
-        [
           "conversation",
           "voicesranton"
+        ],
+        [
+          "dirtyroom",
+          "dormitory"
         ],
         [
           "listen",
           "silent"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -355,7 +355,7 @@
           "j"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -370,19 +370,19 @@
       },
       "expected": [
         [
-          "hello",
-          "olelh"
+          "dlrow",
+          "owrld",
+          "world"
         ],
         [
-          "world",
-          "dlrow",
-          "owrld"
+          "hello",
+          "olelh"
         ],
         [
           "hold"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -397,19 +397,19 @@
       },
       "expected": [
         [
-          "dormitory",
-          "dirtyroom"
-        ],
-        [
           "conversation",
           "voicesranton"
+        ],
+        [
+          "dirtyroom",
+          "dormitory"
         ],
         [
           "schoolmaster",
           "theclassroom"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -425,22 +425,22 @@
       },
       "expected": [
         [
-          "hello",
-          "olelh"
-        ],
-        [
           "bello"
         ],
         [
-          "world",
+          "dlorw",
           "dlrow",
-          "dlorw"
+          "world"
         ],
         [
           "droll"
+        ],
+        [
+          "hello",
+          "olelh"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -453,7 +453,7 @@
           ""
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -470,19 +470,19 @@
       },
       "expected": [
         [
-          "abcdefghijklmnopqrstuvwxyz",
-          "zyxwvutsrqponmlkjihgfedcba"
+          "abc",
+          "acb",
+          "bac",
+          "bca",
+          "cab",
+          "cba"
         ],
         [
-          "cba",
-          "bca",
-          "bac",
-          "acb",
-          "cab",
-          "abc"
+          "abcdefghijklmnopqrstuvwxyz",
+          "zyxwvutsrqponmlkjihgfedcba"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -520,32 +520,32 @@
         ],
         [
           "abcd",
-          "abdc",
-          "bacd",
-          "badc",
-          "cabd",
-          "cadb",
-          "dcba",
-          "dcab",
+          "abcd",
           "abcd",
           "abdc",
-          "bacd",
-          "badc",
-          "cabd",
-          "cadb",
-          "dcba",
-          "dcab",
-          "abcd",
+          "abdc",
           "abdc",
           "bacd",
+          "bacd",
+          "bacd",
+          "badc",
+          "badc",
           "badc",
           "cabd",
+          "cabd",
+          "cabd",
           "cadb",
+          "cadb",
+          "cadb",
+          "dcab",
+          "dcab",
+          "dcab",
           "dcba",
-          "dcab"
+          "dcba",
+          "dcba"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -560,17 +560,17 @@
       "expected": [
         [
           "abcdefghijklmnopqrstuvwxyz",
-          "zyxwvutsrqponmlkjihgfedcba",
-          "mnopqrstuvwxyzabcdefghijkl"
-        ],
-        [
-          "qrstuvwxyzaabcdefghijklmnop"
+          "mnopqrstuvwxyzabcdefghijkl",
+          "zyxwvutsrqponmlkjihgfedcba"
         ],
         [
           "hgfedcbazyxwvutsrqponmlkjijklmnopqrstuvwxyzabcde"
+        ],
+        [
+          "qrstuvwxyzaabcdefghijklmnop"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -594,28 +594,25 @@
       },
       "expected": [
         [
-          "dusty",
-          "study"
-        ],
-        [
-          "night",
-          "thing"
-        ],
-        [
-          "child"
-        ],
-        [
           "brink"
         ],
         [
-          "drink"
+          "child"
         ],
         [
           "crimp",
           "crimp"
         ],
         [
-          "stick"
+          "drink"
+        ],
+        [
+          "dusty",
+          "study"
+        ],
+        [
+          "night",
+          "thing"
         ],
         [
           "smirk",
@@ -625,13 +622,16 @@
           "smith"
         ],
         [
-          "tinsy"
+          "stick"
         ],
         [
           "stint"
+        ],
+        [
+          "tinsy"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -653,20 +653,20 @@
       "expected": [
         [
           "aabb",
-          "abab",
-          "baba",
-          "baab",
-          "abba",
-          "bbaa",
           "aabb",
           "abab",
-          "baba",
-          "baab",
+          "abab",
           "abba",
+          "abba",
+          "baab",
+          "baab",
+          "baba",
+          "baba",
+          "bbaa",
           "bbaa"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     },
     {
       "input": {
@@ -702,36 +702,36 @@
       },
       "expected": [
         [
-          "apple",
-          "pepal",
-          "ppale",
-          "pplea",
-          "ppela",
-          "elppa",
-          "ppael",
-          "palpe",
-          "ppale",
-          "pplea",
-          "ppela",
-          "elppa",
-          "ppael",
-          "palpe",
           "appel",
-          "ppale",
-          "pplea",
-          "ppela",
+          "apple",
           "elppa",
-          "ppael",
+          "elppa",
+          "elppa",
+          "elppa",
           "palpe",
-          "ppale",
-          "pplea",
-          "ppela",
-          "elppa",
+          "palpe",
+          "palpe",
+          "palpe",
+          "pepal",
           "ppael",
-          "palpe"
+          "ppael",
+          "ppael",
+          "ppael",
+          "ppale",
+          "ppale",
+          "ppale",
+          "ppale",
+          "ppela",
+          "ppela",
+          "ppela",
+          "ppela",
+          "pplea",
+          "pplea",
+          "pplea",
+          "pplea"
         ]
       ],
-      "function_call": "groupAnagrams(**test_input)"
+      "function_call": "sorted([sorted(x) for x in groupAnagrams(**test_input)])"
     }
   ],
   "hints": [],

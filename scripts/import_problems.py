@@ -174,10 +174,8 @@ def convert_starter_code(starter_code: str, func_name: str) -> str:
             # Remove type hints that reference List, Optional etc (simplify)
             skip_class = False
         # Dedent by 4 spaces (was inside class)
-        if line.startswith('        '):
+        if line.startswith('    '):
             line = line[4:]
-        elif line.startswith('    ') and not line.startswith('    def'):
-            pass  # keep as is if it's the function def
         new_lines.append(line)
 
     result = '\n'.join(new_lines).strip()

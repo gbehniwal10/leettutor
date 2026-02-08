@@ -7,7 +7,7 @@
     "linked-list"
   ],
   "description": "Given the head of a singly linked list, reverse the list, and return the reversed list.\n\n**Example 1:**\n\n```\nInput: head = [1,2,3,4,5]\nOutput: [5,4,3,2,1]\n\n```\n**Example 2:**\n\n```\nInput: head = [1,2]\nOutput: [2,1]\n\n```\n**Example 3:**\n\n```\nInput: head = []\nOutput: []\n\n```\n**Constraints:**\n\n- `The number of nodes in the list is the range [0, 5000].`\n- `-5000 <= Node.val <= 5000`\n\n**Follow up:** A linked list can be reversed either iteratively or recursively. Could you implement both?\n",
-  "starter_code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n    def reverseList(head: Optional[ListNode]) -> Optional[ListNode]:\n    # Your code here\n    pass\n",
+  "starter_code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\ndef reverseList(head: Optional[ListNode]) -> Optional[ListNode]:\n    # Your code here\n    pass\n",
   "function_name": "reverseList",
   "test_cases": [
     {

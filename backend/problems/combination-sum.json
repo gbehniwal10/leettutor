@@ -81,7 +81,7 @@
           5
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -108,7 +108,7 @@
           7
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -135,7 +135,7 @@
           10
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     }
   ],
   "hidden_test_cases": [
@@ -167,7 +167,7 @@
           10
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -206,7 +206,7 @@
         "target": 5
       },
       "expected": "Execution timed out",
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -227,7 +227,7 @@
           5
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -255,7 +255,7 @@
           5
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -285,7 +285,7 @@
           8
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -307,7 +307,7 @@
           8
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -348,7 +348,7 @@
           8
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -459,7 +459,7 @@
           4
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -479,7 +479,7 @@
           20
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -574,7 +574,7 @@
           8
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -597,7 +597,7 @@
           6
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -637,7 +637,7 @@
           15
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -648,7 +648,7 @@
         "target": 30
       },
       "expected": [],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -662,7 +662,7 @@
           1
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -702,7 +702,7 @@
           3
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -728,7 +728,7 @@
           6
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -738,7 +738,7 @@
         "target": 1
       },
       "expected": [],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -756,7 +756,7 @@
           5
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -783,7 +783,7 @@
           2
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     },
     {
       "input": {
@@ -817,7 +817,7 @@
           5
         ]
       ],
-      "function_call": "combinationSum(**test_input)"
+      "function_call": "sorted([sorted(x) for x in combinationSum(**test_input)])"
     }
   ],
   "hints": [],

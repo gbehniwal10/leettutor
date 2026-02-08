@@ -10,6 +10,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         excalidraw: "src/excalidraw-island.jsx",
+        "skill-tree": "src/skill-tree-island.jsx",
       },
       output: {
         entryFileNames: "assets/[name]-[hash].js",

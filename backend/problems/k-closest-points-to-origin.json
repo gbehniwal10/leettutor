@@ -59,7 +59,7 @@
           2
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -81,15 +81,15 @@
       },
       "expected": [
         [
-          3,
-          3
-        ],
-        [
           -2,
           4
+        ],
+        [
+          3,
+          3
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -127,23 +127,23 @@
       },
       "expected": [
         [
-          0,
-          0
+          -2,
+          -2
         ],
         [
           -1,
           -1
         ],
         [
-          1,
-          1
+          0,
+          0
         ],
         [
-          -2,
-          -2
+          1,
+          1
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     }
   ],
   "hidden_test_cases": [
@@ -175,7 +175,7 @@
           -10000
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -197,7 +197,7 @@
           2
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -227,7 +227,7 @@
           1
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -265,7 +265,7 @@
           0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -287,7 +287,7 @@
           -10000
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -321,7 +321,7 @@
           0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -347,7 +347,7 @@
           0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -397,7 +397,7 @@
           5
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -423,19 +423,19 @@
       },
       "expected": [
         [
-          0,
-          2
-        ],
-        [
           -3,
           3
         ],
         [
           -2,
           5
+        ],
+        [
+          0,
+          2
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -457,7 +457,7 @@
           10000
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -527,7 +527,7 @@
           5
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -565,7 +565,7 @@
           2
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -599,7 +599,7 @@
           1
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -645,6 +645,14 @@
       },
       "expected": [
         [
+          -2,
+          -2
+        ],
+        [
+          -1,
+          -1
+        ],
+        [
           0,
           0
         ],
@@ -653,19 +661,11 @@
           1
         ],
         [
-          -1,
-          -1
-        ],
-        [
           2,
           2
-        ],
-        [
-          -2,
-          -2
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -747,7 +747,7 @@
           0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -793,31 +793,31 @@
       },
       "expected": [
         [
+          -2500,
+          -2500
+        ],
+        [
+          -2500,
+          2500
+        ],
+        [
           0,
           0
         ],
         [
           2500,
-          2500
+          -2500
         ],
         [
           2500,
-          -2500
-        ],
-        [
-          -2500,
           2500
-        ],
-        [
-          -2500,
-          -2500
         ],
         [
           10000,
           0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -875,7 +875,7 @@
           500
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -965,31 +965,7 @@
       },
       "expected": [
         [
-          1,
-          0
-        ],
-        [
-          -1,
-          0
-        ],
-        [
-          2,
-          0
-        ],
-        [
-          -2,
-          0
-        ],
-        [
-          3,
-          0
-        ],
-        [
-          -3,
-          0
-        ],
-        [
-          4,
+          -5,
           0
         ],
         [
@@ -997,15 +973,39 @@
           0
         ],
         [
-          5,
+          -3,
           0
         ],
         [
-          -5,
+          -2,
+          0
+        ],
+        [
+          -1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          5,
           0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -1079,23 +1079,11 @@
       },
       "expected": [
         [
-          -1,
-          0
-        ],
-        [
-          0,
-          -1
-        ],
-        [
-          1,
-          0
-        ],
-        [
-          0,
-          1
-        ],
-        [
           -2,
+          0
+        ],
+        [
+          -1,
           0
         ],
         [
@@ -1103,15 +1091,27 @@
           -2
         ],
         [
-          2,
-          0
+          0,
+          -1
+        ],
+        [
+          0,
+          1
         ],
         [
           0,
           2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     },
     {
       "input": {
@@ -1149,6 +1149,10 @@
       },
       "expected": [
         [
+          -100,
+          -100
+        ],
+        [
           0,
           0
         ],
@@ -1157,15 +1161,11 @@
           100
         ],
         [
-          -100,
-          -100
-        ],
-        [
           200,
           200
         ]
       ],
-      "function_call": "kClosest(**test_input)"
+      "function_call": "sorted(kClosest(**test_input))"
     }
   ],
   "hints": [],

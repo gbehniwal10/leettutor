@@ -1,0 +1,244 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "arrays-basics",
+      "title": "Array Fundamentals",
+      "prerequisites": [],
+      "problems": [
+        "contains-duplicate",
+        "valid-anagram",
+        "two-sum"
+      ]
+    },
+    {
+      "id": "two-pointers",
+      "title": "Two Pointers",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "valid-palindrome",
+        "two-sum-ii-input-array-is-sorted",
+        "three-sum",
+        "container-with-most-water",
+        "trapping-rain-water"
+      ]
+    },
+    {
+      "id": "sliding-window",
+      "title": "Sliding Window",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "longest-substring-without-repeating-characters",
+        "longest-repeating-character-replacement",
+        "permutation-in-string",
+        "minimum-window-substring",
+        "sliding-window-maximum"
+      ]
+    },
+    {
+      "id": "binary-search",
+      "title": "Binary Search",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "binary-search",
+        "search-a-2d-matrix",
+        "koko-eating-bananas",
+        "find-minimum-in-rotated-sorted-array",
+        "search-in-rotated-sorted-array",
+        "median-of-two-sorted-arrays"
+      ]
+    },
+    {
+      "id": "stacks",
+      "title": "Stacks",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "valid-parentheses",
+        "evaluate-reverse-polish-notation",
+        "generate-parentheses",
+        "daily-temperatures",
+        "car-fleet",
+        "largest-rectangle-in-histogram"
+      ]
+    },
+    {
+      "id": "linked-lists",
+      "title": "Linked Lists",
+      "prerequisites": [],
+      "problems": [
+        "reverse-linked-list",
+        "merge-two-sorted-lists",
+        "linked-list-cycle",
+        "reorder-list",
+        "remove-nth-node-from-end-of-list",
+        "add-two-numbers",
+        "merge-k-sorted-lists",
+        "reverse-nodes-in-k-group"
+      ]
+    },
+    {
+      "id": "trees-basics",
+      "title": "Tree Basics",
+      "prerequisites": ["linked-lists"],
+      "problems": [
+        "invert-binary-tree",
+        "maximum-depth-of-binary-tree",
+        "diameter-of-binary-tree",
+        "balanced-binary-tree",
+        "same-tree",
+        "subtree-of-another-tree"
+      ]
+    },
+    {
+      "id": "trees-advanced",
+      "title": "Advanced Trees",
+      "prerequisites": ["trees-basics"],
+      "problems": [
+        "binary-tree-level-order-traversal",
+        "binary-tree-right-side-view",
+        "count-good-nodes-in-binary-tree",
+        "validate-binary-search-tree",
+        "kth-smallest-element-in-a-bst",
+        "construct-binary-tree-from-preorder-and-inorder-traversal",
+        "binary-tree-maximum-path-sum"
+      ]
+    },
+    {
+      "id": "heaps",
+      "title": "Heaps / Priority Queue",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "last-stone-weight",
+        "k-closest-points-to-origin",
+        "kth-largest-element-in-an-array",
+        "task-scheduler"
+      ]
+    },
+    {
+      "id": "graphs-basics",
+      "title": "Graph Basics",
+      "prerequisites": ["trees-basics"],
+      "problems": [
+        "number-of-islands",
+        "max-area-of-island",
+        "pacific-atlantic-water-flow",
+        "surrounded-regions",
+        "rotting-oranges",
+        "walls-and-gates",
+        "course-schedule",
+        "course-schedule-ii"
+      ]
+    },
+    {
+      "id": "graphs-advanced",
+      "title": "Advanced Graphs",
+      "prerequisites": ["graphs-basics"],
+      "problems": [
+        "redundant-connection",
+        "number-of-connected-components-in-an-undirected-graph",
+        "graph-valid-tree",
+        "word-ladder",
+        "reconstruct-itinerary",
+        "min-cost-to-connect-all-points",
+        "network-delay-time",
+        "cheapest-flights-within-k-stops",
+        "swim-in-rising-water",
+        "alien-dictionary"
+      ]
+    },
+    {
+      "id": "dp-1d",
+      "title": "1D Dynamic Programming",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "climbing-stairs",
+        "min-cost-climbing-stairs",
+        "house-robber",
+        "house-robber-ii",
+        "longest-palindromic-substring",
+        "palindromic-substrings",
+        "decode-ways",
+        "coin-change",
+        "maximum-product-subarray",
+        "word-break",
+        "longest-increasing-subsequence",
+        "partition-equal-subset-sum"
+      ]
+    },
+    {
+      "id": "dp-2d",
+      "title": "2D Dynamic Programming",
+      "prerequisites": ["dp-1d"],
+      "problems": [
+        "unique-paths",
+        "longest-common-subsequence",
+        "best-time-to-buy-and-sell-stock-with-cooldown",
+        "coin-change-ii",
+        "target-sum",
+        "interleaving-string",
+        "longest-increasing-path-in-a-matrix",
+        "distinct-subsequences",
+        "edit-distance",
+        "burst-balloons",
+        "regular-expression-matching"
+      ]
+    },
+    {
+      "id": "backtracking",
+      "title": "Backtracking",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "subsets",
+        "combination-sum",
+        "permutations",
+        "subsets-ii",
+        "combination-sum-ii",
+        "word-search",
+        "palindrome-partitioning",
+        "letter-combinations-of-a-phone-number",
+        "n-queens"
+      ]
+    },
+    {
+      "id": "greedy",
+      "title": "Greedy",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "maximum-subarray",
+        "jump-game",
+        "jump-game-ii",
+        "gas-station",
+        "hand-of-straights",
+        "merge-triplets-to-form-target-triplet",
+        "partition-labels",
+        "valid-parenthesis-string"
+      ]
+    },
+    {
+      "id": "intervals",
+      "title": "Intervals",
+      "prerequisites": ["arrays-basics"],
+      "problems": [
+        "insert-interval",
+        "merge-intervals",
+        "non-overlapping-intervals",
+        "meeting-rooms",
+        "meeting-rooms-ii",
+        "minimum-interval-to-include-each-query"
+      ]
+    },
+    {
+      "id": "bit-manipulation",
+      "title": "Bit Manipulation",
+      "prerequisites": [],
+      "problems": [
+        "single-number",
+        "number-of-1-bits",
+        "counting-bits",
+        "reverse-bits",
+        "missing-number",
+        "sum-of-two-integers"
+      ]
+    }
+  ]
+}

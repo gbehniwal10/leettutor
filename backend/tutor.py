@@ -22,6 +22,7 @@ CURRENT CONTEXT:
 - Problem: {problem_title}
 - Problem Description: {problem_description}
 - User's Current Code: (saved at ./solution.py, you can read it)
+- Test Results: After the user runs/submits tests, results are saved at ./test_results.json (read it for details on failures)
 - Hints Given So Far: {hint_count}
 
 HINT LADDER (only advance when truly stuck):
@@ -46,6 +47,7 @@ CURRENT CONTEXT:
 - Problem: {problem_title}
 - Problem Description: {problem_description}
 - User's Current Code: (saved at ./solution.py, you can read it)
+- Test Results: After the user runs/submits tests, results are saved at ./test_results.json (read it for details on failures)
 - Time Remaining: {time_remaining}
 - Current Phase: {interview_phase}
 
@@ -110,6 +112,7 @@ class LeetCodeTutor:
         self.claude_session_id: str | None = None
         self._sdk_child_pids: set[int] = set()
         self._sdk_subprocess_pid: int | None = None
+        self.last_test_summary: str | None = None
         # Interview mode state
         self.interview_phase = "clarification" if mode == "interview" else None
         self.time_remaining: int | None = 45 * 60 if mode == "interview" else None
@@ -138,6 +141,8 @@ class LeetCodeTutor:
     def _build_state_context(self) -> str:
         """Build a context string with current session state for the model."""
         parts = [f"[Session State: hints_given={self.hint_count}"]
+        if self.last_test_summary is not None:
+            parts.append(f", last_run={self.last_test_summary}")
         if self.time_remaining is not None:
             parts.append(f", time_remaining={self._format_time()}")
         if self.interview_phase is not None:

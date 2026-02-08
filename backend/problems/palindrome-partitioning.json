@@ -32,7 +32,7 @@
           "madam"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -64,7 +64,7 @@
           "deified"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -96,7 +96,7 @@
           "repaper"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     }
   ],
   "hidden_test_cases": [
@@ -126,7 +126,7 @@
           "b"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -194,7 +194,7 @@
           "aabbaa"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -237,7 +237,7 @@
           "abcdedcba"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -260,7 +260,7 @@
           "refer"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -283,7 +283,7 @@
           "kayak"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -294,7 +294,7 @@
           "a"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -303,7 +303,7 @@
       "expected": [
         []
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -343,7 +343,7 @@
           "aabaa"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -464,7 +464,7 @@
           "noonnoon"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -487,7 +487,7 @@
           "civic"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -510,7 +510,7 @@
           "rotor"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -542,7 +542,7 @@
           "racecar"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -560,7 +560,7 @@
           "bcb"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -588,7 +588,7 @@
           "bb"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -610,7 +610,7 @@
           "abba"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -632,7 +632,7 @@
           "noon"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -670,7 +670,7 @@
           "anana"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -722,7 +722,7 @@
           "eeee"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -735,7 +735,7 @@
           "c"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     },
     {
       "input": {
@@ -768,7 +768,7 @@
           "ababa"
         ]
       ],
-      "function_call": "partition(**test_input)"
+      "function_call": "sorted(partition(**test_input))"
     }
   ],
   "hints": [],

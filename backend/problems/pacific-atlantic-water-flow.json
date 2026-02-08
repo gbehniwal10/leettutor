@@ -138,7 +138,7 @@
           4
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -210,7 +210,7 @@
           0
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -266,7 +266,7 @@
           2
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     }
   ],
   "hidden_test_cases": [
@@ -284,7 +284,7 @@
           0
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -392,7 +392,7 @@
           4
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -421,7 +421,7 @@
           1
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -549,7 +549,7 @@
           4
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -601,7 +601,7 @@
           2
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -869,7 +869,7 @@
           6
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -976,7 +976,7 @@
           7
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -1028,7 +1028,7 @@
           2
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -1229,7 +1229,7 @@
           5
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -1281,7 +1281,7 @@
           0
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -1474,7 +1474,7 @@
           6
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -1662,7 +1662,7 @@
           4
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -2191,7 +2191,7 @@
           9
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -2550,7 +2550,7 @@
           19
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -2651,7 +2651,7 @@
           0
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -2833,7 +2833,7 @@
           4
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -2977,7 +2977,7 @@
           4
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -3166,7 +3166,7 @@
           9
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -3247,7 +3247,7 @@
           0
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     },
     {
       "input": {
@@ -3448,7 +3448,7 @@
           5
         ]
       ],
-      "function_call": "pacificAtlantic(**test_input)"
+      "function_call": "sorted(pacificAtlantic(**test_input))"
     }
   ],
   "hints": [],

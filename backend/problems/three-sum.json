@@ -89,6 +89,622 @@
         ]
       ],
       "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          2,
+          -2,
+          -1
+        ]
+      },
+      "expected": [],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          2
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          1,
+          -1,
+          -1,
+          0
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          3,
+          -2,
+          1,
+          0,
+          -1,
+          -2,
+          1,
+          -2,
+          1,
+          -2
+        ]
+      },
+      "expected": [
+        [
+          -2,
+          -1,
+          3
+        ],
+        [
+          -2,
+          1,
+          1
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          0,
+          1,
+          0
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -4,
+          -2,
+          -2,
+          -2,
+          0,
+          1,
+          2,
+          2,
+          2,
+          3,
+          3,
+          4,
+          4,
+          6,
+          6
+        ]
+      },
+      "expected": [
+        [
+          -4,
+          -2,
+          6
+        ],
+        [
+          -4,
+          0,
+          4
+        ],
+        [
+          -4,
+          1,
+          3
+        ],
+        [
+          -4,
+          2,
+          2
+        ],
+        [
+          -2,
+          -2,
+          4
+        ],
+        [
+          -2,
+          0,
+          2
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          1,
+          0
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          1,
+          1
+        ]
+      },
+      "expected": [],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          0,
+          1,
+          -1,
+          0,
+          1,
+          -1,
+          0,
+          1
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -3,
+          -3,
+          -3,
+          -3,
+          1,
+          2,
+          2,
+          3,
+          3,
+          3
+        ]
+      },
+      "expected": [
+        [
+          -3,
+          1,
+          2
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -1,
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -3,
+          -2,
+          -1,
+          0,
+          0,
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "expected": [
+        [
+          -3,
+          0,
+          3
+        ],
+        [
+          -3,
+          1,
+          2
+        ],
+        [
+          -2,
+          -1,
+          3
+        ],
+        [
+          -2,
+          0,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -5,
+          -3,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          5,
+          7
+        ]
+      },
+      "expected": [
+        [
+          -5,
+          -2,
+          7
+        ],
+        [
+          -5,
+          0,
+          5
+        ],
+        [
+          -5,
+          2,
+          3
+        ],
+        [
+          -3,
+          -2,
+          5
+        ],
+        [
+          -3,
+          0,
+          3
+        ],
+        [
+          -3,
+          1,
+          2
+        ],
+        [
+          -2,
+          0,
+          2
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          2,
+          2
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          -1,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -4,
+          -3,
+          -2,
+          -1,
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "expected": [
+        [
+          -4,
+          0,
+          4
+        ],
+        [
+          -4,
+          1,
+          3
+        ],
+        [
+          -3,
+          -1,
+          4
+        ],
+        [
+          -3,
+          0,
+          3
+        ],
+        [
+          -3,
+          1,
+          2
+        ],
+        [
+          -2,
+          -1,
+          3
+        ],
+        [
+          -2,
+          0,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "expected": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -1,
+          0,
+          0,
+          1,
+          1,
+          2,
+          -2,
+          3
+        ]
+      },
+      "expected": [
+        [
+          -2,
+          -1,
+          3
+        ],
+        [
+          -2,
+          0,
+          2
+        ],
+        [
+          -2,
+          1,
+          1
+        ],
+        [
+          -1,
+          -1,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
+    },
+    {
+      "input": {
+        "nums": [
+          -1,
+          -1,
+          0,
+          1,
+          1,
+          1,
+          2,
+          2,
+          3,
+          3,
+          4,
+          4
+        ]
+      },
+      "expected": [
+        [
+          -1,
+          -1,
+          2
+        ],
+        [
+          -1,
+          0,
+          1
+        ]
+      ],
+      "function_call": "sorted([sorted(x) for x in threeSum(**test_input)])"
     }
   ],
   "hints": [

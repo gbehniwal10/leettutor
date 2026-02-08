@@ -194,6 +194,10 @@ def _safe_setrlimit(res, limit):
 {memory_limit_line}
 _safe_setrlimit(resource.RLIMIT_CPU, {CPU_TIME_LIMIT_SECONDS})
 _safe_setrlimit(resource.RLIMIT_FSIZE, {MAX_FILE_SIZE})
+try:
+    _safe_setrlimit(resource.RLIMIT_NPROC, 0)
+except (AttributeError, OSError):
+    pass  # RLIMIT_NPROC not available on all platforms
 '''
 
 
@@ -232,9 +236,29 @@ class CodeExecutor:
             }
 
         results = []
+        consecutive_tle = 0
+        max_consecutive_tle = 3
         for i, test in enumerate(test_cases):
             result = await self._run_single_test(code, test, i + 1, helpers)
             results.append(result)
+
+            is_tle = (result.get("error") or "").startswith("Time Limit Exceeded")
+            consecutive_tle = consecutive_tle + 1 if is_tle else 0
+
+            if consecutive_tle >= max_consecutive_tle:
+                skipped_start = len(results)
+                for j, t in enumerate(test_cases[skipped_start:]):
+                    results.append({
+                        "test_num": skipped_start + j + 1,
+                        "input": t.get("input"),
+                        "expected": t.get("expected"),
+                        "actual": None,
+                        "passed": False,
+                        "error": f"Skipped — {max_consecutive_tle} consecutive Time Limit Exceeded",
+                        "runtime_ms": None,
+                        "stdout": "",
+                    })
+                break
 
         passed = sum(1 for r in results if r["passed"])
         return {"passed": passed, "failed": len(results) - passed, "results": results}
@@ -258,7 +282,7 @@ class CodeExecutor:
         helper_code = DATA_STRUCTURE_HELPERS if helpers else ""
         rlimit_code = _resource_limits_code()
         test_input_json = json.dumps(test["input"], ensure_ascii=True)
-        marker = secrets.token_hex(16)
+        marker = secrets.token_hex(32)
 
         # Compute line offset so we can map errors back to user code lines
         pre_code = f'\n{rlimit_code}\nimport json\nimport time\nimport sys\nimport io\nimport os\nfrom typing import List, Optional, Dict, Tuple, Set\n\n{helper_code}\n\n'
@@ -475,6 +499,8 @@ def _sanitize_stderr(stderr: str, user_code_offset: int = 0, user_code_num_lines
 
 def _kill_process_group(proc):
     """Kill the entire process group to ensure all child processes are terminated."""
+    if proc.returncode is not None:
+        return  # Already exited; avoid killing a reused PID
     try:
         pgid = os.getpgid(proc.pid)
         os.killpg(pgid, signal.SIGKILL)

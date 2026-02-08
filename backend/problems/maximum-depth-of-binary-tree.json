@@ -9,7 +9,7 @@
     "binary-tree"
   ],
   "description": "Given the root of a binary tree, return its maximum depth.\nA binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.\n\n**Example 1:**\n\n```\nInput: root = [3,9,20,null,null,15,7]\nOutput: 3\n\n```\n**Example 2:**\n\n```\nInput: root = [1,null,2]\nOutput: 2\n\n```\n**Constraints:**\n\n- `The number of nodes in the tree is in the range [0, 104].`\n- `-100 <= Node.val <= 100`\n",
-  "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\n    def maxDepth(root: Optional[TreeNode]) -> int:\n    # Your code here\n    pass\n",
+  "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef maxDepth(root: Optional[TreeNode]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "maxDepth",
   "test_cases": [
     {

@@ -1,5 +1,7 @@
 # Ticket 31: Skill Tree / Problem Dependency Graph
 
+**Status:** Superseded — replaced by tickets 56–59 which account for React + Vite build pipeline added since this ticket was written.
+
 **Priority:** Medium
 **Component:** `frontend/app.js`, `frontend/style.css`, `backend/problems/` (new metadata)
 **Estimated Scope:** Large

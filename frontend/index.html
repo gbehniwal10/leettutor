@@ -25,6 +25,7 @@
         <header class="header">
             <h1>LeetCode Tutor</h1>
             <div class="controls">
+                <label for="mode-select" class="sr-only" hidden>Practice mode</label>
                 <select id="mode-select">
                     <option value="learning">Learning Mode</option>
                     <option value="interview">Interview Mode</option>
@@ -37,12 +38,15 @@
                 </label>
                 <button id="settings-btn" class="btn btn-secondary" title="Settings" aria-label="Open settings">&#9881;</button>
                 <button id="new-problem-btn" class="btn btn-secondary">New Problem</button>
+                <div class="random-picker-wrapper" id="random-picker-wrapper">
+                    <button id="random-btn" class="btn btn-secondary" aria-haspopup="true" aria-expanded="false">Random</button>
+                </div>
                 <button id="history-btn" class="btn btn-secondary">History</button>
-                <div id="timer" class="timer hidden">&#9201; <span id="timer-display">45:00</span></div>
+                <div id="timer" class="timer hidden" role="timer" aria-live="off">&#9201; <span id="timer-display">45:00</span></div>
             </div>
         </header>
 
-        <nav class="panel-switcher" id="panel-switcher">
+        <nav class="panel-switcher" id="panel-switcher" aria-label="Panel navigation">
             <button class="panel-switcher-btn active" data-panel="problem">Problem</button>
             <button class="panel-switcher-btn" data-panel="editor">Editor</button>
             <button class="panel-switcher-btn" data-panel="chat">Chat</button>
@@ -61,6 +65,7 @@
                         <span id="problem-solved-badge" class="solved-badge hidden">&#10003; Solved</span>
                         <button id="tts-btn" class="tts-btn hidden" title="Read aloud" aria-label="Read problem aloud">&#128266;</button>
                         <div id="tts-speed-control" class="tts-speed-control hidden">
+                            <label for="tts-speed-select" class="sr-only" hidden>Reading speed</label>
                             <select id="tts-speed-select" title="Reading speed">
                                 <option value="0.75">0.75x</option>
                                 <option value="1" selected>1x</option>
@@ -73,12 +78,12 @@
                 <div id="problem-description" class="problem-description"></div>
             </div>
 
-            <div class="resize-handle resize-handle-h" id="problem-panel-resize"></div>
+            <div class="resize-handle resize-handle-h" id="problem-panel-resize" role="separator" aria-orientation="vertical"></div>
 
             <div class="center-panel">
                 <button id="expand-problem" class="expand-problem-btn" title="Show problem panel" aria-label="Show problem panel">&#9654;</button>
                 <div class="editor-section">
-                    <div id="editor" class="editor"></div>
+                    <div id="editor" class="editor" role="group" aria-label="Code editor"></div>
                 </div>
 
                 <div class="actions">
@@ -90,22 +95,22 @@
                     <button id="zen-toggle-btn" class="btn btn-zen-toggle" title="Zen Mode (Ctrl+Shift+Z)">Zen</button>
                 </div>
 
-                <div class="resize-handle resize-handle-v" id="results-resize"></div>
-                <div id="test-results" class="test-results"></div>
+                <div class="resize-handle resize-handle-v" id="results-resize" role="separator" aria-orientation="horizontal"></div>
+                <div id="test-results" class="test-results" role="region" aria-label="Test results"></div>
 
                 <div id="pattern-quiz-panel" class="pattern-quiz-panel hidden">
                     <h3>What pattern solves this problem?</h3>
-                    <div id="pattern-buttons" class="pattern-buttons"></div>
-                    <div id="pattern-feedback" class="pattern-feedback hidden"></div>
+                    <div id="pattern-buttons" class="pattern-buttons" role="group" aria-label="Pattern choices"></div>
+                    <div id="pattern-feedback" class="pattern-feedback hidden" role="status" aria-live="polite"></div>
                     <div id="pattern-explanation" class="pattern-explanation hidden"></div>
                     <div class="pattern-actions">
                         <button id="next-problem-btn" class="btn btn-primary hidden">Next Problem</button>
-                        <div id="pattern-stats" class="pattern-stats"></div>
+                        <div id="pattern-stats" class="pattern-stats" aria-live="polite"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="resize-handle resize-handle-h" id="chat-panel-resize"></div>
+            <div class="resize-handle resize-handle-h" id="chat-panel-resize" role="separator" aria-orientation="vertical"></div>
 
             <div class="right-panel">
                 <div id="whiteboard-section" class="whiteboard-section collapsed">
@@ -113,15 +118,17 @@
                         <span class="whiteboard-title">Whiteboard</span>
                         <button id="send-to-tutor-btn" class="btn btn-secondary btn-sm" title="Send drawing to tutor">Send to Tutor</button>
                         <button id="whiteboard-clear-btn" class="btn btn-secondary btn-sm" title="Clear whiteboard">Clear</button>
-                        <button id="whiteboard-toggle-btn" class="whiteboard-toggle-btn" title="Toggle whiteboard">&#9650;</button>
+                        <button id="whiteboard-zen-btn" class="btn btn-zen-toggle btn-sm" title="Whiteboard Zen (Ctrl+Shift+W)">Zen</button>
+                        <button id="whiteboard-toggle-btn" class="whiteboard-toggle-btn" title="Toggle whiteboard" aria-label="Toggle whiteboard">&#9650;</button>
                     </div>
                     <div id="excalidraw-root" class="excalidraw-container"></div>
                 </div>
-                <div class="resize-handle resize-handle-v" id="whiteboard-resize"></div>
+                <div class="resize-handle resize-handle-v" id="whiteboard-resize" role="separator" aria-orientation="horizontal"></div>
                 <div class="chat-section">
-                    <div id="ws-status" class="ws-status hidden">Reconnecting...</div>
-                    <div id="chat-messages" class="chat-messages"></div>
+                    <div id="ws-status" class="ws-status hidden" role="status">Reconnecting...</div>
+                    <div id="chat-messages" class="chat-messages" role="log" aria-label="Chat messages" aria-live="polite"></div>
                     <div class="chat-input-container">
+                        <label for="chat-input" class="sr-only" hidden>Chat message</label>
                         <textarea id="chat-input" placeholder="Ask for help, explain your thinking, or discuss your approach..." rows="3"></textarea>
                         <button id="send-btn" class="btn btn-primary">Send</button>
                     </div>
@@ -130,56 +137,65 @@
         </main>
     </div>
 
-    <div id="problem-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Select a Problem">
+    <div id="problem-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="problem-modal-title">
         <div class="modal-content modal-wide">
-            <h2>Select a Problem</h2>
+            <div class="problem-modal-header">
+                <h2 id="problem-modal-title">Select a Problem</h2>
+                <div class="view-toggle" role="group" aria-label="View mode">
+                    <button class="view-toggle-btn active" data-view="list">List</button>
+                    <button class="view-toggle-btn" data-view="tree" disabled title="Coming soon">Tree</button>
+                </div>
+            </div>
             <div class="problem-filters">
+                <label for="problem-search" class="sr-only" hidden>Search problems</label>
                 <input type="text" id="problem-search" placeholder="Search problems..." class="filter-search">
-                <div class="filter-tabs difficulty-filters">
+                <div class="filter-tabs difficulty-filters" role="group" aria-label="Difficulty filter">
                     <button class="filter-tab difficulty-tab active" data-difficulty="all">All</button>
                     <button class="filter-tab difficulty-tab" data-difficulty="easy">Easy</button>
                     <button class="filter-tab difficulty-tab" data-difficulty="medium">Medium</button>
                     <button class="filter-tab difficulty-tab" data-difficulty="hard">Hard</button>
                 </div>
-                <div class="filter-tabs status-filters">
+                <div class="filter-tabs status-filters" role="group" aria-label="Status filter">
                     <button class="filter-tab status-tab active" data-status="all">All</button>
                     <button class="filter-tab status-tab" data-status="solved">Solved</button>
                     <button class="filter-tab status-tab" data-status="attempted">Attempted</button>
                     <button class="filter-tab status-tab" data-status="unsolved">Unsolved</button>
                 </div>
             </div>
-            <div id="problem-list" class="problem-list"></div>
+            <div id="problem-list" class="problem-list" role="list"></div>
+            <div id="skill-tree-root" class="skill-tree-container hidden"></div>
             <button id="close-modal" class="btn btn-secondary">Cancel</button>
         </div>
     </div>
 
-    <div id="history-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Session History">
+    <div id="history-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="history-modal-title">
         <div class="modal-content modal-wide">
             <div class="history-header">
-                <h2 id="history-title">Session History</h2>
+                <h2 id="history-modal-title">Session History</h2>
                 <button id="history-back" class="btn btn-secondary hidden">Back</button>
                 <button id="close-history" class="btn btn-secondary" style="margin-left:auto">Close</button>
             </div>
-            <div id="session-list" class="session-list"></div>
+            <div id="session-list" class="session-list" role="list"></div>
             <div id="session-detail" class="session-detail hidden"></div>
         </div>
     </div>
 
-    <div id="login-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Login Required">
+    <div id="login-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
         <div class="modal-content login-modal-content">
-            <h2>Login Required</h2>
+            <h2 id="login-modal-title">Login Required</h2>
             <p class="login-subtitle">Enter the password to access LeetCode Tutor.</p>
+            <label for="login-password" class="sr-only" hidden>Password</label>
             <input type="password" id="login-password" placeholder="Password" class="filter-search login-password-input">
-            <p id="login-error" class="login-error"></p>
+            <p id="login-error" class="login-error" role="alert" aria-live="assertive"></p>
             <button id="login-btn" class="btn btn-primary login-submit-btn">Login</button>
         </div>
     </div>
 
 
-    <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Settings">
+    <div id="settings-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
         <div class="modal-content settings-modal-content">
             <div class="settings-header">
-                <h2>Settings</h2>
+                <h2 id="settings-modal-title">Settings</h2>
                 <button id="close-settings" class="settings-close-btn" title="Close settings" aria-label="Close settings">&times;</button>
             </div>
             <div class="settings-body">
@@ -318,8 +334,9 @@
         </div>
     </div>
 
-    <div id="resume-dialog" class="resume-dialog hidden" role="dialog" aria-modal="true" aria-label="Resume Session">
+    <div id="resume-dialog" class="resume-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="resume-dialog-title">
         <div class="resume-dialog-content">
+            <p id="resume-dialog-title"><strong>Resume previous session?</strong></p>
             <p id="resume-dialog-text"></p>
             <p id="resume-dialog-mode" class="resume-dialog-mode"></p>
             <div class="resume-dialog-buttons">
@@ -329,19 +346,24 @@
         </div>
     </div>
 
-    <div id="zen-status-bar" class="zen-status-bar hidden">
+    <div id="zen-status-bar" class="zen-status-bar hidden" role="toolbar" aria-label="Zen mode controls">
         <span id="zen-problem-title" class="zen-problem-title">No problem selected</span>
-        <div class="zen-status-actions">
+        <div class="zen-status-actions zen-editor-actions">
             <button id="zen-run-btn" class="btn btn-secondary btn-sm" title="Run (Ctrl+Enter)">Run</button>
             <button id="zen-submit-btn" class="btn btn-primary btn-sm" title="Submit (Ctrl+Shift+Enter)">Submit</button>
             <button id="zen-hint-btn" class="btn btn-hint btn-sm" title="Hint">Hint</button>
             <span id="zen-timer" class="zen-timer hidden"><span id="zen-timer-display"></span></span>
             <button id="zen-exit-btn" class="btn btn-secondary btn-sm" title="Exit Zen Mode (Ctrl+Shift+Z)">Exit Zen</button>
         </div>
+        <div class="zen-status-actions zen-whiteboard-actions hidden">
+            <button id="zen-wb-send-btn" class="btn btn-primary btn-sm" title="Send drawing to tutor">Send to Tutor</button>
+            <button id="zen-wb-clear-btn" class="btn btn-secondary btn-sm" title="Clear whiteboard">Clear</button>
+            <button id="zen-wb-exit-btn" class="btn btn-secondary btn-sm" title="Exit Whiteboard Zen (Ctrl+Shift+W)">Exit Zen</button>
+        </div>
     </div>
 
     <div id="confirm-dialog-overlay" class="confirm-dialog-overlay hidden">
-        <div class="confirm-dialog" role="dialog" aria-modal="true">
+        <div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
             <h3 id="confirm-dialog-title" class="confirm-dialog-title">Are you sure?</h3>
             <p id="confirm-dialog-message" class="confirm-dialog-message"></p>
             <p id="confirm-dialog-detail" class="confirm-dialog-detail"></p>
@@ -363,7 +385,7 @@
     </div>
 
     <!-- Ticket 32: Streak Detail Popover -->
-    <div id="streak-popover" class="streak-popover hidden">
+    <div id="streak-popover" class="streak-popover hidden" role="dialog" aria-label="Practice streak details">
         <div class="streak-popover-content">
             <div class="streak-popover-header">
                 <h3>Practice Streak</h3>
@@ -389,15 +411,19 @@
     </div>
 
     <!-- Ticket 32: Streak Repair Banner -->
-    <div id="streak-repair-banner" class="streak-repair-banner hidden"></div>
+    <div id="streak-repair-banner" class="streak-repair-banner hidden" role="alert"></div>
 
     <!-- Ticket 32: Streak Milestone Toast -->
-    <div id="streak-milestone-toast" class="streak-milestone-toast hidden"></div>
+    <div id="streak-milestone-toast" class="streak-milestone-toast hidden" role="status" aria-live="polite"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
-    <script src="/static/app.js"></script>
+    <!-- CDN scripts: pinned to specific versions for reproducibility.
+         TODO: Add SRI integrity hashes once versions are finalized.
+         Generate with: curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js" crossorigin="anonymous"></script>
+    <script type="module" src="/static/app.js"></script>
     <script type="module" src="/src/excalidraw-island.jsx"></script>
+    <script type="module" src="/src/skill-tree-island.jsx"></script>
 </body>
 </html>
