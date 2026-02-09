@@ -151,6 +151,23 @@ def extract_function_name(starter_code: str) -> str | None:
     return match.group(1) if match else None
 
 
+def _modernize_type_hints(code: str) -> str:
+    """Convert typing-style hints (List, Optional, etc.) to Python 3.10+ builtins."""
+    # Resolve Optional[X] → X | None (handle nested brackets)
+    changed = True
+    while changed:
+        changed = False
+        new = re.sub(r'Optional\[([^\[\]]*(?:\[[^\[\]]*\])*[^\[\]]*)\]', r'\1 | None', code)
+        if new != code:
+            code = new
+            changed = True
+    code = code.replace('List[', 'list[')
+    code = code.replace('Dict[', 'dict[')
+    code = code.replace('Tuple[', 'tuple[')
+    code = code.replace('Set[', 'set[')
+    return code
+
+
 def convert_starter_code(starter_code: str, func_name: str) -> str:
     """Convert class Solution format to standalone function."""
     # Remove class definition and comment lines
@@ -171,7 +188,6 @@ def convert_starter_code(starter_code: str, func_name: str) -> str:
             # Remove self parameter
             line = line.replace(f'def {func_name}(self, ', f'def {func_name}(')
             line = line.replace(f'def {func_name}(self)', f'def {func_name}()')
-            # Remove type hints that reference List, Optional etc (simplify)
             skip_class = False
         # Dedent by 4 spaces (was inside class)
         if line.startswith('    '):
@@ -184,6 +200,8 @@ def convert_starter_code(starter_code: str, func_name: str) -> str:
     # Ensure it ends with pass if body is empty
     if result.strip().endswith(':'):
         result += '    # Your code here\n    pass\n'
+    # Modernize type hints: List[int] → list[int], Optional[X] → X | None
+    result = _modernize_type_hints(result)
     return result
 
 

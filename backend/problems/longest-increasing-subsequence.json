@@ -8,7 +8,7 @@
     "dynamic-programming"
   ],
   "description": "Given an integer array nums, return the length of the longest strictly increasing subsequence.\n\n**Example 1:**\n\n```\nInput: nums = [10,9,2,5,3,7,101,18]\nOutput: 4\nExplanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.\n\n```\n**Example 2:**\n\n```\nInput: nums = [0,1,0,3,2,3]\nOutput: 4\n\n```\n**Example 3:**\n\n```\nInput: nums = [7,7,7,7,7,7,7]\nOutput: 1\n\n```\n**Constraints:**\n\n- `1 <= nums.length <= 2500`\n- `-104 <= nums[i] <= 104`\n\n**Follow up:** Can you come up with an algorithm that runs in O(n log(n)) time complexity?\n",
-  "starter_code": "def lengthOfLIS(nums: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "starter_code": "def lengthOfLIS(nums: list[int]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "lengthOfLIS",
   "test_cases": [
     {

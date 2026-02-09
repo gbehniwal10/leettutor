@@ -9,7 +9,7 @@
     "graph"
   ],
   "description": "You have a graph of n nodes. You are given an integer n and an array edges where edges[i] = [ai, bi] indicates that there is an edge between ai and bi in the graph.\nReturn the number of connected components in the graph.\n\n**Example 1:**\n\n```\nInput: n = 5, edges = [[0,1],[1,2],[3,4]]\nOutput: 2\n\n```\n**Example 2:**\n\n```\nInput: n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]\nOutput: 1\n\n```\n**Constraints:**\n\n- `1 <= n <= 2000`\n- `1 <= edges.length <= 5000`\n- `edges[i].length == 2`\n- `0 <= ai <= bi < n`\n- `ai != bi`\n- `There are no repeated edges.`\n",
-  "starter_code": "def countComponents(n: int, edges: List[List[int]]) -> int:\n    # Your code here\n    pass\n",
+  "starter_code": "def countComponents(n: int, edges: list[list[int]]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "countComponents",
   "test_cases": [
     {

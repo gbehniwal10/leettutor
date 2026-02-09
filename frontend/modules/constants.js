@@ -52,7 +52,7 @@ export const FONT_FAMILY_MAP = {
 export const THEME_TO_MONACO = {
     'dark': 'leetcode-dark',
     'sepia': 'leetcode-sepia',
-    'low-distraction': 'leetcode-low-distraction',
+    'low-distraction': 'leetcode-muted',
 };
 
 export const TAG_TO_PATTERN = {

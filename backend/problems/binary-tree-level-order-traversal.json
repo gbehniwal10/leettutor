@@ -8,7 +8,7 @@
     "binary-tree"
   ],
   "description": "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).\n\n**Example 1:**\n\n```\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[3],[9,20],[15,7]]\n\n```\n**Example 2:**\n\n```\nInput: root = [1]\nOutput: [[1]]\n\n```\n**Example 3:**\n\n```\nInput: root = []\nOutput: []\n\n```\n**Constraints:**\n\n- `The number of nodes in the tree is in the range [0, 2000].`\n- `-1000 <= Node.val <= 1000`\n",
-  "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef levelOrder(root: Optional[TreeNode]) -> List[List[int]]:\n    # Your code here\n    pass\n",
+  "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef levelOrder(root: TreeNode | None) -> list[list[int]]:\n    # Your code here\n    pass\n",
   "function_name": "levelOrder",
   "test_cases": [
     {

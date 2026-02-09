@@ -8,7 +8,7 @@
     "hash-table"
   ],
   "description": "Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.\nYou must write an algorithm that runs in O(n) time.\n\n**Example 1:**\n\n```\nInput: nums = [100,4,200,1,3,2]\nOutput: 4\nExplanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.\n\n```\n**Example 2:**\n\n```\nInput: nums = [0,3,7,2,5,8,4,6,0,1]\nOutput: 9\n\n```\n**Example 3:**\n\n```\nInput: nums = [1,0,1,2]\nOutput: 3\n\n```\n**Constraints:**\n\n- `0 <= nums.length <= 105`\n- `-109 <= nums[i] <= 109`\n",
-  "starter_code": "def longestConsecutive(nums: List[int]) -> int:\n    # Your code here\n    pass\n",
+  "starter_code": "def longestConsecutive(nums: list[int]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "longestConsecutive",
   "test_cases": [
     {

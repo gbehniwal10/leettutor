@@ -445,50 +445,110 @@ function SkillTreeIsland() {
   const [nodes, setNodes, onNodesChange] = useNodesState(enrichedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(enrichedEdges);
 
-  const { fitView, zoomIn, zoomOut } = useReactFlow();
+  const { fitView, zoomIn, zoomOut, setViewport, getViewport } = useReactFlow();
 
-  // Animated reveal: snap to wide overview, then smoothly zoom in
-  const animateZoomIn = useCallback(() => {
-    // Snap to the wide overview instantly
-    fitView({ padding: 0.4, duration: 0 });
-    // Then smoothly zoom into the close-up view
-    setTimeout(() => fitView({ padding: 0.02, duration: 800 }), 300);
-  }, [fitView]);
+  // Accessibility: check once at mount, no reactive listener needed
+  const prefersReducedMotion = useRef(
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+
+  // Track animation timeout so rapid tab switches cancel the previous one
+  const animationTimer = useRef(null);
+  // Track previous hidden state to only animate on hidden→visible transitions
+  const wasHidden = useRef(true);
 
   // Keep nodes/edges in sync
-  const prevNodeCount = useRef(0);
-  useEffect(() => {
-    setNodes(enrichedNodes);
-    // Only animate on initial load (0 → N nodes), not on every re-render
-    if (prevNodeCount.current === 0 && enrichedNodes.length > 0) {
-      // Wait for React Flow to measure and render nodes before fitting
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          animateZoomIn();
-        });
-      });
-    }
-    prevNodeCount.current = enrichedNodes.length;
-  }, [enrichedNodes, setNodes, animateZoomIn]);
+  useEffect(() => setNodes(enrichedNodes), [enrichedNodes, setNodes]);
   useEffect(() => setEdges(enrichedEdges), [enrichedEdges, setEdges]);
 
-  // Re-fit when the container becomes visible (fitView doesn't work on hidden elements)
+  // Zoom-in reveal animation when the tree becomes visible to the user.
+  // Two triggers: (1) skill-tree-root losing .hidden (List→Tree toggle),
+  // (2) problem-modal losing .hidden (modal re-opened while Tree tab active).
   useEffect(() => {
     const root = document.getElementById("skill-tree-root");
+    const modal = document.getElementById("problem-modal");
     if (!root) return;
-    const observer = new MutationObserver(() => {
-      if (!root.classList.contains("hidden") && enrichedNodes.length > 0) {
-        // Wait two frames for layout, then animate
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            animateZoomIn();
-          });
-        });
+
+    function isTreeVisible() {
+      return !root.classList.contains("hidden") &&
+             (!modal || !modal.classList.contains("hidden"));
+    }
+
+    wasHidden.current = !isTreeVisible();
+
+    function onVisibilityChange() {
+      const visible = isTreeVisible();
+
+      if (!visible) {
+        if (animationTimer.current) {
+          clearTimeout(animationTimer.current);
+          animationTimer.current = null;
+        }
+        wasHidden.current = true;
+        return;
       }
-    });
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, [animateZoomIn, enrichedNodes.length]);
+
+      // Only animate on hidden→visible transitions
+      if (!wasHidden.current) return;
+      wasHidden.current = false;
+
+      if (enrichedNodes.length === 0) return;
+
+      if (animationTimer.current) {
+        clearTimeout(animationTimer.current);
+        animationTimer.current = null;
+      }
+
+      requestAnimationFrame(() => {
+        // Step 1: Snap to full overview (all nodes visible)
+        fitView({ padding: 0.02, duration: 0 });
+
+        if (prefersReducedMotion.current) return;
+
+        // Step 2: After a brief pause, animate to a closer view.
+        // By the time the timeout fires, fitView has applied and
+        // getViewport() returns the real overview viewport.
+        animationTimer.current = setTimeout(() => {
+          animationTimer.current = null;
+          const overview = getViewport();
+          const el = document.getElementById("skill-tree-root");
+          const cw = el?.offsetWidth || 800;
+          const ch = el?.offsetHeight || 600;
+
+          // 6 zoom-in clicks at React Flow's 1.2x step
+          const zoomFactor = Math.pow(1.2, 6);
+          const targetZoom = overview.zoom * zoomFactor;
+          const targetX = cw / 2 - (cw / 2 - overview.x) * zoomFactor;
+          const targetY = ch / 2 - (ch / 2 - overview.y) * zoomFactor;
+
+          setViewport(
+            { x: targetX, y: targetY, zoom: targetZoom },
+            { duration: 800 }
+          );
+        }, 300);
+      });
+    }
+
+    const rootObserver = new MutationObserver(onVisibilityChange);
+    rootObserver.observe(root, { attributes: true, attributeFilter: ["class"] });
+
+    // Also watch the parent modal — when it reopens with Tree already active,
+    // root's class doesn't change, but the modal's does.
+    let modalObserver;
+    if (modal) {
+      modalObserver = new MutationObserver(onVisibilityChange);
+      modalObserver.observe(modal, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    return () => {
+      rootObserver.disconnect();
+      if (modalObserver) modalObserver.disconnect();
+      if (animationTimer.current) {
+        clearTimeout(animationTimer.current);
+        animationTimer.current = null;
+      }
+    };
+  }, [fitView, enrichedNodes.length]);
 
   // Track node positions for popover placement
   const onNodeClick = useCallback(
@@ -573,6 +633,7 @@ function SkillTreeIsland() {
         nodesConnectable={false}
         elementsSelectable={false}
         zoomOnScroll
+        minZoom={0.1}
         proOptions={{ hideAttribution: true }}
         style={{ background: colors.bg }}
       >

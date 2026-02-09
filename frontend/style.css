@@ -237,6 +237,8 @@ input[type="range"]:focus-visible {
 }
 .problem-description pre { background: var(--bg-tertiary); padding: var(--space-md); border-radius: var(--radius-md); overflow-x: auto; }
 .problem-description code { font-family: var(--font-mono); }
+.problem-description ul,
+.problem-description ol { padding-left: var(--space-xl); }
 
 .editor-section { flex: 1; min-height: 100px; }
 .editor { height: 100%; }
@@ -313,6 +315,8 @@ input[type="range"]:focus-visible {
 .chat-message.user { align-self: flex-end; background: var(--chat-user-bg); color: var(--chat-user-text); }
 .chat-message.assistant { align-self: flex-start; background: var(--bg-tertiary); }
 .chat-message.system { align-self: center; background: transparent; color: var(--text-secondary); font-size: 0.8rem; font-style: italic; }
+.chat-message ul,
+.chat-message ol { padding-left: var(--space-xl); }
 
 .chat-input-container {
     display: flex; gap: var(--space-sm); padding: var(--space-md) var(--space-lg);
@@ -325,8 +329,13 @@ input[type="range"]:focus-visible {
 }
 #chat-input:focus { outline: none; border-color: var(--accent-blue); }
 
-.modal { position: fixed; inset: 0; background: var(--modal-overlay); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.modal.hidden { display: none; }
+.modal {
+    position: fixed; inset: 0; background: var(--modal-overlay);
+    display: flex; align-items: center; justify-content: center; z-index: 1000;
+    opacity: 1; visibility: visible;
+    transition: opacity var(--transition-normal) ease, visibility var(--transition-normal) ease;
+}
+.modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .modal-content { background: var(--bg-secondary); padding: var(--space-2xl); border-radius: var(--radius-xl); min-width: 400px; max-width: 600px; }
 .modal-content h2 { margin-bottom: var(--space-lg); }
 
@@ -1608,6 +1617,20 @@ body.zen-whiteboard.zen-no-transition .right-panel {
     overflow: hidden;
     border: 1px solid var(--border-color);
     margin-bottom: var(--space-md);
+}
+
+/* Override display:none for the skill tree — React Flow needs real dimensions
+   to measure nodes and calculate viewport. Use visibility:hidden + height
+   collapse so the container stays in the render tree but is invisible and
+   takes no space. */
+#skill-tree-root.skill-tree-container.hidden {
+    display: block !important;
+    visibility: hidden;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0;
+    border: none;
+    padding: 0;
 }
 
 /* Widen the modal when tree view is active */

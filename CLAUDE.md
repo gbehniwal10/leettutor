@@ -21,6 +21,10 @@ pytest tests/test_executor.py::test_basic_execution -xvs
 pip install -r requirements.txt
 ```
 
+## Tickets
+
+Work items are tracked as Markdown files in `tickets/` (not GitHub Issues). To see the latest ticket, check the highest-numbered file in that directory. Completed tickets are moved to `tickets/completed/`.
+
 ## Architecture
 
 LeetCode Tutor is an interactive browser-based practice app with an AI tutor powered by Claude Code SDK. It uses the Socratic method — progressive hints, never direct solutions.
@@ -61,6 +65,30 @@ LeetCode Tutor is an interactive browser-based practice app with an AI tutor pow
 - Problems: 138 JSON files in `backend/problems/` (schema: id, title, difficulty, tags, description, starter_code, function_name, test_cases, hidden_test_cases, hints, optional helpers)
 - Sessions: JSON files in `sessions/` (gitignored)
 - Workspaces: per-session dirs in `workspace/` with `solution.py` and `test_results.json` (tutor reads these via Claude SDK's Read tool)
+
+### Problem Import Pipeline
+
+Problems are sourced from the HuggingFace `newfacade/LeetCodeDataset` dataset, filtered to the NeetCode 150 list, and converted to our JSON schema via two scripts in `scripts/`:
+
+```bash
+# Step 1: Import from dataset (requires `pip install datasets`)
+python scripts/import_problems.py
+
+# Step 2: Clean up descriptions for markdown rendering
+python scripts/clean_descriptions.py
+```
+
+**`import_problems.py`** handles: extracting functions from `class Solution` format, removing `self` parameter, dedenting from class scope, detecting data structure types (tree/linked-list) to set the `helpers` field, building `function_call` expressions with appropriate conversions (e.g. `tree_node()`, `list_node_to_list()`), splitting test cases into visible (first 3) and hidden (rest, capped at 20), and modernizing type hints to Python 3.10+ builtins.
+
+**`clean_descriptions.py`** handles: normalizing whitespace, formatting example blocks as markdown code fences, bolding headers, and formatting constraints as bullet lists.
+
+**Key conventions enforced by the import script:**
+- `starter_code` uses standalone functions (not `class Solution` methods)
+- Type hints use lowercase builtins: `list[int]` not `List[int]`, `TreeNode | None` not `Optional[TreeNode]`
+- Tree/linked-list problems include the commented class definition above the function and set `"helpers": ["data_structures"]`
+- The script skips problems that already exist on disk — delete a JSON file to force re-import
+
+**After import, these fields are filled in manually:** `hints`, `optimal_complexity`
 
 ## Testing
 

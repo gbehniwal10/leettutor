@@ -7,7 +7,7 @@
     "backtracking"
   ],
   "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.\nGiven an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.\nEach solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.\n\n**Example 1:**\n\n```\nInput: n = 4\nOutput: [[\".Q..\",\"...Q\",\"Q...\",\"..Q.\"],[\"..Q.\",\"Q...\",\"...Q\",\".Q..\"]]\nExplanation: There exist two distinct solutions to the 4-queens puzzle as shown above\n\n```\n**Example 2:**\n\n```\nInput: n = 1\nOutput: [[\"Q\"]]\n\n```\n**Constraints:**\n\n- `1 <= n <= 9`\n",
-  "starter_code": "def solveNQueens(n: int) -> List[List[str]]:\n    # Your code here\n    pass\n",
+  "starter_code": "def solveNQueens(n: int) -> list[list[str]]:\n    # Your code here\n    pass\n",
   "function_name": "solveNQueens",
   "test_cases": [
     {
