@@ -7,27 +7,82 @@
     "depth-first-search",
     "binary-tree"
   ],
+  "approaches": [
+    {
+      "name": "Top-down Recursion (Repeated Height Calls)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Bottom-up DFS (Early Termination)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given a binary tree, determine if it is height-balanced.\n\n**Example 1:**\n\n```\nInput: root = [3,9,20,null,null,15,7]\nOutput: true\n\n```\n**Example 2:**\n\n```\nInput: root = [1,2,2,3,3,null,null,4,4]\nOutput: false\n\n```\n**Example 3:**\n\n```\nInput: root = []\nOutput: true\n\n```\n**Constraints:**\n\n- `The number of nodes in the tree is in the range [0, 5000].`\n- `-104 <= Node.val <= 104`\n",
   "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef isBalanced(root: TreeNode | None) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "isBalanced",
   "test_cases": [
     {
       "input": {
-        "root": "[1,2,3,4,5,6,null,7]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          null,
+          7
+        ]
       },
       "expected": true,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,2,3,3,3,3,4,4,4,4,4,4,null,null,5,5]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          3,
+          3,
+          3,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          null,
+          null,
+          5,
+          5
+        ]
       },
       "expected": true,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,2,3,null,null,3,4,4,4,4]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          null,
+          null,
+          3,
+          4,
+          4,
+          4,
+          4
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
@@ -51,35 +106,83 @@
     },
     {
       "input": {
-        "root": "[1,2,2,3,3,null,null,4,4]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          3,
+          null,
+          null,
+          4,
+          4
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,null,2,null,3]"
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          3
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,null,4,null,5,null,6]"
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          4,
+          null,
+          5,
+          null,
+          6
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,2,3,null,null,3,4,4,null,null,4,4]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          null,
+          null,
+          3,
+          4,
+          4,
+          null,
+          null,
+          4,
+          4
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[3,9,20,null,null,15,7]"
+        "root": [
+          3,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7
+        ]
       },
       "expected": true,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
@@ -125,77 +228,316 @@
     },
     {
       "input": {
-        "root": "[1,2,3,null,4,5,null,6,7,8,9,null,null,10,11]"
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          4,
+          5,
+          null,
+          6,
+          7,
+          8,
+          9,
+          null,
+          null,
+          10,
+          11
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,4,null,5,null,6,7,8,9,10,11,12,null,null,13,14,15]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          5,
+          null,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          null,
+          null,
+          13,
+          14,
+          15
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]"
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          3,
+          null,
+          4,
+          null,
+          5,
+          null,
+          6,
+          null,
+          7,
+          null,
+          8,
+          null,
+          9,
+          null,
+          10
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,2,3,null,null,3,4,null,null,4]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          null,
+          null,
+          3,
+          4,
+          null,
+          null,
+          4
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,4,null,null,5,null,6,7,8,9,10,11,12]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          null,
+          5,
+          null,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,4,null,null,7,8,null,10,11,12,null,null,15]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          null,
+          7,
+          8,
+          null,
+          10,
+          11,
+          12,
+          null,
+          null,
+          15
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,4,null,null,5,null,null,6,null,null,7]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          null,
+          5,
+          null,
+          null,
+          6,
+          null,
+          null,
+          7
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,null,10]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          3,
+          3,
+          3,
+          4,
+          4,
+          4,
+          4,
+          5,
+          5,
+          5,
+          5,
+          6,
+          6,
+          6,
+          6,
+          7,
+          7,
+          7,
+          7,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          null,
+          10
+        ]
       },
       "expected": true,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,2,3,null,null,3,4,4,5,5,null,null,6,6]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          null,
+          null,
+          3,
+          4,
+          4,
+          5,
+          5,
+          null,
+          null,
+          6,
+          6
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,null,9,null,null,14,null,16,17,18,19,null,null,null,null,null,null,null,null,28]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          null,
+          9,
+          null,
+          null,
+          14,
+          null,
+          16,
+          17,
+          18,
+          19,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          28
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,null,16,null,17,null,18,null,19,null,20,null,21,null,22,null,23,null,24,null,25,null,26,null,27,null,28,null,29,null,30,null,31,null,32]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          null,
+          16,
+          null,
+          17,
+          null,
+          18,
+          null,
+          19,
+          null,
+          20,
+          null,
+          21,
+          null,
+          22,
+          null,
+          23,
+          null,
+          24,
+          null,
+          25,
+          null,
+          26,
+          null,
+          27,
+          null,
+          28,
+          null,
+          29,
+          null,
+          30,
+          null,
+          31,
+          null,
+          32
+        ]
       },
       "expected": false,
       "function_call": "isBalanced(root=tree_node(test_input['root']))"

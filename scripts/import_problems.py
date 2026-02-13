@@ -393,6 +393,18 @@ def main():
             skipped_convert += 1
             continue
 
+        # Validate and auto-fix test case issues (stringified inputs, error expectations)
+        from validate_problems import validate_problem, fix_problem
+        issues = validate_problem(problem, slug + ".json")
+        if issues:
+            fix_problem(problem)
+            fixed_issues = validate_problem(problem, slug + ".json")
+            if fixed_issues:
+                unfixable = [i for i in fixed_issues if not i["fixable"]]
+                if unfixable:
+                    print(f"  WARN {slug}: {len(unfixable)} unfixable issues after auto-repair")
+            json_str = json.dumps(problem, indent=2, ensure_ascii=False)
+
         out_path = OUTPUT_DIR / f"{slug}.json"
         out_path.write_text(json_str, encoding='utf-8')
         imported += 1

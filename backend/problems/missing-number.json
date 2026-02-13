@@ -10,6 +10,36 @@
     "binary-search",
     "sorting"
   ],
+  "approaches": [
+    {
+      "name": "Sort and Scan",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "HashSet Lookup",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Gauss Sum Formula",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "XOR Bit Manipulation",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.\n\n**Example 1:**\n\n```\nInput: nums = [3,0,1]\nOutput: 2\nExplanation:\nn = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.\n\n```\n**Example 2:**\n\n```\nInput: nums = [0,1]\nOutput: 2\nExplanation:\nn = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.\n\n```\n**Example 3:**\n\n```\nInput: nums = [9,6,4,2,3,5,7,0,1]\nOutput: 8\nExplanation:\nn = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.\n\n```\n**Constraints:**\n\n- `n == nums.length`\n- `1 <= n <= 104`\n- `0 <= nums[i] <= n`\n- `All the numbers of nums are unique.`\n\n**Follow up:** Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?\n",
   "starter_code": "def missingNumber(nums: list[int]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "missingNumber",

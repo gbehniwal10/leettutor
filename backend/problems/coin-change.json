@@ -7,6 +7,36 @@
     "array",
     "dynamic-programming"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Backtracking)",
+      "complexity": {
+        "time": "O(amount^n)",
+        "space": "O(amount)"
+      }
+    },
+    {
+      "name": "Top-down Memoization",
+      "complexity": {
+        "time": "O(n * amount)",
+        "space": "O(amount)"
+      }
+    },
+    {
+      "name": "Bottom-up DP",
+      "complexity": {
+        "time": "O(n * amount)",
+        "space": "O(amount)"
+      }
+    },
+    {
+      "name": "BFS (Level-by-Level)",
+      "complexity": {
+        "time": "O(n * amount)",
+        "space": "O(amount)"
+      }
+    }
+  ],
   "description": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.\nReturn the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.\nYou may assume that you have an infinite number of each kind of coin.\n\n**Example 1:**\n\n```\nInput: coins = [1,2,5], amount = 11\nOutput: 3\nExplanation: 11 = 5 + 5 + 1\n\n```\n**Example 2:**\n\n```\nInput: coins = [2], amount = 3\nOutput: -1\n\n```\n**Example 3:**\n\n```\nInput: coins = [1], amount = 0\nOutput: 0\n\n```\n**Constraints:**\n\n- `1 <= coins.length <= 12`\n- `1 <= coins[i] <= 231 - 1`\n- `0 <= amount <= 104`\n",
   "starter_code": "def coinChange(coins: list[int], amount: int) -> int:\n    # Your code here\n    pass\n",
   "function_name": "coinChange",

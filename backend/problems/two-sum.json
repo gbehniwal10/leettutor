@@ -6,6 +6,11 @@
     "array",
     "hash-map"
   ],
+  "approaches": [
+    { "name": "Brute Force (Nested Loops)", "complexity": { "time": "O(n^2)", "space": "O(1)" } },
+    { "name": "Hash Map (Two Pass)", "complexity": { "time": "O(n)", "space": "O(n)" } },
+    { "name": "Hash Map (One Pass)", "complexity": { "time": "O(n)", "space": "O(n)" } }
+  ],
   "description": "Given an array of integers `nums` and an integer `target`, return the indices of the two numbers that add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.\n\n**Example 1:**\n\n```\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].\n\n```\n**Example 2:**\n\n```\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n\n```\n**Constraints:**\n- 2 <= nums.length <= 10^4\n- -10^9 <= nums[i] <= 10^9\n- -10^9 <= target <= 10^9\n- Only one valid answer exists.\n",
   "starter_code": "def twoSum(nums: list[int], target: int) -> list[int]:\n    # Your code here\n    pass\n",
   "function_name": "twoSum",

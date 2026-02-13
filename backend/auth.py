@@ -35,12 +35,20 @@ def generate_token() -> str:
 
 
 def _prune_expired_tokens() -> None:
-    """Remove tokens older than TOKEN_TTL_SECONDS."""
+    """Remove tokens older than TOKEN_TTL_SECONDS and stale rate-limit entries."""
     now = time.monotonic()
     expired = [t for t, created_at in _valid_tokens.items()
                if now - created_at > TOKEN_TTL_SECONDS]
     for t in expired:
         del _valid_tokens[t]
+
+    # Prune stale rate-limit entries (last attempt older than the window)
+    stale_ips = [
+        ip for ip, attempts in _login_attempts.items()
+        if attempts and attempts[-1] < now - _LOGIN_RATE_WINDOW
+    ]
+    for ip in stale_ips:
+        del _login_attempts[ip]
 
 
 def verify_token(token: str | None) -> bool:

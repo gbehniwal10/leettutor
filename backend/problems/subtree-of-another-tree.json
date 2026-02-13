@@ -9,6 +9,29 @@
     "string-matching",
     "hash-function"
   ],
+  "approaches": [
+    {
+      "name": "Recursive DFS (Node-by-Node Comparison)",
+      "complexity": {
+        "time": "O(m*n)",
+        "space": "O(m+n)"
+      }
+    },
+    {
+      "name": "Tree Serialization + String Matching",
+      "complexity": {
+        "time": "O(m+n)",
+        "space": "O(m+n)"
+      }
+    },
+    {
+      "name": "Merkle Hashing",
+      "complexity": {
+        "time": "O(m+n)",
+        "space": "O(m+n)"
+      }
+    }
+  ],
   "description": "Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.\nA subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.\n\n**Example 1:**\n\n```\nInput: root = [3,4,5,1,2], subRoot = [4,1,2]\nOutput: true\n\n```\n**Example 2:**\n\n```\nInput: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]\nOutput: false\n\n```\n**Constraints:**\n\n- `The number of nodes in the root tree is in the range [1, 2000].`\n- `The number of nodes in the subRoot tree is in the range [1, 1000].`\n- `-104 <= root.val <= 104`\n- `-104 <= subRoot.val <= 104`\n",
   "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef isSubtree(root: TreeNode | None, subRoot: TreeNode | None) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "isSubtree",
@@ -48,7 +71,18 @@
     },
     {
       "input": {
-        "root": "[3,4,5,1,2,null,null,null,null,0]",
+        "root": [
+          3,
+          4,
+          5,
+          1,
+          2,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
         "subRoot": [
           4,
           1,
@@ -62,8 +96,18 @@
   "hidden_test_cases": [
     {
       "input": {
-        "root": "[1,null,2,null,3]",
-        "subRoot": "[2,null,3]"
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          3
+        ],
+        "subRoot": [
+          2,
+          null,
+          3
+        ]
       },
       "expected": true,
       "function_call": "isSubtree(root=tree_node(test_input['root']), subRoot=test_input['subRoot'])"
@@ -354,7 +398,17 @@
           14,
           15
         ],
-        "subRoot": "[1,null,2,null,3,null,4,null,5]"
+        "subRoot": [
+          1,
+          null,
+          2,
+          null,
+          3,
+          null,
+          4,
+          null,
+          5
+        ]
       },
       "expected": false,
       "function_call": "isSubtree(root=tree_node(test_input['root']), subRoot=test_input['subRoot'])"
@@ -441,8 +495,62 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,8,9,10,null,null,null,null,11,12,null,null,13,null,14,null,15,16,17,null,null,18,null,null,19,null,null,20]",
-        "subRoot": "[10,11,12,13,14,null,15,16,17,null,null,18,null,null,19,null,null,20]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          null,
+          null,
+          null,
+          null,
+          11,
+          12,
+          null,
+          null,
+          13,
+          null,
+          14,
+          null,
+          15,
+          16,
+          17,
+          null,
+          null,
+          18,
+          null,
+          null,
+          19,
+          null,
+          null,
+          20
+        ],
+        "subRoot": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          null,
+          15,
+          16,
+          17,
+          null,
+          null,
+          18,
+          null,
+          null,
+          19,
+          null,
+          null,
+          20
+        ]
       },
       "expected": false,
       "function_call": "isSubtree(root=tree_node(test_input['root']), subRoot=test_input['subRoot'])"
@@ -503,7 +611,30 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,null,null,null,null,null,16,17]",
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          null,
+          null,
+          null,
+          null,
+          null,
+          16,
+          17
+        ],
         "subRoot": [
           12,
           16,
@@ -515,7 +646,42 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,null,null,31,32]",
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          null,
+          null,
+          31,
+          32
+        ],
         "subRoot": [
           31,
           32

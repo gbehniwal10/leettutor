@@ -10,6 +10,29 @@
     "sorting",
     "heap-(priority-queue)"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Nested Loops)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Sort + Min-Heap",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Chronological Ordering (Sort Start/End)",
+      "complexity": {
+        "time": "O(n log n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given an array of meeting time intervals intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required.\n\n**Example 1:**\n\n```\nInput: intervals = [[0,30],[5,10],[15,20]]\nOutput: 2\n\n```\n**Example 2:**\n\n```\nInput: intervals = [[7,10],[2,4]]\nOutput: 1\n\n```\n**Constraints:**\n\n- `1 <= intervals.length <= 104`\n- `0 <= starti < endi <= 106`\n",
   "starter_code": "def minMeetingRooms(intervals: list[list[int]]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "minMeetingRooms",

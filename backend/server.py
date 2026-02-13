@@ -23,6 +23,9 @@ from .executor import CodeExecutor
 from .session_logger import SessionLogger, _is_valid_session_id
 from .tutor_registry import TutorRegistry
 from .problem_history import ProblemHistory
+from .learning_history import LearningHistory
+from .review_scheduler import ReviewScheduler
+from .solution_store import SolutionStore
 from .ws_handler import websocket_chat as _ws_chat
 
 logger = logging.getLogger(__name__)
@@ -83,6 +86,9 @@ SESSIONS_DIR = str(BASE_DIR / "sessions")
 executor = CodeExecutor()
 tutor_registry = TutorRegistry()
 _problem_history = ProblemHistory(BASE_DIR / "problem_history.json")
+_learning_history = LearningHistory(str(SESSIONS_DIR))
+_review_scheduler = ReviewScheduler(str(SESSIONS_DIR))
+_solution_store = SolutionStore(BASE_DIR / "solutions")
 
 # Read-only SessionLogger for API endpoints (list/get sessions).
 # Per-connection loggers are created inside the WebSocket handler.
@@ -90,7 +96,7 @@ _api_session_logger = SessionLogger(sessions_dir=SESSIONS_DIR)
 
 # Static files
 DIST_DIR = FRONTEND_DIR / "dist"
-_has_dist = DIST_DIR.is_dir() and (DIST_DIR / ".vite" / "manifest.json").exists()
+_has_dist = DIST_DIR.is_dir() and (DIST_DIR / "index.html").is_file()
 
 app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
@@ -98,53 +104,13 @@ if _has_dist:
     app.mount("/assets", StaticFiles(directory=str(DIST_DIR / "assets")), name="assets")
 
 
-def _get_vite_island_tags(entry_key: str) -> tuple[str, str]:
-    """Read the Vite manifest to get built entry point script and CSS tags."""
-    if not _has_dist:
-        return "", ""
-    try:
-        manifest_path = DIST_DIR / ".vite" / "manifest.json"
-        manifest = json.loads(manifest_path.read_text())
-        entry = manifest.get(entry_key, {})
-        js_file = entry.get("file")
-        css_files = entry.get("css", [])
-        script_tag = ""
-        css_tags = ""
-        if js_file:
-            script_tag = f'<script type="module" src="/assets/{js_file.split("assets/")[-1]}"></script>'
-        for css_file in css_files:
-            css_tags += f'<link rel="stylesheet" href="/assets/{css_file.split("assets/")[-1]}">'
-        return script_tag, css_tags
-    except Exception:
-        logger.warning("Failed to read Vite manifest for %s tags", entry_key)
-    return "", ""
-
-
-_excalidraw_script_tag, _excalidraw_css_tags = _get_vite_island_tags("src/excalidraw-island.jsx")
-_skill_tree_script_tag, _skill_tree_css_tags = _get_vite_island_tags("src/skill-tree-island.jsx")
-
-
 @app.get("/")
 async def index():
     from starlette.responses import HTMLResponse
-    html_path = FRONTEND_DIR / "index.html"
-    html = html_path.read_text()
     if _has_dist:
-        # Replace dev-mode script tags with production ones
-        if _excalidraw_script_tag:
-            html = html.replace(
-                '<script type="module" src="/src/excalidraw-island.jsx"></script>',
-                _excalidraw_script_tag,
-            )
-        if _skill_tree_script_tag:
-            html = html.replace(
-                '<script type="module" src="/src/skill-tree-island.jsx"></script>',
-                _skill_tree_script_tag,
-            )
-        # Inject CSS before closing </head>
-        css_tags = _excalidraw_css_tags + _skill_tree_css_tags
-        if css_tags:
-            html = html.replace('</head>', css_tags + '</head>')
+        html = (DIST_DIR / "index.html").read_text()
+    else:
+        html = (FRONTEND_DIR / "index.html").read_text()
     return HTMLResponse(html)
 
 
@@ -168,6 +134,26 @@ async def api_list_problems():
 @app.get("/api/problem-history")
 async def api_problem_history():
     return await _problem_history.get_all()
+
+
+@app.get("/api/review-queue", dependencies=[Depends(require_auth)])
+async def api_review_queue():
+    problems = list_problems()
+    history = await _problem_history.get_all()
+    for p in problems:
+        entry = history.get(p["id"])
+        if entry:
+            p["status"] = entry.get("status", "unsolved")
+            p["last_solved_at"] = entry.get("last_solved_at")
+        else:
+            p["status"] = "unsolved"
+    due_problems = _review_scheduler.get_due_problems(problems)
+    due_topics = _review_scheduler.get_due_topics()
+    return {
+        "due_problems": due_problems,
+        "due_topics": due_topics,
+        "topic_summaries": _learning_history.get_all_topic_summaries(),
+    }
 
 
 @app.get("/api/problems/random")
@@ -195,6 +181,8 @@ async def api_skill_tree():
 class RunRequest(BaseModel):
     code: str = Field(..., max_length=51200)
     problem_id: str = Field(..., max_length=100)
+    mode: str = Field("", max_length=30)
+    session_id: str = Field("", max_length=100)
 
 
 from .pattern_explain import PatternExplainRequest, pattern_explain_pool
@@ -204,6 +192,8 @@ from .pattern_explain import PatternExplainRequest, pattern_explain_pool
 async def startup_event():
     tutor_registry.start()
     load_skill_tree()
+    await _learning_history.load()
+    await _review_scheduler.load()
 
 
 @app.on_event("shutdown")
@@ -237,6 +227,22 @@ async def api_submit(req: RunRequest):
     results = await executor.run_tests(req.code, all_tests, helpers=helpers)
     if results.get("failed") == 0:
         await _problem_history.record_solve(req.problem_id)
+        # Auto-save solution
+        try:
+            runtimes = [r.get("runtime_ms", 0) for r in results.get("results", [])]
+            avg_runtime = sum(runtimes) / len(runtimes) if runtimes else 0
+            saved = await _solution_store.save_solution(
+                problem_id=req.problem_id,
+                code=req.code,
+                passed=results.get("passed", 0),
+                total=results.get("passed", 0) + results.get("failed", 0),
+                avg_runtime_ms=avg_runtime,
+                mode=req.mode,
+                session_id=req.session_id,
+            )
+            results["saved_solution_id"] = saved.get("id")
+        except Exception:
+            logger.warning("Failed to auto-save solution for %s", req.problem_id)
     return results
 
 
@@ -315,6 +321,50 @@ async def api_pattern_explain(req: PatternExplainRequest):
         raise HTTPException(status_code=500, detail="Failed to generate explanation")
 
 
+# --- Solution Endpoints ---
+
+
+class LabelUpdate(BaseModel):
+    label: str = Field(..., max_length=120)
+
+
+@app.get("/api/solution-counts", dependencies=[Depends(require_auth)])
+async def api_solution_counts():
+    return await _solution_store.get_solution_counts()
+
+
+@app.get("/api/solutions/{problem_id}", dependencies=[Depends(require_auth)])
+async def api_list_solutions(problem_id: str):
+    return await _solution_store.list_solutions(problem_id)
+
+
+@app.get("/api/solutions/{problem_id}/{solution_id}", dependencies=[Depends(require_auth)])
+async def api_get_solution(problem_id: str, solution_id: str):
+    sol = await _solution_store.get_solution(problem_id, solution_id)
+    if not sol:
+        raise HTTPException(status_code=404, detail="Solution not found")
+    return sol
+
+
+@app.delete("/api/solutions/{problem_id}/{solution_id}", dependencies=[Depends(require_auth)])
+async def api_delete_solution(problem_id: str, solution_id: str):
+    deleted = await _solution_store.delete_solution(problem_id, solution_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Solution not found")
+    return {"deleted": True}
+
+
+@app.patch("/api/solutions/{problem_id}/{solution_id}", dependencies=[Depends(require_auth)])
+async def api_update_solution_label(problem_id: str, solution_id: str, req: LabelUpdate):
+    try:
+        sol = await _solution_store.update_label(problem_id, solution_id, req.label)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    if not sol:
+        raise HTTPException(status_code=404, detail="Solution not found")
+    return sol
+
+
 @app.get("/api/sessions", dependencies=[Depends(require_auth)])
 async def api_list_sessions():
     return await _api_session_logger.list_sessions()
@@ -377,5 +427,8 @@ async def websocket_endpoint(websocket: WebSocket):
         workspace_dir=WORKSPACE_DIR,
         tutor_registry=tutor_registry,
         problem_history=_problem_history,
+        learning_history=_learning_history,
+        review_scheduler=_review_scheduler,
         api_session_logger=_api_session_logger,
+        solution_store=_solution_store,
     )

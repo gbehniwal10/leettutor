@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/auth.py
+# hypothesis_version: 6.151.6
+
+[60.0, 401, 429, 'Authorization', 'Bearer ', 'LEETTUTOR_PASSWORD', 'LEETTUTOR_TOKEN_TTL', 'Unauthorized']

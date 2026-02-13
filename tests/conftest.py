@@ -1,5 +1,6 @@
 """Shared fixtures for LeetCode Tutor test suite."""
 
+import asyncio
 import os
 import sys
 from pathlib import Path
@@ -26,6 +27,51 @@ if "claude_code_sdk" not in sys.modules:
     _sdk_stub.ResultMessage = type("ResultMessage", (), {})
     _sdk_stub.TextBlock = type("TextBlock", (), {})
     sys.modules["claude_code_sdk"] = _sdk_stub
+
+
+# ---------------------------------------------------------------------------
+# Pattern 1: Bare Object Factory — skip __init__ for WebSocketSession
+# ---------------------------------------------------------------------------
+
+def make_bare_ws_session(*, tmp_path=None):
+    """Create a WebSocketSession with __new__ (skip __init__).
+
+    This avoids constructing real SessionLogger, TutorRegistry, etc.
+    Only the attributes needed by the test are set — callers add more
+    as needed.  This pattern is clearer than ``patch('__init__')`` and
+    avoids fragile mock chains.
+    """
+    from backend.ws_handler import WebSocketSession
+
+    session = WebSocketSession.__new__(WebSocketSession)
+    session.ws = AsyncMock()
+    session.tutor = AsyncMock()
+    session.tutor.solved = False
+    session.tutor.mode = "learning"
+    session.tutor.interview_phase = None
+    session.tutor.claude_session_id = "mock-claude-id"
+    session.tutor.hint_count = 0
+    session.session_logger = AsyncMock()
+    session.session_logger.current_session = {
+        "problem_id": "two-sum",
+        "mode": "learning",
+        "hints_requested": 0,
+    }
+    session.connection_workspace = Path(tmp_path) if tmp_path else None
+    session.current_session_id = "abcdef0123456789"
+    session.last_editor_code = None
+    session._ws_alive = True
+    session._chat_lock = asyncio.Lock()
+    session._last_real_activity = 0.0
+    session.solution_store = AsyncMock()
+    session.tutor_registry = AsyncMock()
+    session.problem_history = AsyncMock()
+    session.learning_history = AsyncMock()
+    session.review_scheduler = AsyncMock()
+    session.api_session_logger = AsyncMock()
+    session.sessions_dir = str(tmp_path) if tmp_path else "/tmp"
+    session.workspace_dir = Path(tmp_path) if tmp_path else Path("/tmp")
+    return session
 
 
 @pytest.fixture
@@ -59,6 +105,7 @@ def sample_problem():
             },
         ],
         "hints": ["Think about the + operator."],
+        "approaches": ["Brute Force O(n²)", "Hash Map O(n)"],
     }
 
 
@@ -98,6 +145,7 @@ def app(tmp_path, sample_problem):
     # Mock the problem history so api_list_problems can call _problem_history.get_all()
     mock_history = MagicMock()
     mock_history.get_all = AsyncMock(return_value={})
+    mock_history.record_solve = AsyncMock()
 
     # Patch the problem set with our sample problem so API tests have known data
     def _mock_get_random(difficulty=None, tags=None):
@@ -120,12 +168,34 @@ def app(tmp_path, sample_problem):
         ],
     }
 
+    # Mock solution store
+    mock_solution_store = MagicMock()
+    mock_solution_store.save_solution = AsyncMock(return_value={"id": "mock_sol_id"})
+    mock_solution_store.list_solutions = AsyncMock(return_value=[])
+    mock_solution_store.get_solution = AsyncMock(return_value=None)
+    mock_solution_store.delete_solution = AsyncMock(return_value=False)
+    mock_solution_store.update_label = AsyncMock(return_value=None)
+    mock_solution_store.get_solution_counts = AsyncMock(return_value={})
+
+    # Mock learning history and review scheduler
+    mock_learning_history = MagicMock()
+    mock_learning_history.get_all_topic_summaries = MagicMock(return_value={})
+    mock_learning_history.load = AsyncMock()
+
+    mock_review_scheduler = MagicMock()
+    mock_review_scheduler.get_due_topics = MagicMock(return_value=[])
+    mock_review_scheduler.get_due_problems = MagicMock(return_value=[])
+    mock_review_scheduler.load = AsyncMock()
+
     with patch("backend.server.list_problems", return_value=[
         {"id": sample_problem["id"], "title": sample_problem["title"],
          "difficulty": sample_problem["difficulty"], "tags": sample_problem["tags"]}
     ]), patch("backend.server.get_problem", side_effect=lambda pid: sample_problem if pid == sample_problem["id"] else None), \
          patch("backend.server.get_random_problem", side_effect=_mock_get_random), \
          patch("backend.server._problem_history", mock_history), \
+         patch("backend.server._solution_store", mock_solution_store), \
+         patch("backend.server._learning_history", mock_learning_history), \
+         patch("backend.server._review_scheduler", mock_review_scheduler), \
          patch("backend.server.get_skill_tree", return_value=_mock_skill_tree), \
          patch("backend.server.load_skill_tree", return_value=_mock_skill_tree):
         from backend.server import app as fastapi_app

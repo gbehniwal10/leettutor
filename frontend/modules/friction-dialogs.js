@@ -12,6 +12,7 @@ let addChatMessage = null;
 let startSession = null;
 let disconnectEarconObserver = null;
 let disconnectTtsObserver = null;
+let clearAutosave = null;
 
 export function configureDialogDeps(deps) {
     settingsManager = deps.settingsManager;
@@ -21,6 +22,7 @@ export function configureDialogDeps(deps) {
     startSession = deps.startSession;
     disconnectEarconObserver = deps.disconnectEarconObserver;
     disconnectTtsObserver = deps.disconnectTtsObserver;
+    if (deps.clearAutosave) clearAutosave = deps.clearAutosave;
 }
 
 // --- Confirm dialog ---
@@ -91,6 +93,7 @@ export function showConfirmDialog({ title, message, detail, confirmLabel, cancel
 function resetCode() {
     if (!state.currentProblem || !state.editorReady || !state.editor) return;
     state.editor.setValue(state.currentProblem.starter_code);
+    if (clearAutosave) clearAutosave(state.currentProblem.id);
 }
 
 export async function resetCodeWithConfirm() {

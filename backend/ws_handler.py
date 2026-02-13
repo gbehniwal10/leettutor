@@ -17,9 +17,38 @@ from fastapi import WebSocket, WebSocketDisconnect
 from .auth import AUTH_ENABLED, verify_token
 from .problems import get_problem
 from .session_logger import SessionLogger, _is_valid_session_id
-from .tutor import LeetCodeTutor, build_nudge_message
+from .solution_store import SolutionStore
+from .tutor import LeetCodeTutor, build_nudge_message, RESUBMIT_AFTER_SOLVE_PROMPT
 from .tutor_registry import TutorRegistry, ParkedTutor
 from .problem_history import ProblemHistory
+from .learning_history import LearningHistory
+from .review_scheduler import ReviewScheduler
+from .ws_constants import (
+    MSG_AUTH,
+    MSG_START_SESSION,
+    MSG_MESSAGE,
+    MSG_REQUEST_HINT,
+    MSG_RESUME_SESSION,
+    MSG_END_SESSION,
+    MSG_TIME_UPDATE,
+    MSG_TIME_UP,
+    MSG_NUDGE_REQUEST,
+    MSG_TEST_RESULTS_UPDATE,
+    MSG_SAVE_STATE,
+    MSG_APPROACH_RESOLVE,
+    MSG_SESSION_STARTED,
+    MSG_SESSION_RESUMED,
+    MSG_ASSISTANT_CHUNK,
+    MSG_ASSISTANT_MESSAGE,
+    MSG_ERROR,
+    MSG_REVIEW_PHASE_STARTED,
+    MSG_APPROACH_CLASSIFIED,
+    MSG_APPROACH_DUPLICATE,
+    MSG_SOLUTION_COUNT_UPDATED,
+    ERR_NO_ACTIVE_SESSION,
+    ERR_INVALID_RESOLVE,
+    ERR_RESOLVE_FAILED,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +70,20 @@ class WebSocketSession:
         workspace_dir: Path,
         tutor_registry: TutorRegistry,
         problem_history: ProblemHistory,
+        learning_history: LearningHistory | None = None,
+        review_scheduler: ReviewScheduler | None = None,
         api_session_logger: SessionLogger,
+        solution_store: SolutionStore | None = None,
     ):
         self.ws = websocket
         self.sessions_dir = sessions_dir
         self.workspace_dir = workspace_dir
         self.tutor_registry = tutor_registry
         self.problem_history = problem_history
+        self.learning_history = learning_history
+        self.review_scheduler = review_scheduler
         self.api_session_logger = api_session_logger
+        self.solution_store = solution_store
 
         # Per-connection mutable state
         self.tutor: LeetCodeTutor | None = None
@@ -83,13 +118,61 @@ class WebSocketSession:
         full_response = ""
         async for chunk in tutor_iter:
             full_response += chunk
-            if not await self.safe_send({"type": "assistant_chunk", "content": chunk}):
+            if not await self.safe_send({"type": MSG_ASSISTANT_CHUNK, "content": chunk}):
                 break
-        await self.safe_send({"type": "assistant_message", "content": full_response})
+        await self.safe_send({"type": MSG_ASSISTANT_MESSAGE, "content": full_response})
         await self.session_logger.log_message(log_as, full_response)
         if self.tutor and self.tutor.claude_session_id:
             await self.session_logger.update_claude_session_id(self.tutor.claude_session_id)
         return full_response
+
+    async def _write_solutions_summary(self, problem_id: str) -> None:
+        """Write solutions_summary.json to workspace if solutions exist."""
+        if not self.solution_store or not self.connection_workspace:
+            return
+        try:
+            summary = await self.solution_store.get_solutions_summary(problem_id)
+            if summary:
+                path = self.connection_workspace / "solutions_summary.json"
+                path.write_text(json.dumps(summary, indent=2))
+        except Exception:
+            logger.debug("Failed to write solutions summary for %s", problem_id)
+
+    async def _record_learning_history(self, *, solved: bool) -> None:
+        """Record the current session's outcome in learning history and review scheduler."""
+        if not self.learning_history or not self.session_logger.current_session:
+            return
+        session = self.session_logger.current_session
+        problem_id = session.get("problem_id", "")
+        difficulty = session.get("difficulty", "medium")
+        problem = get_problem(problem_id)
+        if not problem:
+            return
+        tags = problem.get("tags", [])
+        hint_level = session.get("hints_requested", 0)
+        submissions = session.get("code_submissions", [])
+        attempt_count = len(submissions)
+
+        for tag in tags:
+            try:
+                await self.learning_history.record_attempt(
+                    topic=tag,
+                    problem_id=problem_id,
+                    difficulty=difficulty,
+                    solved=solved,
+                    hint_level=hint_level,
+                    attempts=attempt_count,
+                )
+            except Exception:
+                logger.exception("Failed to record learning history for topic %s", tag)
+
+            if self.review_scheduler:
+                try:
+                    await self.review_scheduler.ensure_topic(tag)
+                    if solved:
+                        await self.review_scheduler.record_review(tag, success=True)
+                except Exception:
+                    logger.exception("Failed to update review scheduler for topic %s", tag)
 
     # ------------------------------------------------------------------
     # Message handlers
@@ -99,7 +182,7 @@ class WebSocketSession:
         problem_id = msg.get("problem_id")
         mode = msg.get("mode")
         if not problem_id or not mode:
-            await self.ws.send_json({"type": "error", "content": "Missing required fields for start_session."})
+            await self.ws.send_json({"type": MSG_ERROR, "content": "Missing required fields for start_session."})
             return
 
         # Clean up previous tutor session
@@ -109,7 +192,7 @@ class WebSocketSession:
 
         problem = get_problem(problem_id)
         if not problem:
-            await self.ws.send_json({"type": "error", "content": "Problem not found"})
+            await self.ws.send_json({"type": MSG_ERROR, "content": "Problem not found"})
             return
 
         sid = await self.session_logger.start_session(problem_id, mode)
@@ -117,7 +200,7 @@ class WebSocketSession:
         self.last_editor_code = None
         if mode != "pattern-quiz":
             await self.problem_history.record_attempt(problem_id)
-        await self.ws.send_json({"type": "session_started", "session_id": sid})
+        await self.ws.send_json({"type": MSG_SESSION_STARTED, "session_id": sid})
 
         # Clean up previous workspace if switching sessions
         if self.connection_workspace and self.connection_workspace.exists():
@@ -125,6 +208,9 @@ class WebSocketSession:
 
         self.connection_workspace = self.workspace_dir / sid
         self.connection_workspace.mkdir(parents=True, exist_ok=True)
+
+        # Write solutions summary so the tutor can reference past approaches
+        await self._write_solutions_summary(problem_id)
 
         self.tutor = LeetCodeTutor(
             mode=mode,
@@ -145,7 +231,7 @@ class WebSocketSession:
         except Exception:
             logger.exception("Failed to start tutor session")
             await self.safe_send({
-                "type": "assistant_message",
+                "type": MSG_ASSISTANT_MESSAGE,
                 "content": "Failed to connect to the tutor. Using fallback mode.",
             })
             self.tutor = None
@@ -167,10 +253,10 @@ class WebSocketSession:
                     )
             except Exception:
                 logger.exception("Error during tutor chat")
-                await self.safe_send({"type": "error", "content": "An error occurred while processing your message."})
+                await self.safe_send({"type": MSG_ERROR, "content": "An error occurred while processing your message."})
         else:
             await self.safe_send({
-                "type": "assistant_message",
+                "type": MSG_ASSISTANT_MESSAGE,
                 "content": "Claude is not connected. Try selecting a new problem to start a session.",
             })
 
@@ -182,7 +268,7 @@ class WebSocketSession:
                 await self.session_logger.update_time_remaining(remaining)
         except Exception:
             logger.exception("Error handling time_update")
-            await self.safe_send({"type": "error", "content": "An error occurred while updating time."})
+            await self.safe_send({"type": MSG_ERROR, "content": "An error occurred while updating time."})
 
     async def handle_time_up(self, msg: dict) -> None:
         code = msg.get("code")
@@ -192,10 +278,10 @@ class WebSocketSession:
             try:
                 async with self._chat_lock:
                     await self._stream_tutor_response(self.tutor.enter_review_phase(code=code))
-                    await self.safe_send({"type": "review_phase_started"})
+                    await self.safe_send({"type": MSG_REVIEW_PHASE_STARTED})
             except Exception:
                 logger.exception("Error during review phase")
-                await self.safe_send({"type": "error", "content": "An error occurred while entering review phase."})
+                await self.safe_send({"type": MSG_ERROR, "content": "An error occurred while entering review phase."})
 
     async def handle_request_hint(self, msg: dict) -> None:
         code = msg.get("code")
@@ -210,20 +296,23 @@ class WebSocketSession:
                     await self.session_logger.log_hint_requested()
             except Exception:
                 logger.exception("Error during hint request")
-                await self.safe_send({"type": "error", "content": "An error occurred while generating a hint."})
+                await self.safe_send({"type": MSG_ERROR, "content": "An error occurred while generating a hint."})
         else:
             # Fallback to static hints
             problem = get_problem(self.session_logger.current_session["problem_id"]) if self.session_logger.current_session else None
             if problem:
                 hint_idx = min(self.session_logger.current_session["hints_requested"], len(problem["hints"]) - 1)
                 await self.safe_send({
-                    "type": "assistant_message",
+                    "type": MSG_ASSISTANT_MESSAGE,
                     "content": f"**Hint:** {problem['hints'][hint_idx]}",
                 })
                 await self.session_logger.log_hint_requested()
 
     async def handle_nudge_request(self, msg: dict) -> None:
-        # Server-side guard: don't nudge if user has been gone 30+ min
+        # Server-side guards
+        if self.tutor and self.tutor.solved:
+            logger.debug("Ignoring nudge_request: problem already solved")
+            return
         if (time.time() - self._last_real_activity) >= _NUDGE_ABANDON_SECS:
             logger.debug("Ignoring nudge_request: user inactive for 30+ min")
             return
@@ -239,20 +328,20 @@ class WebSocketSession:
                     full_response = ""
                     async for chunk in self.tutor.chat(nudge_prompt, code=code):
                         full_response += chunk
-                        if not await self.safe_send({"type": "assistant_chunk", "content": chunk}):
+                        if not await self.safe_send({"type": MSG_ASSISTANT_CHUNK, "content": chunk}):
                             break
-                    await self.safe_send({"type": "assistant_message", "content": full_response, "nudge": True})
+                    await self.safe_send({"type": MSG_ASSISTANT_MESSAGE, "content": full_response, "nudge": True})
                     await self.session_logger.log_message("assistant", full_response)
                     if self.tutor.claude_session_id:
                         await self.session_logger.update_claude_session_id(self.tutor.claude_session_id)
             except Exception:
                 logger.exception("Error during nudge")
-                await self.safe_send({"type": "error", "content": "An error occurred while generating a nudge."})
+                await self.safe_send({"type": MSG_ERROR, "content": "An error occurred while generating a nudge."})
 
     async def handle_resume_session(self, msg: dict) -> None:
         resume_sid = msg.get("session_id")
         if not resume_sid or not _is_valid_session_id(resume_sid):
-            await self.safe_send({"type": "error", "content": "Invalid session ID for resume."})
+            await self.safe_send({"type": MSG_ERROR, "content": "Invalid session ID for resume."})
             return
 
         # Clean up any active session first
@@ -284,7 +373,7 @@ class WebSocketSession:
         parked_chat_history = parked_session_data.get("chat_history", []) if parked_session_data else []
 
         await self.safe_send({
-            "type": "session_resumed",
+            "type": MSG_SESSION_RESUMED,
             "session_id": resume_sid,
             "resume_type": "seamless",
             "problem_id": parked.problem_id,
@@ -302,23 +391,23 @@ class WebSocketSession:
         """Resume a session from disk (no parked tutor available)."""
         session_data = await self.api_session_logger.get_session(resume_sid)
         if not session_data:
-            await self.safe_send({"type": "error", "content": "Session not found."})
+            await self.safe_send({"type": MSG_ERROR, "content": "Session not found."})
             return
 
         problem_id = session_data.get("problem_id")
         mode = session_data.get("mode")
         if mode == "pattern-quiz":
-            await self.safe_send({"type": "error", "content": "Pattern quiz sessions cannot be resumed."})
+            await self.safe_send({"type": MSG_ERROR, "content": "Pattern quiz sessions cannot be resumed."})
             return
 
         problem = get_problem(problem_id)
         if not problem:
-            await self.safe_send({"type": "error", "content": "Problem not found for this session."})
+            await self.safe_send({"type": MSG_ERROR, "content": "Problem not found for this session."})
             return
 
         resumed = await self.session_logger.resume_session(resume_sid)
         if not resumed:
-            await self.safe_send({"type": "error", "content": "Failed to reopen session."})
+            await self.safe_send({"type": MSG_ERROR, "content": "Failed to reopen session."})
             return
 
         self.current_session_id = resume_sid
@@ -383,11 +472,11 @@ class WebSocketSession:
                     )
             except Exception:
                 logger.exception("Failed to replay history for session %s", resume_sid)
-                await self.safe_send({"type": "error", "content": "Failed to restore session context."})
+                await self.safe_send({"type": MSG_ERROR, "content": "Failed to restore session context."})
                 self.tutor = None
 
         await self.safe_send({
-            "type": "session_resumed",
+            "type": MSG_SESSION_RESUMED,
             "session_id": resume_sid,
             "resume_type": resume_type,
             "problem_id": problem_id,
@@ -407,7 +496,17 @@ class WebSocketSession:
         code = msg.get("code")
         is_submit = msg.get("is_submit", False)
 
-        if not test_results or not self.connection_workspace:
+        if not test_results:
+            return
+        if not self.connection_workspace or not self.tutor:
+            # No active session — send an error so the frontend can clear
+            # its typing indicator instead of spinning forever.
+            if is_submit and test_results.get("failed", 1) == 0:
+                await self.safe_send({
+                    "type": MSG_ERROR,
+                    "code": ERR_NO_ACTIVE_SESSION,
+                    "content": "Tutor session is not active. Please select a problem to start a new session.",
+                })
             return
 
         # Sync solution.py with the current code
@@ -419,6 +518,10 @@ class WebSocketSession:
         results_path = self.connection_workspace / "test_results.json"
         results_path.write_text(json.dumps(test_results, indent=2))
 
+        # Persist code submission to session JSON
+        if code and self.current_session_id:
+            await self.session_logger.log_code_submission(code, test_results)
+
         # Set compact summary on tutor (included in state context)
         if self.tutor:
             passed = test_results.get("passed", 0)
@@ -426,6 +529,167 @@ class WebSocketSession:
             total = passed + failed
             run_type = "submit" if is_submit else "run"
             self.tutor.last_test_summary = f"{passed}/{total} passed ({run_type})"
+
+        # Auto-respond on successful submission
+        saved_solution_id = msg.get("saved_solution_id")
+        logger.info(
+            "test_results_update: is_submit=%s, failed=%s, tutor=%s, solved=%s, saved_sol=%s",
+            is_submit, test_results.get("failed"), self.tutor is not None,
+            self.tutor.solved if self.tutor else "N/A", saved_solution_id,
+        )
+        if (
+            is_submit
+            and test_results.get("failed", 1) == 0
+            and self.tutor
+        ):
+            if not self.tutor.solved:
+                # First successful submission
+                try:
+                    async with self._chat_lock:
+                        if self.tutor.mode == "interview" and self.tutor.interview_phase != "review":
+                            # Interview mode: transition to review phase
+                            await self.session_logger.log_phase_transition("review")
+                            await self._stream_tutor_response(
+                                self.tutor.enter_review_phase(code=code)
+                            )
+                            await self.safe_send({"type": MSG_REVIEW_PHASE_STARTED})
+                            self.tutor.solved = True
+                        else:
+                            # Learning mode: congratulate and ask follow-ups
+                            await self._stream_tutor_response(
+                                self.tutor.auto_congratulate(code=code)
+                            )
+                except Exception:
+                    logger.exception("Error during auto-congratulate on solve")
+
+                # Record in learning history and review scheduler
+                await self._record_learning_history(solved=True)
+            else:
+                # Re-submission after already solved — acknowledge the update
+                try:
+                    async with self._chat_lock:
+                        await self._stream_tutor_response(
+                            self.tutor.chat(RESUBMIT_AFTER_SOLVE_PROMPT, code=code)
+                        )
+                except Exception:
+                    logger.exception("Error during post-solve resubmit response")
+
+            # Classify approach after successful solve
+            await self._classify_and_notify(code, saved_solution_id)
+
+    async def _classify_and_notify(
+        self, code: str | None, saved_solution_id: str | None
+    ) -> None:
+        """Classify the solution approach and notify the frontend."""
+        if not self.tutor or not self.solution_store or not saved_solution_id:
+            return
+        problem_id = (
+            self.session_logger.current_session.get("problem_id")
+            if self.session_logger.current_session
+            else None
+        )
+        if not problem_id:
+            return
+
+        try:
+            async with self._chat_lock:
+                result = await self.tutor.classify_approach(code=code)
+            if not result:
+                return
+
+            approach_name = result["name"]
+            approach_complexity = result.get("complexity")
+
+            await self.solution_store.update_approach(
+                problem_id, saved_solution_id, approach_name,
+                complexity=approach_complexity,
+            )
+
+            existing = await self.solution_store.find_by_approach(
+                problem_id, approach_name, exclude_id=saved_solution_id
+            )
+
+            if existing:
+                # Duplicate approach — let the user decide
+                new_sol = await self.solution_store.get_solution(
+                    problem_id, saved_solution_id
+                )
+                await self.safe_send({
+                    "type": MSG_APPROACH_DUPLICATE,
+                    "approach": approach_name,
+                    "approach_complexity": approach_complexity,
+                    "new_solution_id": saved_solution_id,
+                    "existing_solution_id": existing["id"],
+                    "new_runtime_ms": new_sol["avg_runtime_ms"] if new_sol else None,
+                    "existing_runtime_ms": existing.get("avg_runtime_ms"),
+                })
+            else:
+                await self.safe_send({
+                    "type": MSG_APPROACH_CLASSIFIED,
+                    "approach": approach_name,
+                    "approach_complexity": approach_complexity,
+                    "solution_id": saved_solution_id,
+                })
+                # Send authoritative count now that approach is set
+                counts = await self.solution_store.get_solution_counts()
+                count = counts.get(problem_id, 0)
+                await self.safe_send({
+                    "type": MSG_SOLUTION_COUNT_UPDATED,
+                    "problem_id": problem_id,
+                    "count": count,
+                })
+        except Exception:
+            logger.exception("Error during approach classification")
+
+    async def handle_approach_resolve(self, msg: dict) -> None:
+        """Handle the user's choice when a duplicate approach is detected."""
+        problem_id = msg.get("problem_id")
+        keep_id = msg.get("keep_id")
+        discard_id = msg.get("discard_id")
+        action = msg.get("action")
+
+        if not all([problem_id, action]) or action not in ("replace", "keep_both", "discard_new"):
+            await self.safe_send({
+                "type": MSG_ERROR,
+                "code": ERR_INVALID_RESOLVE,
+                "content": "Invalid approach_resolve message.",
+            })
+            return
+
+        if not self.solution_store:
+            return
+
+        try:
+            if action == "replace" and discard_id:
+                await self.solution_store.delete_solution(problem_id, discard_id)
+            elif action == "discard_new" and discard_id:
+                await self.solution_store.delete_solution(problem_id, discard_id)
+            # "keep_both" → no-op
+
+            # Send updated count
+            counts = await self.solution_store.get_solution_counts()
+            count = counts.get(problem_id, 0)
+            await self.safe_send({
+                "type": MSG_SOLUTION_COUNT_UPDATED,
+                "problem_id": problem_id,
+                "count": count,
+            })
+        except Exception:
+            logger.exception("Error handling approach_resolve")
+            await self.safe_send({
+                "type": MSG_ERROR,
+                "code": ERR_RESOLVE_FAILED,
+                "content": "Failed to resolve approach duplicate.",
+            })
+
+    async def handle_save_state(self, msg: dict) -> None:
+        """Periodic heartbeat from the frontend — persists editor code to session."""
+        code = msg.get("code")
+        if code and self.current_session_id:
+            self.last_editor_code = code
+            await self.session_logger.update_editor_code(code)
+            if self.connection_workspace:
+                (self.connection_workspace / "solution.py").write_text(code)
 
     async def handle_end_session(self, msg: dict) -> None:
         try:
@@ -440,7 +704,7 @@ class WebSocketSession:
             self.tutor = None
             self.current_session_id = None
             self.last_editor_code = None
-            await self.safe_send({"type": "error", "content": "An error occurred while ending the session."})
+            await self.safe_send({"type": MSG_ERROR, "content": "An error occurred while ending the session."})
 
     # ------------------------------------------------------------------
     # Main loop & cleanup
@@ -448,15 +712,17 @@ class WebSocketSession:
 
     # Dispatch table: message type -> handler method name
     _HANDLERS = {
-        "start_session": "handle_start_session",
-        "message": "handle_message",
-        "time_update": "handle_time_update",
-        "time_up": "handle_time_up",
-        "request_hint": "handle_request_hint",
-        "nudge_request": "handle_nudge_request",
-        "resume_session": "handle_resume_session",
-        "end_session": "handle_end_session",
-        "test_results_update": "handle_test_results_update",
+        MSG_START_SESSION: "handle_start_session",
+        MSG_MESSAGE: "handle_message",
+        MSG_TIME_UPDATE: "handle_time_update",
+        MSG_TIME_UP: "handle_time_up",
+        MSG_REQUEST_HINT: "handle_request_hint",
+        MSG_NUDGE_REQUEST: "handle_nudge_request",
+        MSG_RESUME_SESSION: "handle_resume_session",
+        MSG_END_SESSION: "handle_end_session",
+        MSG_TEST_RESULTS_UPDATE: "handle_test_results_update",
+        MSG_SAVE_STATE: "handle_save_state",
+        MSG_APPROACH_RESOLVE: "handle_approach_resolve",
     }
 
     async def run(self) -> None:
@@ -469,21 +735,21 @@ class WebSocketSession:
                     msg = json.loads(data)
                 except (json.JSONDecodeError, ValueError) as e:
                     logger.warning("Malformed JSON from client: %s", e)
-                    await self.ws.send_json({"type": "error", "content": "Invalid message format."})
+                    await self.ws.send_json({"type": MSG_ERROR, "content": "Invalid message format."})
                     continue
 
                 msg_type = msg.get("type")
                 if not msg_type:
-                    await self.ws.send_json({"type": "error", "content": "Missing message type."})
+                    await self.ws.send_json({"type": MSG_ERROR, "content": "Missing message type."})
                     continue
 
                 # Track real user activity (exclude automated/passive messages)
-                if msg_type not in ("nudge_request", "test_results_update"):
+                if msg_type not in (MSG_NUDGE_REQUEST, MSG_TEST_RESULTS_UPDATE, MSG_SAVE_STATE):
                     self._last_real_activity = time.time()
 
                 handler_name = self._HANDLERS.get(msg_type)
                 if not handler_name:
-                    await self.ws.send_json({"type": "error", "content": f"Unknown message type: {msg_type}"})
+                    await self.ws.send_json({"type": MSG_ERROR, "content": f"Unknown message type: {msg_type}"})
                     continue
 
                 try:
@@ -491,7 +757,7 @@ class WebSocketSession:
                 except Exception:
                     logger.exception("Unexpected error handling message type=%s", msg_type)
                     try:
-                        await self.ws.send_json({"type": "error", "content": "An internal error occurred."})
+                        await self.ws.send_json({"type": MSG_ERROR, "content": "An internal error occurred."})
                     except Exception:
                         pass
         except (WebSocketDisconnect, RuntimeError):
@@ -552,7 +818,10 @@ async def websocket_chat(
     workspace_dir: Path,
     tutor_registry: TutorRegistry,
     problem_history: ProblemHistory,
+    learning_history: LearningHistory | None = None,
+    review_scheduler: ReviewScheduler | None = None,
     api_session_logger: SessionLogger,
+    solution_store: SolutionStore | None = None,
 ) -> None:
     """WebSocket endpoint handler for /ws/chat."""
     await websocket.accept()
@@ -566,7 +835,7 @@ async def websocket_chat(
         return
 
     if AUTH_ENABLED:
-        if first_msg.get("type") != "auth" or not verify_token(first_msg.get("token")):
+        if first_msg.get("type") != MSG_AUTH or not verify_token(first_msg.get("token")):
             await websocket.close(code=4001, reason="Unauthorized")
             return
 
@@ -576,7 +845,10 @@ async def websocket_chat(
         workspace_dir=workspace_dir,
         tutor_registry=tutor_registry,
         problem_history=problem_history,
+        learning_history=learning_history,
+        review_scheduler=review_scheduler,
         api_session_logger=api_session_logger,
+        solution_store=solution_store,
     )
     try:
         await session.run()

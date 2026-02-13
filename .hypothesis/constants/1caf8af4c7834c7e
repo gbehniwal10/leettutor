@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/session_logger.py
+# hypothesis_version: 6.151.6
+
+['*.json', '.tmp', '^[0-9a-f]{8,}$', 'chat_history', 'claude_session_id', 'code', 'code_submissions', 'content', 'duration_seconds', 'ended_at', 'final_result', 'hints_requested', 'last_editor_code', 'mode', 'notes', 'pattern-quiz', 'phase', 'phase_transitions', 'problem_id', 'role', 'session_id', 'sessions', 'started_at', 'test_results', 'time_remaining', 'timestamp', 'w']

@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/problems.py
+# hypothesis_version: 6.151.6
+
+['*.json', 'Skipping %s: %s', 'categories', 'difficulty', 'id', 'prerequisites', 'problems', 'skill-tree.json', 'tags', 'title', 'utf-8']

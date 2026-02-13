@@ -15,6 +15,7 @@ from backend.auth import (
     _valid_tokens,
     _login_attempts,
     _LOGIN_RATE_LIMIT,
+    _LOGIN_RATE_WINDOW,
     TOKEN_TTL_SECONDS,
 )
 
@@ -138,6 +139,28 @@ class TestRateLimiting:
         _login_attempts[ip] = [time.monotonic() - 120.0 for _ in _login_attempts[ip]]
         # Should now be allowed again
         check_login_rate_limit(ip)
+
+    def test_stale_rate_limit_entries_pruned(self):
+        """_prune_expired_tokens should remove rate-limit entries whose last
+        attempt is older than _LOGIN_RATE_WINDOW."""
+        stale_ip = "10.0.0.50"
+        fresh_ip = "10.0.0.51"
+
+        # Simulate a stale entry: all attempts older than the window
+        stale_time = time.monotonic() - _LOGIN_RATE_WINDOW - 10
+        _login_attempts[stale_ip] = [stale_time - 20, stale_time - 10, stale_time]
+
+        # Simulate a fresh entry: most recent attempt is within the window
+        _login_attempts[fresh_ip] = [time.monotonic() - 5]
+
+        _prune_expired_tokens()
+
+        assert stale_ip not in _login_attempts, (
+            "Stale rate-limit entry should be pruned"
+        )
+        assert fresh_ip in _login_attempts, (
+            "Fresh rate-limit entry should be preserved"
+        )
 
 
 class TestGetTokenFromRequest:

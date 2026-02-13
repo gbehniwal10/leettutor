@@ -6,6 +6,22 @@
     "array",
     "binary-search"
   ],
+  "approaches": [
+    {
+      "name": "Iterative Binary Search",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Recursive Binary Search",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(log n)"
+      }
+    }
+  ],
   "description": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.\nYou must write an algorithm with O(log n) runtime complexity.\n\n**Example 1:**\n\n```\nInput: nums = [-1,0,3,5,9,12], target = 9\nOutput: 4\nExplanation: 9 exists in nums and its index is 4\n\n```\n**Example 2:**\n\n```\nInput: nums = [-1,0,3,5,9,12], target = 2\nOutput: -1\nExplanation: 2 does not exist in nums so return -1\n\n```\n**Constraints:**\n\n- `1 <= nums.length <= 104`\n- `-104 < nums[i], target < 104`\n- `All the integers in nums are unique.`\n- `nums is sorted in ascending order.`\n",
   "starter_code": "def search(nums: list[int], target: int) -> int:\n    # Your code here\n    pass\n",
   "function_name": "search",

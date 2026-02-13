@@ -463,7 +463,7 @@ function SkillTreeIsland() {
 
   // Zoom-in reveal animation when the tree becomes visible to the user.
   // Two triggers: (1) skill-tree-root losing .hidden (List→Tree toggle),
-  // (2) problem-modal losing .hidden (modal re-opened while Tree tab active).
+  // (2) problem-modal (drawer) gaining .open class (drawer opened while Tree tab active).
   useEffect(() => {
     const root = document.getElementById("skill-tree-root");
     const modal = document.getElementById("problem-modal");
@@ -471,7 +471,7 @@ function SkillTreeIsland() {
 
     function isTreeVisible() {
       return !root.classList.contains("hidden") &&
-             (!modal || !modal.classList.contains("hidden"));
+             (!modal || modal.classList.contains("open"));
     }
 
     wasHidden.current = !isTreeVisible();

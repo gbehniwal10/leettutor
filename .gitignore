@@ -3,6 +3,7 @@ __pycache__/
 *.pyo
 .env
 sessions/
+solutions/
 workspace/
 *.pdf
 .claude/
@@ -13,3 +14,4 @@ problem_history.json
 node_modules/
 frontend/dist/
 frontend/node_modules/
+focus-engine/

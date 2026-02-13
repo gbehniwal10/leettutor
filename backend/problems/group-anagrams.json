@@ -8,6 +8,22 @@
     "string",
     "sorting"
   ],
+  "approaches": [
+    {
+      "name": "Hash Map (Sorted Key)",
+      "complexity": {
+        "time": "O(n * k log k)",
+        "space": "O(n * k)"
+      }
+    },
+    {
+      "name": "Hash Map (Character Count Key)",
+      "complexity": {
+        "time": "O(n * k)",
+        "space": "O(n * k)"
+      }
+    }
+  ],
   "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n\n**Example 1:**\n\n```\nInput: strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]\nOutput: [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]\nExplanation:\n\n```\nThere is no string in strs that can be rearranged to form \"bat\".\nThe strings \"nat\" and \"tan\" are anagrams as they can be rearranged to form each other.\nThe strings \"ate\", \"eat\", and \"tea\" are anagrams as they can be rearranged to form each other.\n\n**Example 2:**\n\n```\nInput: strs = [\"\"]\nOutput: [[\"\"]]\n\n```\n**Example 3:**\n\n```\nInput: strs = [\"a\"]\nOutput: [[\"a\"]]\n\n```\n**Constraints:**\n\n- `1 <= strs.length <= 104`\n- `0 <= strs[i].length <= 100`\n- `strs[i] consists of lowercase English letters.`\n",
   "starter_code": "def groupAnagrams(strs: list[str]) -> list[list[str]]:\n    # Your code here\n    pass\n",
   "function_name": "groupAnagrams",

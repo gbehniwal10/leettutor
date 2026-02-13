@@ -9,17 +9,36 @@ import { authHeaders, handleAuthError, escapeHtml, renderMarkdown, trapFocus, re
 
 let _deps = {
     resumeSession: null,
+    loadSolutionsTab: null,
 };
 
-export function configureHistoryDeps({ resumeSession }) {
-    _deps = { resumeSession };
+export function configureHistoryDeps(deps) {
+    Object.assign(_deps, deps);
 }
 
 // --- Public functions ---
 
+export function initHistoryTabs() {
+    document.querySelectorAll('.history-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            if (tab.dataset.tab === 'solutions' && _deps.loadSolutionsTab) {
+                _deps.loadSolutionsTab();
+            } else {
+                loadSessions();
+            }
+        });
+    });
+}
+
 export function showHistoryModal() {
     const modal = document.getElementById('history-modal');
     modal.classList.remove('hidden');
+    // Reset to Sessions tab
+    document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+    const sessionsTab = document.querySelector('.history-tab[data-tab="sessions"]');
+    if (sessionsTab) sessionsTab.classList.add('active');
     loadSessions();
     trapFocus(modal);
 }

@@ -20,4 +20,5 @@ export const state = {
     enhancedMode: false,
     resuming: false,
     resumeTimeoutId: null,
+    reviewQueue: null,  // { due_problems: [...], due_topics: [...] } from /api/review-queue
 };

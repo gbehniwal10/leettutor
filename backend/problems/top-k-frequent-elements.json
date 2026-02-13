@@ -12,6 +12,12 @@
     "sorting",
     "heap-(priority-queue)"
   ],
+  "approaches": [
+    { "name": "Hash Map + Sorting", "complexity": { "time": "O(n log n)", "space": "O(n)" } },
+    { "name": "Hash Map + Min-Heap of Size k", "complexity": { "time": "O(n log k)", "space": "O(n)" } },
+    { "name": "Hash Map + Bucket Sort", "complexity": { "time": "O(n)", "space": "O(n)" } },
+    { "name": "QuickSelect", "complexity": { "time": "O(n)", "space": "O(n)" } }
+  ],
   "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.\n\n**Example 1:**\n\n```\nInput: nums = [1,1,1,2,2,3], k = 2\nOutput: [1,2]\n\n```\n**Example 2:**\n\n```\nInput: nums = [1], k = 1\nOutput: [1]\n\n```\n**Constraints:**\n\n- `1 <= nums.length <= 105`\n- `-104 <= nums[i] <= 104`\n- `k is in the range [1, the number of unique elements in the array].`\n- `It is guaranteed that the answer is unique.`\n\n**Follow up:** Your algorithm's time complexity must be better than O(n log n), where n is the array's size.\n",
   "starter_code": "def topKFrequent(nums: list[int], k: int) -> list[int]:\n    # Your code here\n    pass\n",
   "function_name": "topKFrequent",

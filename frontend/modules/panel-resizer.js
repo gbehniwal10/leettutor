@@ -86,3 +86,87 @@ export function initResizeHandles() {
         max: () => document.querySelector('.center-panel').getBoundingClientRect().height * 0.5,
     });
 }
+
+// ---------------------------------------------------------------------------
+// Reset layout — animate all panels back to CSS defaults
+// ---------------------------------------------------------------------------
+
+const DEFAULT_PANEL_WIDTH = '350px';
+const TRANSITION_FALLBACK_MS = 300;
+
+export function resetLayout(opts = {}) {
+    const problem = document.getElementById('problem-panel');
+    const right = document.querySelector('.right-panel');
+    const testResults = document.getElementById('test-results');
+
+    // Uncollapse + animate problem panel to default width
+    if (problem) {
+        if (problem.classList.contains('collapsed')) {
+            _syncProblemToggle(false);
+            problem.classList.remove('collapsed');
+        }
+        _pinAndAnimate(problem, 'width', DEFAULT_PANEL_WIDTH);
+    }
+
+    // Animate right panel to default width
+    if (right) _pinAndAnimate(right, 'width', DEFAULT_PANEL_WIDTH);
+
+    // Snap test results back to CSS default (no animation needed)
+    if (testResults) {
+        testResults.style.height = '';
+        testResults.style.maxHeight = '';
+    }
+
+    // Collapse whiteboard if callback provided
+    if (opts.collapseWhiteboard) opts.collapseWhiteboard();
+}
+
+/**
+ * Pin an element at its current computed size, force reflow,
+ * then set the target so CSS transition animates between them.
+ */
+function _pinAndAnimate(el, prop, target) {
+    const current = window.getComputedStyle(el)[prop];
+    el.style[prop] = current;
+    // Force reflow so the browser sees the pinned value
+    void el.offsetWidth;
+    el.style[prop] = target;
+    _clearAfterTransition(el, prop);
+}
+
+/**
+ * After transition ends (with a fallback timeout), remove the inline
+ * style so CSS defaults own the property again.
+ */
+function _clearAfterTransition(el, prop) {
+    let cleaned = false;
+    const cleanup = () => {
+        if (cleaned) return;
+        cleaned = true;
+        el.style[prop] = '';
+    };
+    el.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName === prop) {
+            el.removeEventListener('transitionend', handler);
+            cleanup();
+        }
+    });
+    setTimeout(cleanup, TRANSITION_FALLBACK_MS);
+}
+
+/**
+ * Sync the collapse/expand UI (toggle button title, expand button, resize handle).
+ * @param {boolean} collapsed - true if collapsing, false if expanding
+ */
+function _syncProblemToggle(collapsed) {
+    const toggleBtn = document.getElementById('toggle-problem');
+    const expandBtn = document.getElementById('expand-problem');
+    const resizeHandle = document.getElementById('problem-panel-resize');
+
+    if (toggleBtn) {
+        toggleBtn.innerHTML = collapsed ? '&#9654;' : '&#9664;';
+        toggleBtn.title = collapsed ? 'Expand problem panel' : 'Collapse problem panel';
+    }
+    if (expandBtn) expandBtn.style.display = collapsed ? '' : 'none';
+    if (resizeHandle) resizeHandle.style.display = collapsed ? 'none' : '';
+}

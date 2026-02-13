@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/review_scheduler.py
+# hypothesis_version: 6.151.6
+
+[0.0, 0.2, 0.3, 0.4, 0.5, 1.0, 2.0, 3.0, '.tmp', 'box', 'days_overdue', 'id', 'is_review', 'last_reviewed', 'last_solved_at', 'primary', 'primary_ratio', 'priority', 'problem_id', 'review_queue', 'review_ratio', 'solved', 'status', 'suggested_mix', 'tags', 'topic', 'unsolved', 'w']

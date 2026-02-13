@@ -9,6 +9,10 @@
     "backtracking",
     "matrix"
   ],
+  "approaches": [
+    { "name": "Backtracking DFS", "complexity": { "time": "O(m * n * 4^L)", "space": "O(L)" } },
+    { "name": "Backtracking DFS (With Frequency Pruning)", "complexity": { "time": "O(m * n * 4^L)", "space": "O(L)" } }
+  ],
   "description": "Given an m x n grid of characters board and a string word, return true if word exists in the grid.\nThe word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.\n\n**Example 1:**\n\n```\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"\nOutput: true\n\n```\n**Example 2:**\n\n```\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"SEE\"\nOutput: true\n\n```\n**Example 3:**\n\n```\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"\nOutput: false\n\n```\n**Constraints:**\n\n- `m == board.length`\n- `n = board[i].length`\n- `1 <= m, n <= 6`\n- `1 <= word.length <= 15`\n- `board and word consists of only lowercase and uppercase English letters.`\n\n**Follow up:** Could you use search pruning to make your solution faster with a larger board?\n",
   "starter_code": "def exist(board: list[list[str]], word: str) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "exist",

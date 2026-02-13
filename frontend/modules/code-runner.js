@@ -82,14 +82,20 @@ export async function submitCode() {
     const code = getEditorValue();
 
     try {
+        const submitBody = {
+            code,
+            problem_id: state.currentProblem.id,
+            mode: state.mode || '',
+            session_id: state.sessionId || '',
+        };
         let response = await fetch('/api/submit', {
             method: 'POST', headers: authHeaders(),
-            body: JSON.stringify({ code, problem_id: state.currentProblem.id })
+            body: JSON.stringify(submitBody)
         });
         if (await handleAuthError(response)) {
             response = await fetch('/api/submit', {
                 method: 'POST', headers: authHeaders(),
-                body: JSON.stringify({ code, problem_id: state.currentProblem.id })
+                body: JSON.stringify(submitBody)
             });
         }
         if (!response.ok) {
@@ -105,6 +111,14 @@ export async function submitCode() {
         const problemId = state.currentProblem.id;
         if (results.failed === 0) {
             markSolved(problemId);
+            // Emit solution-saved event for toast/badge update
+            if (results.saved_solution_id) {
+                eventBus.emit(Events.SOLUTION_SAVED, {
+                    problemId,
+                    solutionId: results.saved_solution_id,
+                    results,
+                });
+            }
         } else {
             markAttempted(problemId);
         }
@@ -184,11 +198,20 @@ export function displayTestResults(results, isSubmit) {
 
     // Send results to backend so the tutor agent can access them
     if (_deps.wsSend && state.sessionId) {
-        _deps.wsSend({
+        const wsMsg = {
             type: WS_MESSAGE_TYPES.TEST_RESULTS_UPDATE,
             test_results: results,
             code: getEditorValue(),
             is_submit: isSubmit,
-        });
+        };
+        if (results.saved_solution_id) {
+            wsMsg.saved_solution_id = results.saved_solution_id;
+        }
+        _deps.wsSend(wsMsg);
+
+        // Show typing indicator while the tutor prepares its response
+        if (isSubmit && results.failed === 0) {
+            eventBus.emit(Events.TUTOR_THINKING);
+        }
     }
 }

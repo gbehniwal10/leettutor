@@ -6,6 +6,10 @@
     "two-pointers",
     "string"
   ],
+  "approaches": [
+    { "name": "Filter + Reverse String Comparison", "complexity": { "time": "O(n)", "space": "O(n)" } },
+    { "name": "Two Pointers (In-Place)", "complexity": { "time": "O(n)", "space": "O(1)" } }
+  ],
   "description": "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\nGiven a string s, return true if it is a palindrome, or false otherwise.\n\n**Example 1:**\n\n```\nInput: s = \"A man, a plan, a canal: Panama\"\nOutput: true\nExplanation: \"amanaplanacanalpanama\" is a palindrome.\n\n```\n**Example 2:**\n\n```\nInput: s = \"race a car\"\nOutput: false\nExplanation: \"raceacar\" is not a palindrome.\n\n```\n**Example 3:**\n\n```\nInput: s = \" \"\nOutput: true\nExplanation: s is an empty string \"\" after removing non-alphanumeric characters.\nSince an empty string reads the same forward and backward, it is a palindrome.\n\n```\n**Constraints:**\n\n- `1 <= s.length <= 2 * 105`\n- `s consists only of printable ASCII characters.`\n",
   "starter_code": "def isPalindrome(s: str) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "isPalindrome",

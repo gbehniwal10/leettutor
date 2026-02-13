@@ -5,8 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Run the app (localhost:8000, hot-reload)
-python run.py
+# Dev mode (two servers: Vite :5173 + backend :8000 — open :5173)
+./dev.sh
+
+# Production mode (single server, requires build first)
+cd frontend && npm run build && cd .. && python run.py
 
 # Run all tests (98 tests)
 pytest
@@ -19,7 +22,19 @@ pytest tests/test_executor.py::test_basic_execution -xvs
 
 # Install dependencies
 pip install -r requirements.txt
+cd frontend && npm install
 ```
+
+### Dev requires two servers
+
+In development, Vite on `:5173` serves HTML/JS/CSS with HMR and proxies `/api` + `/ws` to the FastAPI backend on `:8000`. Always open `:5173` during development.
+
+In production, `npm run build` writes to `frontend/dist/` and `python run.py` serves `dist/index.html` + `/assets/` directly.
+
+**Common pitfalls:**
+- Stale `frontend/dist/` — `dev.sh` removes it on start; if you run `python run.py` without building, delete `dist/` first so the backend falls back to `frontend/index.html`
+- `CLAUDECODE` env var — causes SDK errors in dev; `dev.sh` unsets it automatically
+- Opening `:8000` in dev — you'll get unprocessed bare imports; always use `:5173`
 
 ## Tickets
 
@@ -52,12 +67,17 @@ LeetCode Tutor is an interactive browser-based practice app with an AI tutor pow
 
 **Code execution security**: `executor.py` validates `function_call` expressions (rejects `__`, `import`, `eval`), uses `start_new_session=True` for process group isolation, strips sensitive env vars, and applies platform-specific memory limits (macOS: `RLIMIT_RSS`, Linux: `RLIMIT_AS`).
 
-### Frontend (Vanilla JS, no build step)
+### Browser Support
+
+The low-distraction theme uses OKLCH colors, requiring Chrome 111+, Firefox 113+, Safari 15.4+.
+
+### Frontend (Vanilla JS + Vite)
 
 - `app.js` — Thin orchestrator that imports and wires all 23 ES modules
 - `modules/` — All use **dependency injection** via `configure*Deps(deps)` functions to avoid circular imports
 - State: mutable `state` object in `modules/state.js`; cross-module events via `modules/event-bus.js`
-- Editor: Monaco Editor loaded from CDN
+- Editor: Monaco Editor (npm, Vite-bundled with separate chunk via `manualChunks`)
+- Markdown: marked + DOMPurify (npm, ES imports)
 - Streaming: `assistant_chunk` messages accumulate, final `assistant_message` completes the response
 
 ### Data

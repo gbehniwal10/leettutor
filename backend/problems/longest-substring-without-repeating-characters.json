@@ -7,6 +7,29 @@
     "string",
     "sliding-window"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Check All Substrings)",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(min(n, m))"
+      }
+    },
+    {
+      "name": "Sliding Window with HashSet",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(min(n, m))"
+      }
+    },
+    {
+      "name": "Sliding Window with HashMap (Optimized)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(min(n, m))"
+      }
+    }
+  ],
   "description": "Given a string s, find the length of the longest substring without repeating characters.\n\n**Example 1:**\n\n```\nInput: s = \"abcabcbb\"\nOutput: 3\nExplanation: The answer is \"abc\", with the length of 3.\n\n```\n**Example 2:**\n\n```\nInput: s = \"bbbbb\"\nOutput: 1\nExplanation: The answer is \"b\", with the length of 1.\n\n```\n**Example 3:**\n\n```\nInput: s = \"pwwkew\"\nOutput: 3\nExplanation: The answer is \"wke\", with the length of 3.\nNotice that the answer must be a substring, \"pwke\" is a subsequence and not a substring.\n\n```\n**Constraints:**\n\n- `0 <= s.length <= 5 * 104`\n- `s consists of English letters, digits, symbols and spaces.`\n",
   "starter_code": "def lengthOfLongestSubstring(s: str) -> int:\n    # Your code here\n    pass\n",
   "function_name": "lengthOfLongestSubstring",

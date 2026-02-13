@@ -7,6 +7,36 @@
     "string",
     "dynamic-programming"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Check All Substrings)",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Expand Around Center",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Bottom-up DP (2D)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      }
+    },
+    {
+      "name": "Manacher's Algorithm",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given a string s, return the longest palindromic substring in s.\n\n**Example 1:**\n\n```\nInput: s = \"babad\"\nOutput: \"bab\"\nExplanation: \"aba\" is also a valid answer.\n\n```\n**Example 2:**\n\n```\nInput: s = \"cbbd\"\nOutput: \"bb\"\n\n```\n**Constraints:**\n\n- `1 <= s.length <= 1000`\n- `s consist of only digits and English letters.`\n",
   "starter_code": "def longestPalindrome(s: str) -> str:\n    # Your code here\n    pass\n",
   "function_name": "longestPalindrome",

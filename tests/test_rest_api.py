@@ -68,9 +68,37 @@ class TestProblemsEndpoint:
         assert "hidden_test_cases" not in data
 
     @pytest.mark.asyncio
+    async def test_get_problem_includes_approaches(self, client, sample_problem):
+        """Problem detail should include the approaches field."""
+        resp = await client.get(f"/api/problems/{sample_problem['id']}")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "approaches" in data
+        assert isinstance(data["approaches"], list)
+        assert len(data["approaches"]) >= 1
+
+    @pytest.mark.asyncio
     async def test_get_problem_not_found(self, client):
         resp = await client.get("/api/problems/nonexistent-xyz")
         assert resp.status_code == 404
+
+
+# ---------------------------------------------------------------------------
+# Review queue endpoint
+# ---------------------------------------------------------------------------
+
+class TestReviewQueueEndpoint:
+
+    @pytest.mark.asyncio
+    async def test_review_queue_returns_structure(self, client):
+        resp = await client.get("/api/review-queue")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert "due_problems" in data
+        assert "due_topics" in data
+        assert "topic_summaries" in data
+        assert isinstance(data["due_problems"], list)
+        assert isinstance(data["due_topics"], list)
 
 
 # ---------------------------------------------------------------------------
@@ -261,3 +289,84 @@ class TestSkillTreeEndpoint:
             async with AsyncClient(transport=transport, base_url="http://testserver") as ac:
                 resp = await ac.get("/api/skill-tree")
                 assert resp.status_code == 401
+
+
+# ---------------------------------------------------------------------------
+# Solution endpoints
+# ---------------------------------------------------------------------------
+
+class TestSolutionEndpoints:
+
+    @pytest.mark.asyncio
+    async def test_solution_counts_returns_dict(self, client):
+        resp = await client.get("/api/solution-counts")
+        assert resp.status_code == 200
+        assert isinstance(resp.json(), dict)
+
+    @pytest.mark.asyncio
+    async def test_list_solutions_returns_list(self, client, sample_problem):
+        resp = await client.get(f"/api/solutions/{sample_problem['id']}")
+        assert resp.status_code == 200
+        assert isinstance(resp.json(), list)
+
+    @pytest.mark.asyncio
+    async def test_get_solution_not_found(self, client, sample_problem):
+        resp = await client.get(f"/api/solutions/{sample_problem['id']}/deadbeef00000000")
+        assert resp.status_code == 404
+
+    @pytest.mark.asyncio
+    async def test_delete_solution_not_found(self, client, sample_problem):
+        resp = await client.delete(f"/api/solutions/{sample_problem['id']}/deadbeef00000000")
+        assert resp.status_code == 404
+
+    @pytest.mark.asyncio
+    async def test_patch_solution_not_found(self, client, sample_problem):
+        resp = await client.patch(
+            f"/api/solutions/{sample_problem['id']}/deadbeef00000000",
+            json={"label": "test"},
+        )
+        assert resp.status_code == 404
+
+
+# ---------------------------------------------------------------------------
+# Submit with auto-save
+# ---------------------------------------------------------------------------
+
+class TestSubmitAutoSave:
+
+    @pytest.mark.asyncio
+    async def test_submit_includes_saved_solution_id(self, client, sample_problem):
+        """POST /api/submit with correct code should include saved_solution_id."""
+        resp = await client.post("/api/submit", json={
+            "code": "def add(a, b):\n    return a + b\n",
+            "problem_id": sample_problem["id"],
+            "mode": "learning",
+            "session_id": "abc123",
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["failed"] == 0
+        assert "saved_solution_id" in data
+
+    @pytest.mark.asyncio
+    async def test_submit_wrong_code_no_save(self, client, sample_problem):
+        """POST /api/submit with wrong code should not include saved_solution_id."""
+        resp = await client.post("/api/submit", json={
+            "code": "def add(a, b):\n    return 0\n",
+            "problem_id": sample_problem["id"],
+        })
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["failed"] > 0
+        assert "saved_solution_id" not in data
+
+    @pytest.mark.asyncio
+    async def test_submit_accepts_mode_and_session_id(self, client, sample_problem):
+        """POST /api/submit should accept optional mode and session_id fields."""
+        resp = await client.post("/api/submit", json={
+            "code": "def add(a, b):\n    return a + b\n",
+            "problem_id": sample_problem["id"],
+            "mode": "interview",
+            "session_id": "test_session_123",
+        })
+        assert resp.status_code == 200

@@ -8,6 +8,11 @@
     "string",
     "dynamic-programming"
   ],
+  "approaches": [
+    { "name": "Brute Force (Try All * Assignments)", "complexity": { "time": "O(3^n)", "space": "O(n)" } },
+    { "name": "Bottom-up DP", "complexity": { "time": "O(n^2)", "space": "O(n^2)" } },
+    { "name": "Greedy (Min/Max Open Count)", "complexity": { "time": "O(n)", "space": "O(1)" } }
+  ],
   "description": "Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid.\nThe following rules define a valid string:\n\nAny left parenthesis '(' must have a corresponding right parenthesis ')'.\nAny right parenthesis ')' must have a corresponding left parenthesis '('.\nLeft parenthesis '(' must go before the corresponding right parenthesis ')'.\n'*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string \"\".\n\n**Example 1:**\n\n```\nInput: s = \"()\"\nOutput: true\n\n```\n**Example 2:**\n\n```\nInput: s = \"(*)\"\nOutput: true\n\n```\n**Example 3:**\n\n```\nInput: s = \"(*))\"\nOutput: true\n\n```\n**Constraints:**\n\n- `1 <= s.length <= 100`\n- `s[i] is '(', ')' or '*'.`\n",
   "starter_code": "def checkValidString(s: str) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "checkValidString",

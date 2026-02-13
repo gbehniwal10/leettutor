@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/executor.py
+# hypothesis_version: 6.151.6
+
+[512, 1024, "'", '.py', '/usr/bin:/bin', ';', 'CONDA_PREFIX', 'File "<user_code>"', 'HOME', 'LANG', 'PATH', 'TMPDIR', 'Time Limit Exceeded', 'Traceback', 'VIRTUAL_ENV', '\\', "\\'", '\\\\', '\\n', '__', 'actual', 'compile(', 'darwin', 'delattr', 'dir(', 'en_US.UTF-8', 'error', 'eval(', 'exec(', 'expected', 'failed', 'function_call', 'getattr', 'globals', 'http', 'import ', 'input', 'locals', 'open(', 'os.', 'passed', 'pathlib', 'result', 'results', 'runtime_ms', 'setattr', 'shutil', 'socket', 'stdout', 'subprocess', 'sys.', 'test_num', 'urllib', 'utf-8', 'vars(', 'w']

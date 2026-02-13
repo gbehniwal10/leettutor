@@ -8,6 +8,22 @@
     "breadth-first-search",
     "binary-tree"
   ],
+  "approaches": [
+    {
+      "name": "Recursive DFS",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Iterative BFS (Queue)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given the roots of two binary trees p and q, write a function to check if they are the same or not.\nTwo binary trees are considered the same if they are structurally identical, and the nodes have the same value.\n\n**Example 1:**\n\n```\nInput: p = [1,2,3], q = [1,2,3]\nOutput: true\n\n```\n**Example 2:**\n\n```\nInput: p = [1,2], q = [1,null,2]\nOutput: false\n\n```\n**Example 3:**\n\n```\nInput: p = [1,2,1], q = [1,1,2]\nOutput: false\n\n```\n**Constraints:**\n\n- `The number of nodes in both trees is in the range [0, 100].`\n- `-104 <= Node.val <= 104`\n",
   "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef isSameTree(p: TreeNode | None, q: TreeNode | None) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "isSameTree",
@@ -35,7 +51,11 @@
           1,
           2
         ],
-        "q": "[1,null,2]"
+        "q": [
+          1,
+          null,
+          2
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
@@ -46,7 +66,10 @@
           1,
           0
         ],
-        "q": "[1,null]"
+        "q": [
+          1,
+          null
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
@@ -55,8 +78,16 @@
   "hidden_test_cases": [
     {
       "input": {
-        "p": "[1, null, 3]",
-        "q": "[1, null, 3]"
+        "p": [
+          1,
+          null,
+          3
+        ],
+        "q": [
+          1,
+          null,
+          3
+        ]
       },
       "expected": true,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
@@ -99,16 +130,36 @@
     },
     {
       "input": {
-        "p": "[1,null,2,null,3]",
-        "q": "[1,null,2,null,3]"
+        "p": [
+          1,
+          null,
+          2,
+          null,
+          3
+        ],
+        "q": [
+          1,
+          null,
+          2,
+          null,
+          3
+        ]
       },
       "expected": true,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
     },
     {
       "input": {
-        "p": "[1,null,2]",
-        "q": "[1,2,null]"
+        "p": [
+          1,
+          null,
+          2
+        ],
+        "q": [
+          1,
+          2,
+          null
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
@@ -139,7 +190,11 @@
     },
     {
       "input": {
-        "p": "[1,null,3]",
+        "p": [
+          1,
+          null,
+          3
+        ],
         "q": [
           1,
           2,
@@ -151,8 +206,24 @@
     },
     {
       "input": {
-        "p": "[5,1,4,null,null,3,6]",
-        "q": "[5,1,4,null,null,3,6]"
+        "p": [
+          5,
+          1,
+          4,
+          null,
+          null,
+          3,
+          6
+        ],
+        "q": [
+          5,
+          1,
+          4,
+          null,
+          null,
+          3,
+          6
+        ]
       },
       "expected": true,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
@@ -191,16 +262,36 @@
     },
     {
       "input": {
-        "p": "[1,2,null,3]",
-        "q": "[1,2,null,3]"
+        "p": [
+          1,
+          2,
+          null,
+          3
+        ],
+        "q": [
+          1,
+          2,
+          null,
+          3
+        ]
       },
       "expected": true,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
     },
     {
       "input": {
-        "p": "[1,2,null,3]",
-        "q": "[1,2,null,4]"
+        "p": [
+          1,
+          2,
+          null,
+          3
+        ],
+        "q": [
+          1,
+          2,
+          null,
+          4
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
@@ -236,39 +327,141 @@
           5,
           15
         ],
-        "q": "[10,5,null,null,15]"
+        "q": [
+          10,
+          5,
+          null,
+          null,
+          15
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
     },
     {
       "input": {
-        "p": "[1,2,3,null,5,6,7,8,9,10,11,12,13,14,15]",
-        "q": "[1,2,3,null,5,6,7,8,9,10,11,12,13,14,16]"
+        "p": [
+          1,
+          2,
+          3,
+          null,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "q": [
+          1,
+          2,
+          3,
+          null,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          16
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
     },
     {
       "input": {
-        "p": "[1,2,3,4,5,null,7,8,null,null,null,12]",
-        "q": "[1,2,3,4,5,null,7,8,null,null,null,13]"
+        "p": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          null,
+          7,
+          8,
+          null,
+          null,
+          null,
+          12
+        ],
+        "q": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          null,
+          7,
+          8,
+          null,
+          null,
+          null,
+          13
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
     },
     {
       "input": {
-        "p": "[1,2,3,null,4,5,null,6]",
-        "q": "[1,2,3,null,4,5,null,7]"
+        "p": [
+          1,
+          2,
+          3,
+          null,
+          4,
+          5,
+          null,
+          6
+        ],
+        "q": [
+          1,
+          2,
+          3,
+          null,
+          4,
+          5,
+          null,
+          7
+        ]
       },
       "expected": false,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"
     },
     {
       "input": {
-        "p": "[1,2,3,4,5,null,7,8,9]",
-        "q": "[1,2,3,4,5,null,7,8,9]"
+        "p": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          null,
+          7,
+          8,
+          9
+        ],
+        "q": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          null,
+          7,
+          8,
+          9
+        ]
       },
       "expected": true,
       "function_call": "isSameTree(p=tree_node(test_input['p']), q=tree_node(test_input['q']))"

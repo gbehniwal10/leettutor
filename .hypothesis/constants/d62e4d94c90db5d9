@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/solution_store.py
+# hypothesis_version: 6.151.6
+
+[120, '*.json', '.tmp', 'Label too long', '^[0-9a-f]{8,}$', 'approach', 'approach_complexity', 'approaches_tried', 'avg_runtime_ms', 'best_avg_runtime_ms', 'code', 'code_hash', 'id', 'label', 'mode', 'passed', 'session_id', 'solution_count', 'solutions', 'timestamp', 'total', 'w']

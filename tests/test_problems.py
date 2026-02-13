@@ -1,9 +1,14 @@
-"""Tests for backend.problems -- problem loading and schema validation."""
+"""Tests for backend.problems -- problem loading and schema validation.
+
+Patterns adopted from focus-engine test suite:
+- Pattern 6: RNG Mocking — deterministic testing of random.choice in get_random_problem
+"""
 
 import json
 import re
 import sys
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -233,3 +238,57 @@ class TestOrderingConsistency:
                         f"Problem '{problem_id}' {section}[{i}]: expected "
                         f"value is not in sorted form"
                     )
+
+
+# ---------------------------------------------------------------------------
+# Pattern 6: RNG Mocking for Probabilistic Logic
+# ---------------------------------------------------------------------------
+
+class TestRandomProblemRNGMocking:
+    """Mock random.choice so get_random_problem is deterministic.
+
+    get_random_problem() calls random.choice(candidates) to pick a
+    problem.  By patching random.choice we can verify the filtering
+    logic without depending on which element happens to be chosen.
+    """
+
+    def test_random_choice_receives_filtered_candidates(self):
+        """Verify that random.choice is called with only easy problems
+        when difficulty='easy' is specified."""
+        with patch("backend.problems.random") as mock_random:
+            # Make random.choice return whatever it receives as the first element
+            mock_random.choice.side_effect = lambda candidates: candidates[0]
+
+            result = get_random_problem(difficulty="easy")
+
+            # random.choice must have been called once
+            mock_random.choice.assert_called_once()
+            # Every candidate passed to choice must be "easy"
+            candidates = mock_random.choice.call_args[0][0]
+            assert len(candidates) > 0
+            for p in candidates:
+                assert p["difficulty"] == "easy"
+
+    def test_random_returns_specific_problem_when_mocked(self):
+        """Mock random.choice to always return a specific problem
+        regardless of the candidate list."""
+        target = {"id": "mock-problem", "title": "Mock", "difficulty": "easy", "tags": []}
+        with patch("backend.problems.random") as mock_random:
+            mock_random.choice.return_value = target
+
+            result = get_random_problem()
+
+        assert result["id"] == "mock-problem"
+        assert result is target
+
+    def test_random_with_tag_filter_passes_correct_candidates(self):
+        """Verify tag filtering produces the correct candidate set for random.choice."""
+        with patch("backend.problems.random") as mock_random:
+            mock_random.choice.side_effect = lambda candidates: candidates[0]
+
+            result = get_random_problem(tags=["dynamic-programming"])
+
+            mock_random.choice.assert_called_once()
+            candidates = mock_random.choice.call_args[0][0]
+            for p in candidates:
+                assert any(t in p["tags"] for t in ["dynamic-programming"])

@@ -7,6 +7,22 @@
     "math",
     "two-pointers"
   ],
+  "approaches": [
+    {
+      "name": "Hash Set (Cycle Detection)",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(log n)"
+      }
+    },
+    {
+      "name": "Floyd's Cycle Detection",
+      "complexity": {
+        "time": "O(log n)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Write an algorithm to determine if a number n is happy.\nA happy number is a number defined by the following process:\n\nStarting with any positive integer, replace the number by the sum of the squares of its digits.\nRepeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.\nThose numbers for which this process ends in 1 are happy.\n\nReturn true if n is a happy number, and false if not.\n\n**Example 1:**\n\n```\nInput: n = 19\nOutput: true\nExplanation:\n12 + 92 = 82\n82 + 22 = 68\n62 + 82 = 100\n12 + 02 + 02 = 1\n\n```\n**Example 2:**\n\n```\nInput: n = 2\nOutput: false\n\n```\n**Constraints:**\n\n- `1 <= n <= 231 - 1`\n",
   "starter_code": "def isHappy(n: int) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "isHappy",

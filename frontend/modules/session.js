@@ -2,8 +2,9 @@
 // These functions cross-cut multiple modules and need access to wsSend, chat, etc.
 
 import { state } from './state.js';
-import { MODES, WS_MESSAGE_TYPES, INTERVIEW_DURATION_SECS } from './constants.js';
+import { MODES, WS_MESSAGE_TYPES, INTERVIEW_DURATION_SECS, RESUME_TIMEOUT_MS } from './constants.js';
 import { renderMarkdown, setSessionHash, clearSessionHash } from './utils.js';
+import { eventBus, Events } from './event-bus.js';
 
 // --- Dependency injection ---
 let _deps = {
@@ -95,6 +96,22 @@ export function resumeSession(sessionId) {
     if (state.resuming) return;
     state.resuming = true;
     _deps.addChatMessage('system', 'Resuming session...');
+    eventBus.emit(Events.TUTOR_THINKING);
+
+    // Show loading state in problem panel while resume is in progress
+    const titleEl = document.getElementById('problem-title');
+    if (titleEl) titleEl.textContent = 'Resuming session...';
+    const diffEl = document.getElementById('problem-difficulty');
+    if (diffEl) { diffEl.textContent = ''; diffEl.className = 'difficulty'; }
+    const descEl = document.getElementById('problem-description');
+    if (descEl) {
+        descEl.innerHTML = '';
+        const loader = document.createElement('div');
+        loader.className = 'generation-loading';
+        loader.textContent = 'Restoring your session...';
+        descEl.appendChild(loader);
+    }
+
     _deps.wsSend({ type: WS_MESSAGE_TYPES.RESUME_SESSION, session_id: sessionId });
     if (_deps.settingsManager.get('earcons')) {
         _deps.connectEarconObserver();
@@ -105,9 +122,14 @@ export function resumeSession(sessionId) {
         if (state.resuming) {
             state.resuming = false;
             state.resumeTimeoutId = null;
+            // Clean up loading state in problem panel
+            const loader = document.querySelector('.generation-loading');
+            if (loader) loader.remove();
+            const title = document.getElementById('problem-title');
+            if (title) title.textContent = 'Select a Problem';
             _deps.addChatMessage('system', 'Resume timed out. You can start a new session.');
         }
-    }, 10000);
+    }, RESUME_TIMEOUT_MS);
 }
 
 export async function handleSessionResumed(data) {
@@ -169,7 +191,7 @@ export async function handleSessionResumed(data) {
 
     const chatContainer = document.getElementById('chat-messages');
     chatContainer.innerHTML = '';
-    _deps.addChatMessage('system', `Resumed session for "${state.currentProblem.title}" (${data.mode} mode)`);
+    _deps.addChatMessage('system', `Resumed ${data.mode} session...`);
     const history = data.chat_history || [];
     for (const msg of history) {
         const role = msg.role === 'user' ? 'user' : msg.role === 'assistant' ? 'assistant' : 'system';

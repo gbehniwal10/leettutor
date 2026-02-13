@@ -7,6 +7,22 @@
     "array",
     "monotonic-stack"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Nested Loops)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Monotonic Stack (Decreasing)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.\n\n**Example 1:**\n\n```\nInput: temperatures = [73,74,75,71,69,72,76,73]\nOutput: [1,1,4,2,1,1,0,0]\n\n```\n**Example 2:**\n\n```\nInput: temperatures = [30,40,50,60]\nOutput: [1,1,1,0]\n\n```\n**Example 3:**\n\n```\nInput: temperatures = [30,60,90]\nOutput: [1,1,0]\n\n```\n**Constraints:**\n\n- `1 <= temperatures.length <= 105`\n- `30 <= temperatures[i] <= 100`\n",
   "starter_code": "def dailyTemperatures(temperatures: list[int]) -> list[int]:\n    # Your code here\n    pass\n",
   "function_name": "dailyTemperatures",

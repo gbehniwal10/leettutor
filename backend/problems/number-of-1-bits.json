@@ -6,6 +6,29 @@
     "bit-manipulation",
     "divide-and-conquer"
   ],
+  "approaches": [
+    {
+      "name": "Bit Shift and Count",
+      "complexity": {
+        "time": "O(32)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Brian Kernighan's Algorithm",
+      "complexity": {
+        "time": "O(k)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Lookup Table (Byte Chunks)",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Given a positive integer n, write a function that returns the number of set bits in its binary representation (also known as the Hamming weight).\n\n**Example 1:**\n\n```\nInput: n = 11\nOutput: 3\nExplanation:\nThe input binary string 1011 has a total of three set bits.\n\n```\n**Example 2:**\n\n```\nInput: n = 128\nOutput: 1\nExplanation:\nThe input binary string 10000000 has a total of one set bit.\n\n```\n**Example 3:**\n\n```\nInput: n = 2147483645\nOutput: 30\nExplanation:\nThe input binary string 1111111111111111111111111111101 has a total of thirty set bits.\n\n```\n**Constraints:**\n\n- `1 <= n <= 231 - 1`\n\n**Follow up:** If this function is called many times, how would you optimize it?\n",
   "starter_code": "def hammingWeight(n: int) -> int:\n    # Your code here\n    pass\n",
   "function_name": "hammingWeight",

@@ -17,8 +17,7 @@
             }
         })();
     </script>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/editor/editor.main.min.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
@@ -36,6 +35,7 @@
                     <span class="toggle-slider"></span>
                     <span class="toggle-label">Enhanced (Claude)</span>
                 </label>
+                <button id="reset-layout-btn" class="btn btn-secondary" title="Reset panel layout" aria-label="Reset panel layout">&#8635;</button>
                 <button id="settings-btn" class="btn btn-secondary" title="Settings" aria-label="Open settings">&#9881;</button>
                 <button id="new-problem-btn" class="btn btn-secondary">New Problem</button>
                 <div class="random-picker-wrapper" id="random-picker-wrapper">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="problem-header-meta">
                         <span id="problem-difficulty" class="difficulty"></span>
-                        <span id="problem-solved-badge" class="solved-badge hidden">&#10003; Solved</span>
+                        <span id="problem-solved-badge" class="solved-badge hidden">&#10003; Solved <span id="solution-count" class="solution-count hidden"></span></span>
                         <button id="tts-btn" class="tts-btn hidden" title="Read aloud" aria-label="Read problem aloud">&#128266;</button>
                         <div id="tts-speed-control" class="tts-speed-control hidden">
                             <label for="tts-speed-select" class="sr-only" hidden>Reading speed</label>
@@ -137,41 +137,55 @@
         </main>
     </div>
 
-    <div id="problem-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="problem-modal-title">
-        <div class="modal-content modal-wide">
-            <div class="problem-modal-header">
-                <h2 id="problem-modal-title">Select a Problem</h2>
+    <div id="solution-backdrop" class="drawer-backdrop"></div>
+    <div id="solution-drawer" class="drawer drawer-left" role="dialog" aria-modal="true" aria-labelledby="solution-drawer-title">
+        <div class="solution-drawer-header">
+            <h2 id="solution-drawer-title">Saved Solutions</h2>
+            <button id="close-solution-drawer" class="drawer-close-btn" title="Close" aria-label="Close solutions drawer">&times;</button>
+        </div>
+        <div id="solution-drawer-content" class="solution-drawer-content"></div>
+    </div>
+
+    <div id="problem-backdrop" class="drawer-backdrop"></div>
+    <div id="problem-modal" class="drawer" role="dialog" aria-modal="true" aria-labelledby="problem-modal-title">
+        <div class="problem-modal-header">
+            <h2 id="problem-modal-title">Select a Problem</h2>
+            <div class="drawer-header-actions">
                 <div class="view-toggle" role="group" aria-label="View mode">
                     <button class="view-toggle-btn active" data-view="list">List</button>
                     <button class="view-toggle-btn" data-view="tree" disabled title="Coming soon">Tree</button>
                 </div>
+                <button id="close-modal" class="drawer-close-btn" title="Close" aria-label="Close problem drawer">&times;</button>
             </div>
-            <div class="problem-filters">
-                <label for="problem-search" class="sr-only" hidden>Search problems</label>
-                <input type="text" id="problem-search" placeholder="Search problems..." class="filter-search">
-                <div class="filter-tabs difficulty-filters" role="group" aria-label="Difficulty filter">
-                    <button class="filter-tab difficulty-tab active" data-difficulty="all">All</button>
-                    <button class="filter-tab difficulty-tab" data-difficulty="easy">Easy</button>
-                    <button class="filter-tab difficulty-tab" data-difficulty="medium">Medium</button>
-                    <button class="filter-tab difficulty-tab" data-difficulty="hard">Hard</button>
-                </div>
-                <div class="filter-tabs status-filters" role="group" aria-label="Status filter">
-                    <button class="filter-tab status-tab active" data-status="all">All</button>
-                    <button class="filter-tab status-tab" data-status="solved">Solved</button>
-                    <button class="filter-tab status-tab" data-status="attempted">Attempted</button>
-                    <button class="filter-tab status-tab" data-status="unsolved">Unsolved</button>
-                </div>
-            </div>
-            <div id="problem-list" class="problem-list" role="list"></div>
-            <div id="skill-tree-root" class="skill-tree-container hidden"></div>
-            <button id="close-modal" class="btn btn-secondary">Cancel</button>
         </div>
+        <div class="problem-filters">
+            <label for="problem-search" class="sr-only" hidden>Search problems</label>
+            <input type="text" id="problem-search" placeholder="Search problems..." class="filter-search">
+            <div class="filter-tabs difficulty-filters" role="group" aria-label="Difficulty filter">
+                <button class="filter-tab difficulty-tab active" data-difficulty="all">All</button>
+                <button class="filter-tab difficulty-tab" data-difficulty="easy">Easy</button>
+                <button class="filter-tab difficulty-tab" data-difficulty="medium">Medium</button>
+                <button class="filter-tab difficulty-tab" data-difficulty="hard">Hard</button>
+            </div>
+            <div class="filter-tabs status-filters" role="group" aria-label="Status filter">
+                <button class="filter-tab status-tab active" data-status="all">All</button>
+                <button class="filter-tab status-tab" data-status="solved">Solved</button>
+                <button class="filter-tab status-tab" data-status="attempted">Attempted</button>
+                <button class="filter-tab status-tab" data-status="unsolved">Unsolved</button>
+            </div>
+        </div>
+        <div id="problem-list" class="problem-list" role="list"></div>
+        <div id="skill-tree-root" class="skill-tree-container hidden"></div>
     </div>
 
     <div id="history-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="history-modal-title">
         <div class="modal-content modal-wide">
             <div class="history-header">
                 <h2 id="history-modal-title">Session History</h2>
+                <div class="history-tab-toggle" role="group" aria-label="History view">
+                    <button class="history-tab active" data-tab="sessions">Sessions</button>
+                    <button class="history-tab" data-tab="solutions">Solutions</button>
+                </div>
                 <button id="history-back" class="btn btn-secondary hidden">Back</button>
                 <button id="close-history" class="btn btn-secondary" style="margin-left:auto">Close</button>
             </div>
@@ -416,13 +430,9 @@
     <!-- Ticket 32: Streak Milestone Toast -->
     <div id="streak-milestone-toast" class="streak-milestone-toast hidden" role="status" aria-live="polite"></div>
 
-    <!-- CDN scripts: pinned to specific versions for reproducibility.
-         TODO: Add SRI integrity hashes once versions are finalized.
-         Generate with: curl -sL <url> | openssl dgst -sha384 -binary | openssl base64 -A -->
-    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js" crossorigin="anonymous"></script>
-    <script type="module" src="/static/app.js"></script>
+    <div id="solution-viewer-overlay" class="solution-viewer-overlay hidden"></div>
+
+    <script type="module" src="/app.js"></script>
     <script type="module" src="/src/excalidraw-island.jsx"></script>
     <script type="module" src="/src/skill-tree-island.jsx"></script>
 </body>

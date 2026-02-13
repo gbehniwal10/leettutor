@@ -7,13 +7,37 @@
     "breadth-first-search",
     "binary-tree"
   ],
+  "approaches": [
+    {
+      "name": "BFS with Queue",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "DFS with Level Tracking",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).\n\n**Example 1:**\n\n```\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[3],[9,20],[15,7]]\n\n```\n**Example 2:**\n\n```\nInput: root = [1]\nOutput: [[1]]\n\n```\n**Example 3:**\n\n```\nInput: root = []\nOutput: []\n\n```\n**Constraints:**\n\n- `The number of nodes in the tree is in the range [0, 2000].`\n- `-1000 <= Node.val <= 1000`\n",
   "starter_code": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\ndef levelOrder(root: TreeNode | None) -> list[list[int]]:\n    # Your code here\n    pass\n",
   "function_name": "levelOrder",
   "test_cases": [
     {
       "input": {
-        "root": "[3,9,20,null,null,15,7]"
+        "root": [
+          3,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7
+        ]
       },
       "expected": [
         [
@@ -83,7 +107,21 @@
     },
     {
       "input": {
-        "root": "[0,2,4,1,null,3,-1,5,1,null,6,null,8]"
+        "root": [
+          0,
+          2,
+          4,
+          1,
+          null,
+          3,
+          -1,
+          5,
+          1,
+          null,
+          6,
+          null,
+          8
+        ]
       },
       "expected": [
         [
@@ -109,7 +147,17 @@
     },
     {
       "input": {
-        "root": "[1,null,2,null,3,null,4,null,5]"
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          3,
+          null,
+          4,
+          null,
+          5
+        ]
       },
       "expected": [
         [
@@ -191,7 +239,33 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,null,8,null,9,null,10,null,11,null,12,null,13,null,14,null,15,null,16]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          null,
+          8,
+          null,
+          9,
+          null,
+          10,
+          null,
+          11,
+          null,
+          12,
+          null,
+          13,
+          null,
+          14,
+          null,
+          15,
+          null,
+          16
+        ]
       },
       "expected": [
         [
@@ -227,7 +301,27 @@
     },
     {
       "input": {
-        "root": "[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]"
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          3,
+          null,
+          4,
+          null,
+          5,
+          null,
+          6,
+          null,
+          7,
+          null,
+          8,
+          null,
+          9,
+          null,
+          10
+        ]
       },
       "expected": [
         [
@@ -265,7 +359,19 @@
     },
     {
       "input": {
-        "root": "[3,9,20,10,null,null,15,7,8,11,16]"
+        "root": [
+          3,
+          9,
+          20,
+          10,
+          null,
+          null,
+          15,
+          7,
+          8,
+          11,
+          16
+        ]
       },
       "expected": [
         [
@@ -290,7 +396,15 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,null,null,5]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          null,
+          5
+        ]
       },
       "expected": [
         [
@@ -309,7 +423,21 @@
     },
     {
       "input": {
-        "root": "[1,2,3,null,4,null,5,null,null,6,null,null,7]"
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          4,
+          null,
+          5,
+          null,
+          null,
+          6,
+          null,
+          null,
+          7
+        ]
       },
       "expected": [
         [
@@ -334,7 +462,30 @@
     },
     {
       "input": {
-        "root": "[3,9,20,15,7,18,19,21,null,null,null,null,22,23,24,25,26,null,27,28,29,30]"
+        "root": [
+          3,
+          9,
+          20,
+          15,
+          7,
+          18,
+          19,
+          21,
+          null,
+          null,
+          null,
+          null,
+          22,
+          23,
+          24,
+          25,
+          26,
+          null,
+          27,
+          28,
+          29,
+          30
+        ]
       },
       "expected": [
         [
@@ -369,7 +520,16 @@
     },
     {
       "input": {
-        "root": "[1,null,3,2,4,null,5,6]"
+        "root": [
+          1,
+          null,
+          3,
+          2,
+          4,
+          null,
+          5,
+          6
+        ]
       },
       "expected": [
         [
@@ -391,7 +551,19 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,null,null,5,6,7,8,9]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          null,
+          null,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
       },
       "expected": [
         [
@@ -416,7 +588,19 @@
     },
     {
       "input": {
-        "root": "[1,2,2,3,null,null,3,4,null,null,4]"
+        "root": [
+          1,
+          2,
+          2,
+          3,
+          null,
+          null,
+          3,
+          4,
+          null,
+          null,
+          4
+        ]
       },
       "expected": [
         [
@@ -439,7 +623,31 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,null,8,null,9,null,10,null,11,null,12,null,13,null,14,null,15]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          null,
+          8,
+          null,
+          9,
+          null,
+          10,
+          null,
+          11,
+          null,
+          12,
+          null,
+          13,
+          null,
+          14,
+          null,
+          15
+        ]
       },
       "expected": [
         [
@@ -472,7 +680,19 @@
     },
     {
       "input": {
-        "root": "[3,9,20,null,null,15,7,12,null,16,18]"
+        "root": [
+          3,
+          9,
+          20,
+          null,
+          null,
+          15,
+          7,
+          12,
+          null,
+          16,
+          18
+        ]
       },
       "expected": [
         [
@@ -496,7 +716,18 @@
     },
     {
       "input": {
-        "root": "[1,null,2,null,null,3,null,null,null,4]"
+        "root": [
+          1,
+          null,
+          2,
+          null,
+          null,
+          3,
+          null,
+          null,
+          null,
+          4
+        ]
       },
       "expected": [
         [
@@ -557,7 +788,27 @@
     },
     {
       "input": {
-        "root": "[1,2,3,4,5,6,7,8,null,null,9,null,null,10,null,11,null,null,12]"
+        "root": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          null,
+          null,
+          9,
+          null,
+          null,
+          10,
+          null,
+          11,
+          null,
+          null,
+          12
+        ]
       },
       "expected": [
         [
@@ -587,7 +838,17 @@
     },
     {
       "input": {
-        "root": "[1,2,3,null,null,null,4,5,6]"
+        "root": [
+          1,
+          2,
+          3,
+          null,
+          null,
+          null,
+          4,
+          5,
+          6
+        ]
       },
       "expected": [
         [
@@ -609,7 +870,21 @@
     },
     {
       "input": {
-        "root": "[3,9,20,8,null,15,7,10,11,null,null,16,17]"
+        "root": [
+          3,
+          9,
+          20,
+          8,
+          null,
+          15,
+          7,
+          10,
+          11,
+          null,
+          null,
+          16,
+          17
+        ]
       },
       "expected": [
         [

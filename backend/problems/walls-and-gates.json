@@ -7,6 +7,10 @@
     "array",
     "matrix"
   ],
+  "approaches": [
+    { "name": "Brute Force DFS (From Each Gate)", "complexity": { "time": "O(k*m*n)", "space": "O(m*n)" } },
+    { "name": "Multi-Source BFS", "complexity": { "time": "O(m*n)", "space": "O(m*n)" } }
+  ],
   "description": "You are given an m x n grid rooms initialized with these three possible values.\n\n-1 A wall or an obstacle.\n0 A gate.\nINF Infinity means an empty room. We use the value 231 - 1 = 2147483647 to represent INF as you may assume that the distance to a gate is less than 2147483647.\n\nFill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with INF.\n\n**Example 1:**\n\n```\nInput: rooms = [[2147483647,-1,0,2147483647],[2147483647,2147483647,2147483647,-1],[2147483647,-1,2147483647,-1],[0,-1,2147483647,2147483647]]\nOutput: [[3,-1,0,1],[2,2,1,-1],[1,-1,2,-1],[0,-1,3,4]]\n\n```\n**Example 2:**\n\n```\nInput: rooms = [[-1]]\nOutput: [[-1]]\n\n```\n**Constraints:**\n\n- `m == rooms.length`\n- `n == rooms[i].length`\n- `1 <= m, n <= 250`\n- `rooms[i][j] is -1, 0, or 231 - 1.`\n",
   "starter_code": "def wallsAndGates(rooms: list[list[int]]) -> None:\n    \"\"\"\n    Do not return anything, modify rooms in-place instead.\n    \"\"\"\n",
   "function_name": "wallsAndGates",

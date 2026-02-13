@@ -7,6 +7,13 @@
     "dynamic-programming",
     "combinatorics"
   ],
+  "approaches": [
+    { "name": "Brute Force (Recursive Path Enumeration)", "complexity": { "time": "O(2^(m+n))", "space": "O(m+n)" } },
+    { "name": "Top-down Memoization", "complexity": { "time": "O(m*n)", "space": "O(m*n)" } },
+    { "name": "Bottom-up DP (2D Grid)", "complexity": { "time": "O(m*n)", "space": "O(m*n)" } },
+    { "name": "Bottom-up DP (Space-Optimized)", "complexity": { "time": "O(m*n)", "space": "O(n)" } },
+    { "name": "Combinatorics (C(m+n-2, m-1))", "complexity": { "time": "O(min(m, n))", "space": "O(1)" } }
+  ],
   "description": "There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.\nGiven the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.\nThe test cases are generated so that the answer will be less than or equal to 2 * 109.\n\n**Example 1:**\n\n```\nInput: m = 3, n = 7\nOutput: 28\n\n```\n**Example 2:**\n\n```\nInput: m = 3, n = 2\nOutput: 3\nExplanation: From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:\n1. Right -> Down -> Down\n2. Down -> Down -> Right\n3. Down -> Right -> Down\n\n```\n**Constraints:**\n\n- `1 <= m, n <= 100`\n",
   "starter_code": "def uniquePaths(m: int, n: int) -> int:\n    # Your code here\n    pass\n",
   "function_name": "uniquePaths",

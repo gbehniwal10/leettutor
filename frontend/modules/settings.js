@@ -1,5 +1,6 @@
 // Settings module — SettingsManager, theme system, and settings modal.
 
+import * as monaco from 'monaco-editor';
 import { state } from './state.js';
 import { DEFAULT_SETTINGS, FONT_FAMILY_MAP, THEME_TO_MONACO } from './constants.js';
 import { trapFocus, releaseFocus } from './utils.js';
@@ -197,10 +198,8 @@ export function registerMonacoThemes() {
 
 export function applyTheme(themeName) {
     document.documentElement.setAttribute('data-theme', themeName);
-    if (typeof monaco !== 'undefined' && monaco.editor) {
-        var monacoTheme = THEME_TO_MONACO[themeName] || 'leetcode-dark';
-        monaco.editor.setTheme(monacoTheme);
-    }
+    const monacoTheme = THEME_TO_MONACO[themeName] || 'leetcode-dark';
+    monaco.editor.setTheme(monacoTheme);
 }
 
 function applyReducedMotion(value) {

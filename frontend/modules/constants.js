@@ -1,22 +1,34 @@
 // Shared constants used across modules.
 
 export const WS_MESSAGE_TYPES = {
+    // Client -> Server
     AUTH: 'auth',
     START_SESSION: 'start_session',
     MESSAGE: 'message',
     REQUEST_HINT: 'request_hint',
-    TIME_UPDATE: 'time_update',
-    TIME_UP: 'time_up',
     RESUME_SESSION: 'resume_session',
     END_SESSION: 'end_session',
-    ASSISTANT_CHUNK: 'assistant_chunk',
-    ASSISTANT_MESSAGE: 'assistant_message',
+    TIME_UPDATE: 'time_update',
+    TIME_UP: 'time_up',
+    NUDGE_REQUEST: 'nudge_request',
+    TEST_RESULTS_UPDATE: 'test_results_update',
+    SAVE_STATE: 'save_state',
+    APPROACH_RESOLVE: 'approach_resolve',
+
+    // Server -> Client
     SESSION_STARTED: 'session_started',
     SESSION_RESUMED: 'session_resumed',
-    HINT: 'hint',
+    ASSISTANT_CHUNK: 'assistant_chunk',
+    ASSISTANT_MESSAGE: 'assistant_message',
     ERROR: 'error',
+    REVIEW_PHASE_STARTED: 'review_phase_started',
+    APPROACH_CLASSIFIED: 'approach_classified',
+    APPROACH_DUPLICATE: 'approach_duplicate',
+    SOLUTION_COUNT_UPDATED: 'solution_count_updated',
+
+    // Deprecated / unused (kept for backward compatibility)
+    HINT: 'hint',
     NUDGE: 'nudge',
-    TEST_RESULTS_UPDATE: 'test_results_update',
 };
 
 export const MODES = {
@@ -99,3 +111,7 @@ export const PATTERN_LIST = [
 export const INTERVIEW_DURATION_SECS = 45 * 60;
 
 export const WS_MAX_BACKOFF_MS = 30000;
+
+export const CLICK_DEBOUNCE_MS = 300;
+
+export const RESUME_TIMEOUT_MS = 30000;

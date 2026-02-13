@@ -1,0 +1,4 @@
+# file: /Users/exam/projects/leettutor/backend/learning_history.py
+# hypothesis_version: 6.151.6
+
+[0.0, '*.json', '.tmp', '^[0-9a-f]{8,}$', 'attempts', 'code_submissions', 'days_since_last', 'difficulty', 'duration_seconds', 'easy', 'ended_at', 'final_result', 'hard', 'hint_dependency', 'hint_level', 'hints_requested', 'last_practiced', 'last_solved', 'medium', 'problem', 'problem_id', 'solved', 'solves', 'started_at', 'tags', 'time_to_solve', 'timestamp', 'topic', 'total_attempts', 'w']

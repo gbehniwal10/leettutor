@@ -7,6 +7,22 @@
     "array",
     "backtracking"
   ],
+  "approaches": [
+    {
+      "name": "Sort + Backtracking (Skip Duplicates)",
+      "complexity": {
+        "time": "O(n*2^n)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Iterative (Cascading with Duplicate Handling)",
+      "complexity": {
+        "time": "O(n*2^n)",
+        "space": "O(n*2^n)"
+      }
+    }
+  ],
   "description": "Given an integer array nums that may contain duplicates, return all possible subsets (the power set).\nThe solution set must not contain duplicate subsets. Return the solution in any order.\n\n**Example 1:**\n\n```\nInput: nums = [1,2,2]\nOutput: [[],[1],[1,2],[1,2,2],[2],[2,2]]\n\n```\n**Example 2:**\n\n```\nInput: nums = [0]\nOutput: [[],[0]]\n\n```\n**Constraints:**\n\n- `1 <= nums.length <= 10`\n- `-10 <= nums[i] <= 10`\n",
   "starter_code": "def subsetsWithDup(nums: list[int]) -> list[list[int]]:\n    # Your code here\n    pass\n",
   "function_name": "subsetsWithDup",

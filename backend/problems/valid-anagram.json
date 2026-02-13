@@ -7,6 +7,11 @@
     "string",
     "sorting"
   ],
+  "approaches": [
+    { "name": "Sorting", "complexity": { "time": "O(n log n)", "space": "O(n)" } },
+    { "name": "Hash Map (Frequency Count)", "complexity": { "time": "O(n)", "space": "O(1)" } },
+    { "name": "Fixed-Size Count Array (26 Letters)", "complexity": { "time": "O(n)", "space": "O(1)" } }
+  ],
   "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise.\n\n**Example 1:**\n\n```\nInput: s = \"anagram\", t = \"nagaram\"\nOutput: true\n\n```\n**Example 2:**\n\n```\nInput: s = \"rat\", t = \"car\"\nOutput: false\n\n```\n**Constraints:**\n\n- `1 <= s.length, t.length <= 5 * 104`\n- `s and t consist of lowercase English letters.`\n\n**Follow up:** What if the inputs contain Unicode characters? How would you adapt your solution to such a case?\n",
   "starter_code": "def isAnagram(s: str, t: str) -> bool:\n    # Your code here\n    pass\n",
   "function_name": "isAnagram",
@@ -183,10 +188,10 @@
     },
     {
       "input": {
-        "s": "\"a\" * 50000",
-        "t": "\"a\" * 50000"
+        "s": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "t": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       },
-      "expected": "Error: Solution.isAnagram() missing 2 required positional arguments: 's' and 't'",
+      "expected": true,
       "function_call": "isAnagram(**test_input)"
     },
     {

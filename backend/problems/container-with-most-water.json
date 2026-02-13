@@ -6,6 +6,22 @@
     "array",
     "two-pointer"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Nested Loops)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Two Pointers (Shrink from Outside)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the ith line are `(i, 0)` and `(i, height[i])`.\n\nFind two lines that together with the x-axis form a container, such that the container contains the most water.\n\nReturn the maximum amount of water a container can store.\n\n**Example 1:**\n\n```\nInput: height = [1,8,6,2,5,4,8,3,7]\nOutput: 49\nExplanation: The max area is between index 1 (height 8) and index 8 (height 7): min(8,7) * (8-1) = 49.\n\n```\n**Example 2:**\n\n```\nInput: height = [1,1]\nOutput: 1\n\n```\n**Constraints:**\n- n == height.length\n- 2 <= n <= 10^5\n- 0 <= height[i] <= 10^4\n",
   "starter_code": "def maxArea(height: list[int]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "maxArea",
@@ -65,7 +81,7 @@
     }
   ],
   "hints": [
-    "Brute force checks every pair — can you do better?",
+    "Brute force checks every pair \u2014 can you do better?",
     "Start with the widest container (left and right edges).",
     "Move the pointer with the shorter height inward. Why does this work?"
   ],

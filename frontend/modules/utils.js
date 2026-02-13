@@ -1,5 +1,7 @@
 // Shared utility functions used across multiple modules.
 
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 import { state } from './state.js';
 
 // --- HTML/Markdown ---
@@ -12,16 +14,8 @@ export function escapeHtml(text) {
 
 export function renderMarkdown(text) {
     try {
-        if (typeof marked !== 'undefined' && marked.parse) {
-            const html = marked.parse(text);
-            if (typeof DOMPurify !== 'undefined') {
-                return DOMPurify.sanitize(html);
-            }
-            console.warn('DOMPurify not loaded — stripping all HTML tags as safe fallback');
-            const tmp = document.createElement('div');
-            tmp.textContent = html;
-            return tmp.innerHTML;
-        }
+        const html = marked.parse(text);
+        return DOMPurify.sanitize(html);
     } catch (e) { console.warn('renderMarkdown failed:', e); }
     return escapeHtml(text);
 }

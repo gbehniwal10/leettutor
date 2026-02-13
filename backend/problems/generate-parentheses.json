@@ -7,6 +7,22 @@
     "dynamic-programming",
     "backtracking"
   ],
+  "approaches": [
+    {
+      "name": "Backtracking (Open/Close Count)",
+      "complexity": {
+        "time": "O(4^n / sqrt(n))",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Bottom-up DP (Build From Smaller)",
+      "complexity": {
+        "time": "O(4^n / sqrt(n))",
+        "space": "O(4^n / sqrt(n))"
+      }
+    }
+  ],
   "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n\n**Example 1:**\n\n```\nInput: n = 3\nOutput: [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]\n\n```\n**Example 2:**\n\n```\nInput: n = 1\nOutput: [\"()\"]\n\n```\n**Constraints:**\n\n- `1 <= n <= 8`\n",
   "starter_code": "def generateParenthesis(n: int) -> list[str]:\n    # Your code here\n    pass\n",
   "function_name": "generateParenthesis",

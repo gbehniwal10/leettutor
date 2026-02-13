@@ -6,6 +6,15 @@
     "bit-manipulation",
     "math"
   ],
+  "approaches": [
+    {
+      "name": "Iterative Bit Manipulation (XOR + AND + Shift)",
+      "complexity": {
+        "time": "O(1)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Given two integers a and b, return the sum of the two integers without using the operators + and -.\n\n**Example 1:**\n\n```\nInput: a = 1, b = 2\nOutput: 3\n\n```\n**Example 2:**\n\n```\nInput: a = 2, b = 3\nOutput: 5\n\n```\n**Constraints:**\n\n- `-1000 <= a, b <= 1000`\n",
   "starter_code": "def getSum(a: int, b: int) -> int:\n    # Your code here\n    pass\n",
   "function_name": "getSum",

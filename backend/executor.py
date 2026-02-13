@@ -95,6 +95,8 @@ def list_node(values):
     return head
 
 def list_node_to_list(head):
+    if head is None:
+        return None
     result = []
     seen = set()
     while head and id(head) not in seen:
@@ -138,8 +140,8 @@ def tree_node(values):
     return root
 
 def tree_node_to_list(root):
-    if not root:
-        return []
+    if root is None:
+        return None
     result = []
     queue = deque([root])
     while queue:
@@ -284,6 +286,12 @@ class CodeExecutor:
         test_input_json = json.dumps(test["input"], ensure_ascii=True)
         marker = secrets.token_hex(32)
 
+        # Escape the JSON string for safe embedding in a Python single-quoted string.
+        # json.dumps(ensure_ascii=True) only uses double quotes for strings, but
+        # string VALUES may contain single quotes or backslashes that would break
+        # a Python single-quoted wrapper.
+        safe_json = test_input_json.replace("\\", "\\\\").replace("'", "\\'")
+
         # Compute line offset so we can map errors back to user code lines
         pre_code = f'\n{rlimit_code}\nimport json\nimport time\nimport sys\nimport io\nimport os\nfrom typing import List, Optional, Dict, Tuple, Set\n\n{helper_code}\n\n'
         user_code_offset = pre_code.count('\n')
@@ -303,7 +311,7 @@ from typing import List, Optional, Dict, Tuple, Set
 {code}
 
 if __name__ == "__main__":
-    test_input = {test_input_json}
+    test_input = json.loads('{safe_json}')
     _captured = io.StringIO()
     sys.stdout = _captured
     sys.__stdout__ = _captured

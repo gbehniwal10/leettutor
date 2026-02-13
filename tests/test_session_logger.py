@@ -1,5 +1,10 @@
-"""Tests for backend.session_logger -- session persistence and retrieval."""
+"""Tests for backend.session_logger -- session persistence and retrieval.
 
+Patterns adopted from focus-engine test suite:
+- Pattern 5: Concurrent Safety — asyncio.gather to stress-test concurrent writes
+"""
+
+import asyncio
 import json
 
 import pytest
@@ -205,3 +210,75 @@ class TestSessionResume:
         await logger.start_session("two-sum", "learning")
         await logger.update_claude_session_id("claude-abc-123")
         assert logger.current_session["claude_session_id"] == "claude-abc-123"
+
+
+# ---------------------------------------------------------------------------
+# Pattern 5: Concurrent Safety — stress-test concurrent writes
+# ---------------------------------------------------------------------------
+
+class TestConcurrentSessionWrites:
+    """Verify that concurrent async writes to the same session file
+    do not corrupt the JSON or lose data.
+
+    SessionLogger uses atomic writes (tempfile + os.replace), so
+    concurrent calls should each produce a valid JSON file even though
+    only one write wins.  The important invariant is that the file on
+    disk is never a partial/corrupt JSON.
+    """
+
+    @pytest.mark.asyncio
+    async def test_concurrent_log_messages_no_corruption(self, tmp_path):
+        """Fire 20 concurrent log_message calls; file must remain valid JSON."""
+        sessions_dir = tmp_path / "sessions"
+        logger = SessionLogger(sessions_dir=str(sessions_dir))
+        session_id = await logger.start_session("two-sum", "learning")
+
+        tasks = [
+            logger.log_message("user", f"message-{i}")
+            for i in range(20)
+        ]
+        await asyncio.gather(*tasks)
+
+        # File on disk must be valid JSON
+        filepath = sessions_dir / f"{session_id}.json"
+        data = json.loads(filepath.read_text())
+        assert data["session_id"] == session_id
+        # All 20 messages should have been recorded (appended in-memory,
+        # then atomically saved)
+        assert len(data["chat_history"]) == 20
+
+    @pytest.mark.asyncio
+    async def test_concurrent_hint_increments(self, tmp_path):
+        """Fire 10 concurrent log_hint_requested calls; count must equal 10."""
+        sessions_dir = tmp_path / "sessions"
+        logger = SessionLogger(sessions_dir=str(sessions_dir))
+        await logger.start_session("two-sum", "learning")
+
+        tasks = [logger.log_hint_requested() for _ in range(10)]
+        await asyncio.gather(*tasks)
+
+        assert logger.current_session["hints_requested"] == 10
+
+    @pytest.mark.asyncio
+    async def test_concurrent_mixed_operations(self, tmp_path):
+        """Mix messages, hints, and code submissions concurrently."""
+        sessions_dir = tmp_path / "sessions"
+        logger = SessionLogger(sessions_dir=str(sessions_dir))
+        session_id = await logger.start_session("two-sum", "learning")
+
+        tasks = []
+        for i in range(5):
+            tasks.append(logger.log_message("user", f"msg-{i}"))
+            tasks.append(logger.log_hint_requested())
+            tasks.append(logger.log_code_submission(
+                f"def twoSum(): return [{i}]",
+                {"passed": i, "failed": 5 - i},
+            ))
+        await asyncio.gather(*tasks)
+
+        # Verify file is valid and all operations recorded
+        filepath = sessions_dir / f"{session_id}.json"
+        data = json.loads(filepath.read_text())
+        assert len(data["chat_history"]) == 5
+        assert data["hints_requested"] == 5
+        assert len(data["code_submissions"]) == 5

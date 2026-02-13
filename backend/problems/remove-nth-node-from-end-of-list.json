@@ -6,6 +6,22 @@
     "linked-list",
     "two-pointers"
   ],
+  "approaches": [
+    {
+      "name": "Two Pass (Count Length)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "One Pass (Two Pointers with Gap)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Given the head of a linked list, remove the nth node from the end of the list and return its head.\n\n**Example 1:**\n\n```\nInput: head = [1,2,3,4,5], n = 2\nOutput: [1,2,3,5]\n\n```\n**Example 2:**\n\n```\nInput: head = [1], n = 1\nOutput: []\n\n```\n**Example 3:**\n\n```\nInput: head = [1,2], n = 1\nOutput: [1]\n\n```\n**Constraints:**\n\n- `The number of nodes in the list is sz.`\n- `1 <= sz <= 30`\n- `0 <= Node.val <= 100`\n- `1 <= n <= sz`\n\n**Follow up:** Could you do this in one pass?\n",
   "starter_code": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\ndef removeNthFromEnd(head: ListNode | None, n: int) -> ListNode | None:\n    # Your code here\n    pass\n",
   "function_name": "removeNthFromEnd",

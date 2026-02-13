@@ -7,6 +7,7 @@ import { escapeHtml, renderMarkdown, clearSessionHash } from './utils.js';
 import { eventBus, Events } from './event-bus.js';
 import { renderCategoryList } from './category-list.js';
 import { setSkillTreeCategories } from './skill-tree.js';
+import { syncFromBackend } from './progress.js';
 
 // ---------------------------------------------------------------------------
 // Module-scoped state
@@ -40,6 +41,10 @@ let _deps = {
     getInactivityDetector: null,
     getWhiteboardSaveTimeout: null,
     setWhiteboardSaveTimeout: null,
+    updateSolutionBadge: null,
+    closeDrawer: null,
+    getAutosave: null,
+    clearAutosave: null,
 };
 
 export function configureProblemsDeps(deps) {
@@ -52,12 +57,14 @@ export function configureProblemsDeps(deps) {
 
 export async function loadProblems() {
     try {
-        const [problemsRes, skillTreeRes] = await Promise.all([
+        const [problemsRes, skillTreeRes, reviewRes] = await Promise.all([
             fetch('/api/problems', { headers: authHeaders() }),
             fetch('/api/skill-tree', { headers: authHeaders() }),
+            fetch('/api/review-queue', { headers: authHeaders() }).catch(() => null),
         ]);
         if (!problemsRes.ok) throw new Error(`Problems: ${problemsRes.status}`);
         state.allProblems = await problemsRes.json();
+        syncFromBackend(state.allProblems);
 
         if (skillTreeRes.ok) {
             const tree = await skillTreeRes.json();
@@ -68,9 +75,27 @@ export async function loadProblems() {
         }
         setSkillTreeCategories(_skillTreeCategories);
 
+        // Load review queue for spaced review badges
+        if (reviewRes && reviewRes.ok) {
+            state.reviewQueue = await reviewRes.json();
+        } else {
+            state.reviewQueue = null;
+        }
+
         _renderCurrentList();
         initProblemFilters();
-        eventBus.on(Events.PROBLEM_SOLVED, _renderCurrentList);
+        eventBus.on(Events.PROBLEM_SOLVED, ({ problemId }) => {
+            const entry = state.allProblems.find(p => p.id === problemId);
+            if (entry) entry.status = 'solved';
+            // Update badge immediately if this is the current problem
+            if (state.currentProblem && state.currentProblem.id === problemId) {
+                const badge = document.getElementById('problem-solved-badge');
+                if (badge) badge.classList.remove('hidden');
+            }
+            _renderCurrentList();
+            // Refresh review queue in background (topics may have advanced)
+            _refreshReviewQueue();
+        });
     } catch (error) {
         console.error('Failed to load problems:', error);
         const container = document.getElementById('problem-list');
@@ -101,6 +126,22 @@ export function initProblemFilters() {
             filterProblems();
         });
     });
+}
+
+// ---------------------------------------------------------------------------
+// _refreshReviewQueue — re-fetches /api/review-queue in background
+// ---------------------------------------------------------------------------
+
+async function _refreshReviewQueue() {
+    try {
+        const res = await fetch('/api/review-queue', { headers: authHeaders() });
+        if (res.ok) {
+            state.reviewQueue = await res.json();
+            _renderCurrentList();
+        }
+    } catch {
+        // Non-critical — silently ignore
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -192,7 +233,10 @@ export async function selectProblem(problemId) {
     if (_selectProblemLoading) return;
     _selectProblemLoading = true;
 
-    if (state.sessionId && _deps.settingsManager.get('confirmDestructive')) {
+    const currentSolved = state.currentProblem &&
+        state.allProblems.find(p => p.id === state.currentProblem.id)?.status === 'solved';
+
+    if (state.sessionId && !currentSolved && _deps.settingsManager.get('confirmDestructive')) {
         const problemTitle = state.currentProblem ? state.currentProblem.title : 'this problem';
         const confirmed = await _deps.showConfirmDialog({
             title: 'Switch problems?',
@@ -250,6 +294,10 @@ function _applyProblemToUI() {
     const probEntry = state.allProblems.find(p => p.id === state.currentProblem.id);
     if (probEntry && probEntry.status === 'solved') solvedBadge.classList.remove('hidden');
     else solvedBadge.classList.add('hidden');
+
+    // Close solution drawer from previous problem, update badge count
+    if (_deps.closeDrawer) _deps.closeDrawer();
+    if (_deps.updateSolutionBadge) _deps.updateSolutionBadge(state.currentProblem.id);
     document.getElementById('problem-description').innerHTML = renderMarkdown(state.currentProblem.description);
 
     const panel = document.getElementById('problem-panel');
@@ -257,6 +305,15 @@ function _applyProblemToUI() {
 
     if (state.editorReady && state.editor) {
         state.editor.setValue(state.currentProblem.starter_code);
+
+        // Restore from localStorage autosave if available and meaningful
+        if (_deps.getAutosave) {
+            const saved = _deps.getAutosave(state.currentProblem.id);
+            if (saved && saved.code && saved.code !== state.currentProblem.starter_code) {
+                state.editor.setValue(saved.code);
+            }
+        }
+
         if (_placeholderDisposable) { _placeholderDisposable.dispose(); _placeholderDisposable = null; }
         if (state.editor.getValue().includes('# Your code here')) {
             _placeholderDisposable = state.editor.onDidFocusEditorText(() => {
@@ -292,7 +349,9 @@ function _applyProblemToUI() {
 
 export function showProblemModal() {
     const modal = document.getElementById('problem-modal');
-    modal.classList.remove('hidden');
+    const backdrop = document.getElementById('problem-backdrop');
+    modal.classList.add('open');
+    if (backdrop) backdrop.classList.add('open');
     const search = document.getElementById('problem-search');
     if (search) search.value = '';
     document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
@@ -305,7 +364,10 @@ export function showProblemModal() {
 }
 
 export function hideProblemModal() {
-    document.getElementById('problem-modal').classList.add('hidden');
+    const modal = document.getElementById('problem-modal');
+    const backdrop = document.getElementById('problem-backdrop');
+    modal.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('open');
     releaseFocus();
 }
 
@@ -351,7 +413,8 @@ export function startSession() {
         return;
     }
     document.getElementById('chat-messages').innerHTML = '';
-    _deps.addChatMessage('system', `Starting ${state.mode} session for "${state.currentProblem.title}"`);
+    _deps.addChatMessage('system', `Starting ${state.mode} session...`);
+    eventBus.emit(Events.TUTOR_THINKING);
     if (state.mode === MODES.INTERVIEW) _deps.startTimer();
     if (_deps.settingsManager.get('earcons')) _deps.connectEarconObserver();
     _deps.connectTtsObserver();

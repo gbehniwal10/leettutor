@@ -47,6 +47,28 @@ export function getProgress() {
 }
 
 /**
+ * Sync localStorage progress with authoritative backend status.
+ * Marks problems as solved in localStorage when the backend says they are,
+ * so that category unlock/completion logic stays consistent.
+ *
+ * @param {Object[]} allProblems - array from /api/problems with .id and .status
+ */
+export function syncFromBackend(allProblems) {
+    const progress = _load();
+    let changed = false;
+    for (const p of allProblems) {
+        if (p.status === 'solved') {
+            const entry = _ensureEntry(progress, p.id);
+            if (!entry.solved) {
+                entry.solved = true;
+                changed = true;
+            }
+        }
+    }
+    if (changed) _save(progress);
+}
+
+/**
  * Mark a problem as solved. Increments attempts and updates lastAttempt.
  */
 export function markSolved(problemId) {

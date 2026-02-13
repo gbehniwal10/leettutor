@@ -35,4 +35,9 @@ export const Events = {
     WS_MESSAGE: 'wsMessage',
     ACTIVITY: 'activity',
     PROBLEM_SOLVED: 'problem-solved',
+    SOLUTION_SAVED: 'solutionSaved',
+    APPROACH_CLASSIFIED: 'approachClassified',
+    APPROACH_DUPLICATE: 'approachDuplicate',
+    SOLUTION_COUNT_UPDATED: 'solutionCountUpdated',
+    TUTOR_THINKING: 'tutorThinking',
 };

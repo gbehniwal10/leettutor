@@ -7,6 +7,29 @@
     "two-pointer",
     "sorting"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Nested Loops)",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Hash Set (Two Sum per Element)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Sort + Two Pointers",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Given an integer array `nums`, return all the triplets `[nums[i], nums[j], nums[k]]` such that `i != j`, `i != k`, and `j != k`, and `nums[i] + nums[j] + nums[k] == 0`.\n\nThe solution set must not contain duplicate triplets.\n\n**Example 1:**\n\n```\nInput: nums = [-1,0,1,2,-1,-4]\nOutput: [[-1,-1,2],[-1,0,1]]\n\n```\n**Example 2:**\n\n```\nInput: nums = [0,1,1]\nOutput: []\n\n```\n**Example 3:**\n\n```\nInput: nums = [0,0,0]\nOutput: [[0,0,0]]\n\n```\n**Constraints:**\n- 3 <= nums.length <= 3000\n- -10^5 <= nums[i] <= 10^5\n",
   "starter_code": "def threeSum(nums: list[int]) -> list[list[int]]:\n    # Your code here\n    pass\n",
   "function_name": "threeSum",

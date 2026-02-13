@@ -6,6 +6,29 @@
     "array",
     "dynamic-programming"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Nested Loops)",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Bottom-up DP (Track Min and Max)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    },
+    {
+      "name": "Bottom-up DP (Space-Optimized)",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(1)"
+      }
+    }
+  ],
   "description": "Given an integer array nums, find a subarray that has the largest product, and return the product.\nThe test cases are generated so that the answer will fit in a 32-bit integer.\n\n**Example 1:**\n\n```\nInput: nums = [2,3,-2,4]\nOutput: 6\nExplanation: [2,3] has the largest product 6.\n\n```\n**Example 2:**\n\n```\nInput: nums = [-2,0,-1]\nOutput: 0\nExplanation: The result cannot be 2, because [-2,-1] is not a subarray.\n\n```\n**Constraints:**\n\n- `1 <= nums.length <= 2 * 104`\n- `-10 <= nums[i] <= 10`\n- `The product of any subarray of nums is guaranteed to fit in a 32-bit integer.`\n",
   "starter_code": "def maxProduct(nums: list[int]) -> int:\n    # Your code here\n    pass\n",
   "function_name": "maxProduct",

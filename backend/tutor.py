@@ -37,9 +37,11 @@ GUIDELINES:
 - If their code passes some tests, acknowledge what's working before addressing failures
 - Ask them to explain their time/space complexity after they solve it
 - Suggest edge cases they might have missed
+- IMPORTANT: Only ask ONE question at a time. Wait for the student to respond before asking the next follow-up. Never stack multiple questions in a single message.
 - Never give the complete solution code
 - Be encouraging but not patronizing
-- If they seem frustrated, offer to take a step back and review the problem together"""
+- If they seem frustrated, offer to take a step back and review the problem together
+- CRITICAL: Never narrate your internal actions. Do NOT say things like "Let me check their code" or "Let me read the file" — just silently read the file and respond directly to the student. Your response should only contain what you'd say to the student face-to-face."""
 
 INTERVIEW_PROMPT = """You are a technical interviewer conducting a mock coding interview. Be professional, supportive, but maintain the pressure of a real interview.
 
@@ -60,6 +62,7 @@ INTERVIEW PROTOCOL:
    - Watch for: edge case handling, variable naming, code organization
 
 3. REVIEW PHASE (after they submit or time runs out):
+   Ask these ONE at a time, waiting for an answer before the next:
    - "Walk me through your solution"
    - "What's the time complexity? Space complexity?"
    - "How would you test this?"
@@ -70,8 +73,43 @@ GUIDELINES:
 - Keep responses concise (interviewers don't give speeches)
 - Note when they explain their thinking out loud (good interview practice)
 - If they go silent, prompt: "Talk me through what you're thinking"
-- Be encouraging when they make progress, but don't over-praise"""
+- Be encouraging when they make progress, but don't over-praise
+- CRITICAL: Never narrate your internal actions. Do NOT say things like "Let me check their code" or "Let me read the file" — just silently read the file and respond directly to the candidate. Your response should only contain what you'd say in a real interview."""
 
+
+SOLVE_CONGRATULATE_PROMPT = (
+    "[SYSTEM: The student just passed all test cases on submission! "
+    "Congratulate them naturally (be genuine, not over-the-top), then "
+    "ask ONE single follow-up question — just one. Start with time/space complexity. "
+    "Do NOT ask multiple questions at once. Do NOT stack follow-ups. "
+    "Wait for them to answer before asking the next question. "
+    "You will have future turns to ask about optimization, edge cases, or follow-up questions from the problem. "
+    "Read ./solution.py to see their code before responding. "
+    "Keep the tone conversational — as if you naturally noticed they solved it.]"
+)
+
+RESUBMIT_AFTER_SOLVE_PROMPT = (
+    "[SYSTEM: The student just re-submitted their solution and all tests passed. "
+    "They likely made changes based on your previous feedback. "
+    "Read ./solution.py to see their updated code, briefly acknowledge what changed, "
+    "and continue the conversation naturally. Keep it to 1-2 sentences.]"
+)
+
+REVIEW_RETRIEVAL_PROMPT = (
+    "[SYSTEM: This problem was a **spaced review**. The student last practiced "
+    "the topic '{topic}' {days_ago} days ago. After congratulating them, prompt "
+    "retrieval practice: ask them to explain the key difference between '{topic}' "
+    "and a related pattern (e.g. two-pointers vs sliding-window). Keep it to 2-3 "
+    "sentences. This combines spacing (reactivation) with elaborative interrogation.]"
+)
+
+CLASSIFY_APPROACH_PROMPT = (
+    "[SYSTEM: Classify the student's solution approach. "
+    "The problem '{problem_title}' has these predefined approaches:\n"
+    "{approaches_list}\n\n"
+    "Read ./solution.py and respond with ONLY the approach name that best matches, "
+    "exactly as written above. No explanation, no extra text — just the approach name.]"
+)
 
 NUDGE_INACTIVITY_TEMPLATE = (
     "[SYSTEM: The student has been inactive for {idle_seconds}s. They may be stuck or distracted. "
@@ -113,6 +151,7 @@ class LeetCodeTutor:
         self._sdk_child_pids: set[int] = set()
         self._sdk_subprocess_pid: int | None = None
         self.last_test_summary: str | None = None
+        self.solved: bool = False
         # Interview mode state
         self.interview_phase = "clarification" if mode == "interview" else None
         self.time_remaining: int | None = 45 * 60 if mode == "interview" else None
@@ -295,6 +334,71 @@ class LeetCodeTutor:
         # Only increment after successful response
         if responded:
             self.hint_count = next_hint
+
+    async def auto_congratulate(self, code: str | None = None):
+        """Auto-respond when the student solves the problem for the first time."""
+        self.solved = True
+        async for chunk in self.chat(SOLVE_CONGRATULATE_PROMPT, code=code):
+            yield chunk
+
+    async def classify_approach(self, code: str | None = None) -> dict | None:
+        """Classify the student's solution against predefined approaches.
+
+        Sends a silent (non-streamed) classification request to the tutor.
+        Returns ``{"name": ..., "complexity": {"time": ..., "space": ...}}``
+        or *None* on failure.
+        """
+        raw_approaches = self.problem.get("approaches", [])
+        if not raw_approaches or not self.client:
+            return None
+
+        # Build lookup: lowercase name → full approach object
+        approach_lookup: dict[str, dict] = {}
+        for a in raw_approaches:
+            if isinstance(a, dict):
+                approach_lookup[a["name"].lower()] = a
+            else:
+                approach_lookup[a.lower()] = {"name": a, "complexity": None}
+
+        approach_names = [
+            a["name"] if isinstance(a, dict) else a
+            for a in raw_approaches
+        ]
+
+        if code:
+            self._save_code(code)
+
+        prompt = CLASSIFY_APPROACH_PROMPT.format(
+            problem_title=self.problem["title"],
+            approaches_list="\n".join(f"- {name}" for name in approach_names),
+        )
+
+        # Collect full response (not streamed to user)
+        full_response = ""
+        try:
+            async for chunk in self._send_and_receive(prompt):
+                full_response += chunk
+        except Exception:
+            logger.warning("classify_approach failed for %s", self.problem["id"])
+            return None
+
+        # Match response against predefined approaches (case-insensitive)
+        response_clean = full_response.strip().lower()
+
+        # Exact match
+        if response_clean in approach_lookup:
+            return approach_lookup[response_clean]
+
+        # Fuzzy: check if the response contains an approach name
+        for key, obj in approach_lookup.items():
+            if key in response_clean:
+                return obj
+
+        logger.debug(
+            "classify_approach: no match for response %r against %s",
+            full_response.strip(), approach_names,
+        )
+        return None
 
     def update_time(self, time_remaining: int):
         self.time_remaining = time_remaining

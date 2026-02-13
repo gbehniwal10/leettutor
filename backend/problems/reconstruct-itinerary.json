@@ -7,6 +7,22 @@
     "graph",
     "eulerian-circuit"
   ],
+  "approaches": [
+    {
+      "name": "Backtracking (Sorted Adjacency List)",
+      "complexity": {
+        "time": "O(E^d)",
+        "space": "O(E)"
+      }
+    },
+    {
+      "name": "Hierholzer's Algorithm (Eulerian Path)",
+      "complexity": {
+        "time": "O(E log E)",
+        "space": "O(E)"
+      }
+    }
+  ],
   "description": "You are given a list of airline tickets where tickets[i] = [fromi, toi] represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it.\nAll of the tickets belong to a man who departs from \"JFK\", thus, the itinerary must begin with \"JFK\". If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string.\n\nFor example, the itinerary [\"JFK\", \"LGA\"] has a smaller lexical order than [\"JFK\", \"LGB\"].\n\nYou may assume all tickets form at least one valid itinerary. You must use all the tickets once and only once.\n\n**Example 1:**\n\n```\nInput: tickets = [[\"MUC\",\"LHR\"],[\"JFK\",\"MUC\"],[\"SFO\",\"SJC\"],[\"LHR\",\"SFO\"]]\nOutput: [\"JFK\",\"MUC\",\"LHR\",\"SFO\",\"SJC\"]\n\n```\n**Example 2:**\n\n```\nInput: tickets = [[\"JFK\",\"SFO\"],[\"JFK\",\"ATL\"],[\"SFO\",\"ATL\"],[\"ATL\",\"JFK\"],[\"ATL\",\"SFO\"]]\nOutput: [\"JFK\",\"ATL\",\"JFK\",\"SFO\",\"ATL\",\"SFO\"]\nExplanation: Another possible reconstruction is [\"JFK\",\"SFO\",\"ATL\",\"JFK\",\"ATL\",\"SFO\"] but it is larger in lexical order.\n\n```\n**Constraints:**\n\n- `1 <= tickets.length <= 300`\n- `tickets[i].length == 2`\n- `fromi.length == 3`\n- `toi.length == 3`\n- `fromi and toi consist of uppercase English letters.`\n- `fromi != toi`\n",
   "starter_code": "def findItinerary(tickets: list[list[str]]) -> list[str]:\n    # Your code here\n    pass\n",
   "function_name": "findItinerary",
@@ -1054,13 +1070,6 @@
         "DXB",
         "JFK"
       ],
-      "function_call": "findItinerary(**test_input)"
-    },
-    {
-      "input": {
-        "tickets": "[[\"JFK\",\"HOU\"],[\"HOU\",\"DEN\"],[\"DEN\",\"JFK\"],[\"JFK\",\"SFO\"],[\"SFO\",\"HOU\"],[\"HOU\",\"DEN\"],[\"DEN\",\"SFO\"],[\"SFO\",\"JFK\"],[\"JFK\",\"DEN\"],[\"DEN\",\"HOU\"],[\"HOU\",\"SFO\"],[\"SFO\",\"DEN\"],[\"DEN\",\"JFK\"],[\"JFK\",\"HOU\"]]\""
-      },
-      "expected": "Error: Solution.findItinerary() missing 1 required positional argument: 'tickets'",
       "function_call": "findItinerary(**test_input)"
     },
     {

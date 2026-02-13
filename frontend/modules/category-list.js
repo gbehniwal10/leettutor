@@ -1,6 +1,7 @@
 // Category list rendering — grouped problem list with lock/unlock state.
 // Extracted from problems.js to keep modules under ~250 lines.
 
+import { state } from './state.js';
 import { escapeHtml } from './utils.js';
 import { getProgress, isCategoryUnlocked } from './progress.js';
 
@@ -53,6 +54,12 @@ function _isCollapsed(catId, categories) {
 // Item HTML
 // ---------------------------------------------------------------------------
 
+function _getReviewInfo(problemId) {
+    const rq = state.reviewQueue;
+    if (!rq || !rq.due_problems) return null;
+    return rq.due_problems.find(d => d.problem_id === problemId) || null;
+}
+
 function _renderProblemItemHtml(p, extraClass) {
     const status = p.status || 'unsolved';
     let indicator = '';
@@ -63,10 +70,15 @@ function _renderProblemItemHtml(p, extraClass) {
     } else {
         indicator = '<span class="status-indicator status-unsolved"></span>';
     }
+    const review = _getReviewInfo(p.id);
+    const reviewBadge = review
+        ? `<span class="review-badge" title="Due for review (${review.days_overdue}d overdue)">Review</span>`
+        : '';
     return `
-    <div class="problem-item${extraClass}" data-id="${escapeHtml(String(p.id))}">
+    <div class="problem-item${extraClass}${review ? ' due-for-review' : ''}" data-id="${escapeHtml(String(p.id))}">
         ${indicator}
         <span class="title">${escapeHtml(p.title)}</span>
+        ${reviewBadge}
         <span class="difficulty ${escapeHtml(p.difficulty)}">${escapeHtml(p.difficulty)}</span>
         <div class="tags">${p.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
     </div>`;

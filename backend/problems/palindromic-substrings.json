@@ -7,6 +7,36 @@
     "string",
     "dynamic-programming"
   ],
+  "approaches": [
+    {
+      "name": "Brute Force (Check All Substrings)",
+      "complexity": {
+        "time": "O(n^3)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Expand Around Centers",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(1)"
+      }
+    },
+    {
+      "name": "Bottom-up DP",
+      "complexity": {
+        "time": "O(n^2)",
+        "space": "O(n^2)"
+      }
+    },
+    {
+      "name": "Manacher's Algorithm",
+      "complexity": {
+        "time": "O(n)",
+        "space": "O(n)"
+      }
+    }
+  ],
   "description": "Given a string s, return the number of palindromic substrings in it.\nA string is a palindrome when it reads the same backward as forward.\nA substring is a contiguous sequence of characters within the string.\n\n**Example 1:**\n\n```\nInput: s = \"abc\"\nOutput: 3\nExplanation: Three palindromic strings: \"a\", \"b\", \"c\".\n\n```\n**Example 2:**\n\n```\nInput: s = \"aaa\"\nOutput: 6\nExplanation: Six palindromic strings: \"a\", \"a\", \"a\", \"aa\", \"aa\", \"aaa\".\n\n```\n**Constraints:**\n\n- `1 <= s.length <= 1000`\n- `s consists of lowercase English letters.`\n",
   "starter_code": "def countSubstrings(s: str) -> int:\n    # Your code here\n    pass\n",
   "function_name": "countSubstrings",

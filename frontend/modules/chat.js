@@ -31,6 +31,7 @@ let _streamId = 0;
 export function requestHint() {
     if (!state.currentProblem) return;
     _deps.wsSend({ type: WS_MESSAGE_TYPES.REQUEST_HINT, code: _deps.getEditorValue() });
+    showTypingIndicator();
 }
 
 export function sendMessage() {
@@ -40,17 +41,21 @@ export function sendMessage() {
     addChatMessage('user', content);
     _deps.wsSend({ type: WS_MESSAGE_TYPES.MESSAGE, content, code: _deps.getEditorValue() });
     input.value = '';
+    showTypingIndicator();
 }
 
 export function handleWebSocketMessage(data) {
     switch (data.type) {
-        case WS_MESSAGE_TYPES.SESSION_STARTED:
+        case WS_MESSAGE_TYPES.SESSION_STARTED: {
+            const chatContainer = document.getElementById('chat-messages');
+            if (chatContainer) chatContainer.innerHTML = '';
             state.sessionId = data.session_id;
             if (state.mode !== 'pattern-quiz') {
                 setSessionHash(data.session_id);
             }
             if (_deps.onSessionStarted) _deps.onSessionStarted(data);
             break;
+        }
         case WS_MESSAGE_TYPES.SESSION_RESUMED:
             if (_deps.onSessionResumed) _deps.onSessionResumed(data);
             break;
@@ -66,7 +71,17 @@ export function handleWebSocketMessage(data) {
             if (state.timeSyncInterval) { clearInterval(state.timeSyncInterval); state.timeSyncInterval = null; }
             addChatMessage('system', 'Entering review phase.');
             break;
+        case WS_MESSAGE_TYPES.APPROACH_CLASSIFIED:
+            eventBus.emit(Events.APPROACH_CLASSIFIED, data);
+            break;
+        case WS_MESSAGE_TYPES.APPROACH_DUPLICATE:
+            eventBus.emit(Events.APPROACH_DUPLICATE, data);
+            break;
+        case WS_MESSAGE_TYPES.SOLUTION_COUNT_UPDATED:
+            eventBus.emit(Events.SOLUTION_COUNT_UPDATED, data);
+            break;
         case WS_MESSAGE_TYPES.ERROR:
+            hideTypingIndicator();
             if (state.resuming) {
                 // Clear resume UI state on error so the user can start fresh
                 state.resuming = false;
@@ -74,6 +89,11 @@ export function handleWebSocketMessage(data) {
                     clearTimeout(state.resumeTimeoutId);
                     state.resumeTimeoutId = null;
                 }
+                // Clean up loading state in problem panel
+                const loader = document.querySelector('.generation-loading');
+                if (loader) loader.remove();
+                const title = document.getElementById('problem-title');
+                if (title) title.textContent = 'Select a Problem';
                 clearSessionHash();
             }
             addChatMessage('system', 'Error: ' + data.content);
@@ -82,6 +102,7 @@ export function handleWebSocketMessage(data) {
 }
 
 export function finalizeAssistantMessage(content) {
+    hideTypingIndicator();
     const container = document.getElementById('chat-messages');
     const lastMessage = container.querySelector('.chat-message.assistant:last-child');
     if (lastMessage && lastMessage.dataset.streaming === 'true') {
@@ -94,6 +115,37 @@ export function finalizeAssistantMessage(content) {
     addChatMessage('assistant', content);
 }
 
+// --- Typing indicator ---
+
+const TYPING_INDICATOR_DELAY_MS = 600;
+let _typingDelayTimer = null;
+
+function showTypingIndicator() {
+    hideTypingIndicator();
+    _typingDelayTimer = setTimeout(() => {
+        _typingDelayTimer = null;
+        const container = document.getElementById('chat-messages');
+        const indicator = document.createElement('div');
+        indicator.className = 'chat-message assistant typing-indicator';
+        indicator.id = 'typing-indicator';
+        indicator.setAttribute('aria-label', 'Tutor is thinking');
+        indicator.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        container.appendChild(indicator);
+        container.scrollTop = container.scrollHeight;
+    }, TYPING_INDICATOR_DELAY_MS);
+}
+
+function hideTypingIndicator() {
+    if (_typingDelayTimer) {
+        clearTimeout(_typingDelayTimer);
+        _typingDelayTimer = null;
+    }
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+}
+
+eventBus.on(Events.TUTOR_THINKING, showTypingIndicator);
+
 export function addChatMessage(role, content) {
     const container = document.getElementById('chat-messages');
     const message = document.createElement('div');
@@ -104,6 +156,7 @@ export function addChatMessage(role, content) {
 }
 
 export function appendToLastAssistantMessage(content) {
+    hideTypingIndicator();
     const container = document.getElementById('chat-messages');
     const lastMessage = container.querySelector('.chat-message.assistant:last-child');
     if (lastMessage && lastMessage.dataset.streaming === 'true' && lastMessage.dataset.streamId === String(_streamId)) {
